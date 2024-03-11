@@ -1,9 +1,9 @@
 /* globle */
 :root {
     --main-bg: #F5F8FF;
-    --text-header: #4C53A4;
-    --text: #565EB3;
-    --logo-blue:#5371ff
+    --text-header: #0020b9;
+    --text: #474e94;
+    --logo-blue:#5371ff;
 
 }
 
@@ -21,53 +21,6 @@ body {
     font-family: "Roboto", sans-serif;
 }
 
-.container {
-    padding: 0 180px;
-    margin: 0 auto;
-}
-
-@media screen and (width < 1200px) {
-    .container {
-        padding: 0 100px;
-    }
-    
-}
-.d-flex-between-center {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.btn {
-    padding: 10px 15px;
-    font-size: 1.1rem;
-    border: 2px solid var(--logo-blue);
-    border-radius: 12px;
-    cursor: pointer;
-    color: var(--logo-blue);
-    transition: .3s ease-in-out;
-    background-color: var(--logo-blue);
-    color: var(--main-bg)
-}
-
-.btn:hover {
-    background-color: var(--main-bg);
-    color: var(--logo-blue);
-}
-
-.fa-bars {
-    color: var(--logo-blue);
-    font-size: 1.7rem;
-    cursor: pointer;
-}
-.fa-xmark {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 1.4rem;
-    color: var(--logo-blue);
-    cursor: pointer;
-}
 
 
 
