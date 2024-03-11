@@ -1,0 +1,99 @@
+/* Nav Bar */
+.navbar {
+    background-color: var(--main-bg);
+    box-shadow: 1px 1px 10px 1px #cccecc;
+}
+
+.navbar--nav {
+    height: 100px;
+}
+
+/* when get the logo image */
+.nav--logo {
+    width: 120px;
+    height: auto;
+}
+
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+.nav--paths {
+    list-style: none;
+    gap: 15px;
+    height: 100%;
+}
+
+.nav--paths li {
+    font-size: 1.1rem;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items:center;
+}
+
+.nav--paths_path {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: var(--logo-blue);
+    transition: .3s ease-in-out;
+    flex: 1;
+}
+
+.nav--paths_path:hover{
+   color: var(--text-header)
+}
+
+.nav--paths_path:focus{
+   outline: none;
+}
+
+.nav--paths_path:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    left: 0; bottom: 0;
+    background-color: var(--logo-blue);
+    transform-origin: bottom right;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-out;
+}
+
+.nav--paths_path:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* phone view nav bar */
+
+.nav--paths.active {
+    flex-direction: column;
+    background-color: #fff;
+    position: absolute;
+    justify-content: start !important;
+    align-items: start !important;
+    top: 0;
+    padding: 50px 100px 50px 30px;
+    box-shadow: 1px 1px 10px 1px #cccecc;
+    transition: .6s ease-in-out;
+}
+
+.active .nav--paths_path:after {
+    height: 0;
+}
+
+.nav--paths.active li {
+    height: 30px ;
+}
+
+.active .nav-btn {
+    width: 100%;
+    margin-top: 20px ; 
+}
+
+.active .nav-btn .btn {
+    width: 100%;
+}
