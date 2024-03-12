@@ -1,0 +1,54 @@
+[
+  {
+    "ContainingType": "SynergicAPI.Controllers.LoginController",
+    "Method": "Login",
+    "RelativePath": "api/Login/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginInfo",
+        "Type": "SynergicAPI.Models.Login",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SynergicAPI.Models.LoginResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SynergicAPI.Controllers.RegisterController",
+    "Method": "Register",
+    "RelativePath": "api/Register/Register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registration",
+        "Type": "SynergicAPI.Models.Registration",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SynergicAPI.Models.RegisterResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
