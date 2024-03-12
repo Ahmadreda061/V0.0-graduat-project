@@ -1,5 +1,27 @@
-main {
+header {
     background-color: var(--main-bg);
     margin-top: 100px;
-    
+
+}
+section {
+    margin: 4rem 0;
+}
+.scroll-button {
+    position: absolute;
+    top: 60%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.left {
+    left: 0
+}
+
+.right {
+    right: 0
 }

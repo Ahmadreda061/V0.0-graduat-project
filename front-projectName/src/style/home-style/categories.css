@@ -1,4 +1,18 @@
 .categories{
-    margin: 4rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.categories--cards {
+    display: flex;
+    height: 400px;
+    gap: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.categories--cards::-webkit-scrollbar {
+    display: none; 
 }
 

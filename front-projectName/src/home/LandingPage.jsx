@@ -2,7 +2,7 @@ import landingImage from "../assets/images/landingImage.jpg";
 import "../style/home-style/landingPage.css";
 function LandingPage() {
   return (
-    <header className="landing">
+    <div className="landing">
       <div className="landing--text">
         <h1 className="text-header">
           <span>SYNERGIC.</span> ALL WE DO
@@ -19,7 +19,7 @@ function LandingPage() {
           <img src={landingImage} alt="" />
         </div>
       </div>
-    </header>
+    </div>
   );
 }
 

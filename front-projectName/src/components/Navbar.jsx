@@ -26,22 +26,13 @@ function Navbar() {
     const handleScroll = () => {
       const landingRegister = document.querySelector(".landing .text-btn");
       const navbarRegister = document.querySelector(".navbar .nav-btn");
-
       if (landingRegister && navbarRegister) {
         const landingRegisterRect = landingRegister.getBoundingClientRect();
-        const navbarRegisterRect = navbarRegister.getBoundingClientRect();
-
-        if (
-          landingRegisterRect.top > window.innerHeight ||
-          landingRegisterRect.bottom < 0
-        ) {
-          setShowRegister(true);
-        } else {
-          setShowRegister(false);
-        }
+        landingRegisterRect.bottom < 0
+          ? setShowRegister(true)
+          : setShowRegister(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
 
     return () => {

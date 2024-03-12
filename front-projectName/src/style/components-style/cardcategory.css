@@ -1,5 +1,38 @@
 .card--category {
-    height: 300px;
-    width: 300px;
-    background-color: red;
+    height: 100%;
+    max-width: 300px ;
+    border-radius: 13px;
+    position: relative;
+    flex: 1 1 auto
 }
+
+.card--category .image {
+    overflow: hidden;
+    height: 100%;
+    cursor: pointer;
+    border-radius: 18px;
+}
+
+.card--category img {
+    transition: .6s;
+    width: 300px;
+    height: auto
+}
+
+.card--category .image:hover img {
+    transform: scale(1.4);
+
+}
+
+.card--text {
+    position: absolute;
+    top: 10px; left: 15px;
+    color: #fff;
+    font-weight: 900;
+    font-size: .9rem
+}
+
+.text--title {
+    font-size: 2rem
+}
+
