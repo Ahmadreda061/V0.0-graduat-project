@@ -893,11 +893,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Graduation Project\\API\\SynergicAPI\\SynergicAPI.csproj",
+      "projectUniqueName": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj",
       "projectName": "SynergicAPI",
-      "projectPath": "D:\\Graduation Project\\API\\SynergicAPI\\SynergicAPI.csproj",
+      "projectPath": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj",
       "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\Graduation Project\\API\\SynergicAPI\\obj\\",
+      "outputPath": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

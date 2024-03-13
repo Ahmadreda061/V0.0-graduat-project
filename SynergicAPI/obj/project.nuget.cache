@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PG/5sDWeN3c8ZnK64EuiybT5/vH0bkPQp/fCm3xh6F3xt/Lo2C3GqS66HSXOGcqJpAQB3erUTPOeX23XxjO3Bw==",
+  "dgSpecHash": "nGIVPZy61UNf5PUn4D65GlE9bsq4X3fxGRtR25HVBnkPgfHHJaNuL8DUWR9cVNM1H08iH/5QPxYG5O6Ohr5fkA==",
   "success": true,
-  "projectFilePath": "D:\\Graduation Project\\API\\SynergicAPI\\SynergicAPI.csproj",
+  "projectFilePath": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\User\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\User\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
