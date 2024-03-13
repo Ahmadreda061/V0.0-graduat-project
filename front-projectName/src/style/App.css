@@ -72,6 +72,10 @@
     color: var(--logo-blue);
     cursor: pointer
 }
+.fa-arrow-left,
+.fa-arrow-right {
+    font-size: 1.3rem;
+}
 
 .container {
     padding: 0 180px;
@@ -103,4 +107,17 @@
 .section--header a {
     text-decoration: none;
     color: var(--text-header)
+}
+
+.title {
+    font-size: 4rem;
+    color: var(--text-header);
+    display: block;
+    letter-spacing: -2px;
+}
+
+.description {
+    line-height: 1.6;
+    font-size: 1rem;
+    color: var(--text);
 }

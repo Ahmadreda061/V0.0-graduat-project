@@ -16,12 +16,12 @@
 .card--category img {
     transition: .6s;
     width: 300px;
-    height: auto
+    height: 100%;
+    object-fit: cover;
 }
 
 .card--category .image:hover img {
     transform: scale(1.4);
-
 }
 
 .card--text {

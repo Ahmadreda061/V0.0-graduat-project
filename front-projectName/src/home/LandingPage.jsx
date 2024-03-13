@@ -5,9 +5,9 @@ function LandingPage() {
     <div className="landing">
       <div className="landing--text">
         <h1 className="text-header">
-          <span>SYNERGIC.</span> ALL WE DO
+          <span className="title">SYNERGIC.</span> ALL WE DO
         </h1>
-        <p className="text-discraption">
+        <p className="description">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio quaerat
           dicta nobis facilis, quod impedit, perferendis repudiandae quas, nemo
           veniam suscipit aut!

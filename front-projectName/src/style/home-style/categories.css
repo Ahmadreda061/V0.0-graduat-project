@@ -16,3 +16,6 @@
     display: none; 
 }
 
+.categories--cards .scroll-button {
+    top: 60% !important;
+}

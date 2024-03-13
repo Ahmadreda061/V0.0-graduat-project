@@ -17,7 +17,7 @@ function Categories(props) {
           className="scroll-button left circle"
           onClick={props.scrollLeft}
         >
-          &lt;
+          <i className="fa-solid fa-arrow-left"></i>
         </button>
         <CardCategory />
         <CardCategory />
@@ -31,7 +31,7 @@ function Categories(props) {
           className="scroll-button right circle"
           onClick={props.scrollRight}
         >
-          &gt;
+          <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>
     </section>

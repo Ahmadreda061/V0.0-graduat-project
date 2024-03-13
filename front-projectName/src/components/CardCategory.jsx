@@ -1,10 +1,11 @@
 import "../style/components-style/cardcategory.css";
-import image from "../assets/images/6f80e98e963ec175d0a48ac1c5e2ea05.jpg";
+import getImageUrl from "../utils/image-util";
+
 function CardCategory() {
   return (
     <div className="card--category">
       <div className="image">
-        <img src={image} alt="background image" />
+        <img src={getImageUrl("img_5terre.jpg")} alt="category image card" />
       </div>
       <div className="card--text">
         <p className="text--description">Lorem ipsum dolor sit.</p>

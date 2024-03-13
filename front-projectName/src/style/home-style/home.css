@@ -1,14 +1,15 @@
 header {
     background-color: var(--main-bg);
     margin-top: 100px;
-
 }
+
 section {
     margin: 4rem 0;
 }
+
 .scroll-button {
     position: absolute;
-    top: 60%;
+    top: 50%;
     transform: translateY(-50%);
     background-color: #fff;
     border: none;
@@ -16,6 +17,7 @@ section {
     font-size: 1.5rem;
     cursor: pointer;
     z-index: 1;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .left {

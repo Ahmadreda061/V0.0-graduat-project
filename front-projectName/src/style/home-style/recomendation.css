@@ -1,0 +1,65 @@
+.recomendation--cards {
+    position: relative;
+}
+
+.recomendation--cards .card {
+    display: grid;
+    grid-template-columns: 57% 43%;
+    height: 400px;
+    border-radius: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.card--image img {
+    height: 400px;
+    object-fit: cover;
+    border-radius: 15px 0 0 15px;
+    -webkit-border-radius: 15px 0 0 15px;
+    -moz-border-radius: 15px 0 0 15px;
+    -ms-border-radius: 15px 0 0 15px;
+    -o-border-radius: 15px 0 0 15px;
+}
+
+.service--info {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.service--info> *{
+    margin-bottom: 20px;
+}
+
+.info--title {
+    font-size: 2.7rem !important;
+}
+
+.recomendation--selectors {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.card-selector {
+    border: 3px solid var(--text-header);
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+
+.card-selector.selected {
+    background-color: var(--text-header);
+}
+@media screen and (width <= 920px) {
+    .recomendation--cards .card {
+        grid-template-columns: 1fr;
+        height: initial;
+    }
+    .card--image img {
+        border-radius: 15px 15px 0 0 ;
+}
+}
