@@ -3,8 +3,10 @@
 }
 
 .recomendation--cards .card {
+    margin: 0 auto;
+    width: 80%;
     display: grid;
-    grid-template-columns: 57% 43%;
+    grid-template-columns: 55% 45%;
     height: 400px;
     border-radius: 15px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
@@ -57,6 +59,7 @@
 @media screen and (width <= 920px) {
     .recomendation--cards .card {
         grid-template-columns: 1fr;
+        width: 100%;
         height: initial;
     }
     .card--image img {
