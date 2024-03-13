@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SynergicAPI.Models;
+using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
 
 namespace SynergicAPI.Controllers
@@ -17,10 +18,10 @@ namespace SynergicAPI.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public RegisterResponse Register(Registration registration)
+        public DefaultResponse Register(Registration registration)
         {
-            RegisterResponse response = new RegisterResponse();
-            registration.Password = Utils.HashString(registration.Password); //Hash the password for security reasons.
+            DefaultResponse response = new DefaultResponse();
+            registration.Password = Utils.HashString(registration.Password, "SynergicPasswordHashSalt"); //Hash the password for security reasons.
 
             if (!Utils.RegexEmail(registration.Email)) //The Email is in incorrect form.
             {
@@ -41,7 +42,8 @@ namespace SynergicAPI.Controllers
                 }
 
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
-                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber)";
+                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken)";
+                string userToken = Utils.HashString(registration.Username + registration.fName + registration.lName, "TokenHashing");
 
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
                 {
@@ -55,6 +57,7 @@ namespace SynergicAPI.Controllers
                     insertCommand.Parameters.AddWithValue("@Gender", registration.Gender ? 1 : 0);
                     insertCommand.Parameters.AddWithValue("@BirthDate", registration.bDate);
                     insertCommand.Parameters.AddWithValue("@PhoneNumber", registration.PhoneNumber);
+                    insertCommand.Parameters.AddWithValue("@UserToken", userToken);
 
                     int rowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -116,6 +119,8 @@ namespace SynergicAPI.Controllers
                                 response.statusCode = (int)Utils.StatusCodings.Account_Suspended;
                                 response.statusMessage = "Account is suspended";
                             }
+                            else // All Good
+                                response.UserToken = (string)reader["UserToken"];
                         }
                     }
                 }

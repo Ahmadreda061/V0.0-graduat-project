@@ -1,8 +1,8 @@
 [
   {
-    "ContainingType": "SynergicAPI.Controllers.LoginController",
+    "ContainingType": "SynergicAPI.Controllers.UserAuthenticationController",
     "Method": "Login",
-    "RelativePath": "api/Login/Login",
+    "RelativePath": "api/UserAuthentication/Login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -26,9 +26,9 @@
     ]
   },
   {
-    "ContainingType": "SynergicAPI.Controllers.RegisterController",
+    "ContainingType": "SynergicAPI.Controllers.UserAuthenticationController",
     "Method": "Register",
-    "RelativePath": "api/Register/Register",
+    "RelativePath": "api/UserAuthentication/Register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
