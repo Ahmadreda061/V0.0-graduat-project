@@ -1,5 +1,51 @@
 [
   {
+    "ContainingType": "SynergicAPI.Controllers.ServicesController",
+    "Method": "AddService",
+    "RelativePath": "api/Services/AddService",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "service",
+        "Type": "SynergicAPI.Models.SynergicService",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SynergicAPI.Models.Responses.DefaultResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SynergicAPI.Controllers.ServicesController",
+    "Method": "GetImages",
+    "RelativePath": "api/Services/GetImages",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "SynergicAPI.Controllers.UserAuthenticationController",
     "Method": "Login",
     "RelativePath": "api/UserAuthentication/Login",
@@ -15,7 +61,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SynergicAPI.Models.LoginResponse",
+        "Type": "SynergicAPI.Models.Responses.LoginResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -41,7 +87,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SynergicAPI.Models.RegisterResponse",
+        "Type": "SynergicAPI.Models.Responses.DefaultResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

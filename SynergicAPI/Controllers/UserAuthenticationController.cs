@@ -79,7 +79,7 @@ namespace SynergicAPI.Controllers
             bool isEmail = Utils.RegexEmail(loginInfo.Email_or_Username); //Check whether the input is in email form or username form.
 
             LoginResponse response = new LoginResponse();
-            loginInfo.Password = Utils.HashString(loginInfo.Password);//Hash the password for security reasons.
+            loginInfo.Password = Utils.HashString(loginInfo.Password, "SynergicPasswordHashSalt");//Hash the password for security reasons.
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
             {

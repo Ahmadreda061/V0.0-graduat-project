@@ -34,12 +34,12 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                if (isLegitUser(con, service.user, out SqlDataReader reader))
+                int userID;
+                if (isLegitUserWithID(con, service.user, out userID))
                 {
                     string InsertServiceQuery = $"INSERT INTO {Utils.ServicesString} " +
                                                            "VALUES (@OwnerID, @ServiceTitle, @ServicePrice, @ServiceDescription, @ServiceCategory)";
 
-                    int userID = (int)reader["ID"];
                     using (SqlCommand insertCommand = new SqlCommand(InsertServiceQuery, con))
                     {
                         insertCommand.Parameters.AddWithValue("@OwnerID", userID);
@@ -65,9 +65,8 @@ namespace SynergicAPI.Controllers
                         using (SqlCommand insertImageCommand = new SqlCommand(InsertServiceImagesQuery, con))
                         {
                             insertImageCommand.Parameters.AddWithValue("@ServiceID", ServiceID);
-                            insertImageCommand.Parameters.AddWithValue("@ImageData", Utils.BitmapToByteArray(img));
-
-                            int rowsAffected = insertImageCommand.ExecuteNonQuery();
+                            insertImageCommand.Parameters.AddWithValue("@ImageData", img);//converting the img base64 into byte[]
+                            insertImageCommand.ExecuteNonQuery();
                         }
                     }
                 }
@@ -76,12 +75,11 @@ namespace SynergicAPI.Controllers
                     response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                     response.statusMessage = "The password doesn't match with the expected one for the UserToken.";
                 }
-                reader.Close();
             }
             return response;
         }
-
-        bool isLegitUser(SqlConnection connection, SynergicUser user, out SqlDataReader reader)
+        
+        bool isLegitUser(SqlConnection connection, SynergicUser user)
         {
             string query = "SELECT * FROM UserAccount WHERE UserToken = @UserToken AND Password = @Password";
             using (SqlCommand command = new SqlCommand(query, connection))
@@ -89,15 +87,37 @@ namespace SynergicAPI.Controllers
                 command.Parameters.AddWithValue("@UserToken", user.UserToken);
                 command.Parameters.AddWithValue("@Password", Utils.HashString(user.Password, "SynergicPasswordHashSalt"));
                 int count = (int)command.ExecuteScalar();
-                reader = command.ExecuteReader();
                 return count > 0;
+            }
+        }
+        bool isLegitUserWithID(SqlConnection connection, SynergicUser user, out int userID)
+        {
+            string query = "SELECT * FROM UserAccount WHERE UserToken = @UserToken AND Password = @Password";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserToken", user.UserToken);
+                command.Parameters.AddWithValue("@Password", Utils.HashString(user.Password, "SynergicPasswordHashSalt"));
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        userID = (int)reader["ID"];
+                        return true;
+                    }
+                    else
+                    {
+                        userID = 0; // or any default value
+                        return false;
+                    }
+                }
             }
         }
         int GetServiceID(SqlConnection connection, SynergicService service, int UserID)
         {
             int serviceID = -1;
 
-            string query = $"SELECT * FROM {Utils.ServicesString} WHERE OwnerID = @OwnerID AND ServiceTitle = @ServiceTitle AND ServicePrice = @ServicePrice AND ServiceDescription = @ServiceDescription AND ServiceCategory = @ServiceCategory";
+            string query = $"SELECT * FROM Services WHERE OwnerID = @OwnerID AND ServiceTitle = @ServiceTitle AND ServicePrice = @ServicePrice AND ServiceDescription = @ServiceDescription AND ServiceCategory = @ServiceCategory";
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@OwnerID", UserID);
@@ -106,13 +126,17 @@ namespace SynergicAPI.Controllers
                 command.Parameters.AddWithValue("@ServiceDescription", service.Description);
                 command.Parameters.AddWithValue("@ServiceCategory", service.Category);
 
-                int count = (int)command.ExecuteScalar();
-                var reader = command.ExecuteReader();
-                serviceID = (int)reader["ServiceID"];
-                reader.Close();
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        serviceID = (int)reader["ServiceID"];
+                    }
+                }
             }
 
             return serviceID;
         }
+
     }
 }
