@@ -25,7 +25,7 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
-            if(service.Images.Length < 0)
+            if(service.Images.GetLength(1) < 0)
             {
                 response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                 response.statusMessage = "Service Error: You need one or more Images for the Service!";
