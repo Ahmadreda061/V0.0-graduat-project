@@ -24,6 +24,7 @@ namespace SynergicAPI
             Password_Incorrect = 5,
             Account_Not_Found = 6,
             Illegal_Data = 7,//The data are not as expected.
+            Short_Password = 8,
         }
 
         /// <summary>

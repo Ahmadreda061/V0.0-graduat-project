@@ -21,6 +21,11 @@ namespace SynergicAPI.Controllers
         public DefaultResponse Register(Registration registration)
         {
             DefaultResponse response = new DefaultResponse();
+            if(registration.Password.Length < 8)
+            {
+                response.statusCode = (int)Utils.StatusCodings.Short_Password;
+                response.statusMessage = "Password need to be 8 characters at-least!";
+            }    
             registration.Password = Utils.HashString(registration.Password, "SynergicPasswordHashSalt"); //Hash the password for security reasons.
 
             if (!Utils.RegexEmail(registration.Email)) //The Email is in incorrect form.
