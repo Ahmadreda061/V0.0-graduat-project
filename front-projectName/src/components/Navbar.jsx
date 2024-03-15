@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
-import Logo from "../assets/images/logo.png";
+import React, { useState, useEffect, useContext } from "react";
+
 import { Link } from "react-router-dom";
 import "../style/components-style/navbar.css";
+import getImageUrl from "../utils/image-util";
+import { showRegisterContext } from "../App";
 
 function Navbar() {
   const [bars, setBars] = useState(false);
   const [showPaths, setShowPaths] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
+  const [showRegisterBtn, setShowRegisterBtn] = useState(false);
+  const handeleShowReg = useContext(showRegisterContext);
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,15 +25,15 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    // if the landing page reg out if the view the reg in nav bar will show
+    // if the landing page register out if the view the reg in nav bar will show
     const handleScroll = () => {
       const landingRegister = document.querySelector(".landing .text-btn");
       const navbarRegister = document.querySelector(".navbar .nav-btn");
       if (landingRegister && navbarRegister) {
         const landingRegisterRect = landingRegister.getBoundingClientRect();
         landingRegisterRect.bottom < 0
-          ? setShowRegister(true)
-          : setShowRegister(false);
+          ? setShowRegisterBtn(true)
+          : setShowRegisterBtn(false);
       }
     };
     window.addEventListener("scroll", handleScroll);
@@ -49,7 +52,12 @@ function Navbar() {
       <div className="container">
         <div className="navbar--nav d-flex-between-center ">
           <div className="nav--logo">
-            <img src={Logo} alt="logo image" />
+            <img
+              src={getImageUrl("logo.png")}
+              alt="logo image"
+              width={200}
+              height={200}
+            />
           </div>
           {bars && (
             <i
@@ -83,11 +91,9 @@ function Navbar() {
                 <button className="btn">become vendor</button>
               </Link>
             </li>
-            {showRegister && (
-              <li className="nav-btn">
-                <Link className="line nav--paths_link">
-                  <button className="btn">Register</button>
-                </Link>
+            {showRegisterBtn && (
+              <li className="line nav-btn" onClick={handeleShowReg}>
+                <button className="btn">Register</button>
               </li>
             )}
           </ul>

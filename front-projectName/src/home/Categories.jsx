@@ -14,6 +14,7 @@ function Categories(props) {
       </h2>
       <div className="categories--cards " ref={props.containerRef}>
         <button
+          aria-label="scroll"
           className="scroll-button left circle"
           onClick={props.scrollLeft}
         >
@@ -28,6 +29,7 @@ function Categories(props) {
         <CardCategory />
         <CardCategory />
         <button
+          aria-label="scroll"
           className="scroll-button right circle"
           onClick={props.scrollRight}
         >

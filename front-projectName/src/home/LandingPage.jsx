@@ -1,6 +1,10 @@
-import landingImage from "../assets/images/landingImage.jpg";
+import { useContext } from "react";
 import "../style/home-style/landingPage.css";
+import getImageUrl from "../utils/image-util";
+import { showRegisterContext } from "../App";
 function LandingPage() {
+  const handeleShowReg = useContext(showRegisterContext);
+
   return (
     <div className="landing">
       <div className="landing--text">
@@ -12,11 +16,18 @@ function LandingPage() {
           dicta nobis facilis, quod impedit, perferendis repudiandae quas, nemo
           veniam suscipit aut!
         </p>
-        <button className="text-btn btn">Register</button>
+        <button className="text-btn btn" onClick={handeleShowReg}>
+          Register
+        </button>
       </div>
       <div className="landing--hero">
         <div className="hero-image">
-          <img src={landingImage} alt="" />
+          <img
+            src={getImageUrl("landingImage.jpg")}
+            alt="hero image"
+            width={200}
+            height={200}
+          />
         </div>
       </div>
     </div>

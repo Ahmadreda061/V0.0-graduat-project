@@ -6,17 +6,24 @@ import CardRec from "./CardRec";
 function Recomendation() {
   const [curentIndex, setCurentIndex] = useState(0);
   const recomendations = data;
-  const cardRecomendations = recomendations.map((recomendation) => (
-    <CardRec key={recomendation.id} {...recomendation} />
+  const cardRecomendations = recomendations.map((recomendation, index) => (
+    <CardRec
+      key={recomendation.id}
+      {...recomendation}
+      render={index === curentIndex}
+    />
   ));
 
   function nextCard() {
-    curentIndex < cardRecomendations.length - 1 &&
-      setCurentIndex((prevCurentIndex) => prevCurentIndex + 1);
+    setCurentIndex(
+      (prevCurentIndex) => (prevCurentIndex + 1) % recomendations.length
+    );
   }
 
   function prevCard() {
-    curentIndex > 0 && setCurentIndex((prevCurentIndex) => prevCurentIndex - 1);
+    setCurentIndex((prevCurentIndex) =>
+      prevCurentIndex === 0 ? recomendations.length - 1 : prevCurentIndex - 1
+    );
   }
 
   const circleElemnts = recomendations.map((item, index) => (
@@ -38,11 +45,19 @@ function Recomendation() {
         </Link>
       </h2>
       <div className="recomendation--cards">
-        <button onClick={prevCard} className="scroll-button circle">
+        <button
+          aria-label="scroll"
+          onClick={prevCard}
+          className="scroll-button circle"
+        >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
         {cardRecomendations[curentIndex]}
-        <button onClick={nextCard} className="scroll-button circle right">
+        <button
+          aria-label="scroll"
+          onClick={nextCard}
+          className="scroll-button circle right"
+        >
           <i className="fa-solid fa-arrow-right"></i>
         </button>
       </div>

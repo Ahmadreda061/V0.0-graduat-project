@@ -1,11 +1,10 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import "../style/home-style/home.css";
 import Recomendation from "./Recomendation";
 function Home() {
   const cardsContainerRef = useRef(null);
-
   const handleScrollLeft = () => {
     const container = cardsContainerRef.current;
     container.scrollBy({
