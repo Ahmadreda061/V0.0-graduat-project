@@ -63,18 +63,5 @@ namespace SynergicAPI
         {
             return Regex.IsMatch(text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
         }
-
-        public static byte[] BitmapToByteArray(Bitmap bitmap)
-        {
-            // Create a memory stream to hold the byte array
-            using (MemoryStream stream = new MemoryStream())
-            {
-                // Save the bitmap to the memory stream in the desired format (e.g., PNG)
-                bitmap.Save(stream, ImageFormat.Png);
-
-                // Convert the memory stream to a byte array
-                return stream.ToArray();
-            }
-        }
     }
 }

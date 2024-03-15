@@ -27,15 +27,21 @@
   },
   {
     "ContainingType": "SynergicAPI.Controllers.ServicesController",
-    "Method": "GetImages",
-    "RelativePath": "api/Services/GetImages",
+    "Method": "GetServices",
+    "RelativePath": "api/Services/GetServices",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "services",
+        "Type": "SynergicAPI.Models.SynergicServices",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": [
       {
-        "Type": "System.String",
+        "Type": "SynergicAPI.Models.Responses.ServiceElementResponse[]",
         "MediaTypes": [
           "text/plain",
           "application/json",

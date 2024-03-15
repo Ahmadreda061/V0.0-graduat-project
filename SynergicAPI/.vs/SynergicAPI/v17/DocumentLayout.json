@@ -7,32 +7,32 @@
       "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:controllers\\servicescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\synergicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\synergicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\controllers\\userauthenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:controllers\\userauthenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\responses\\serviceelementresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\responses\\serviceelementresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\responses\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\responses\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\synergicuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\synergicuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\synergicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\synergicservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\responses\\defaultresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\responses\\defaultresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\synergicuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\synergicuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\models\\responses\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\responses\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|d:\\graduation project\\v0.0-graduat-project\\synergicapi\\controllers\\userauthenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:controllers\\userauthenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 258,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,51 +50,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Utils.cs",
               "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Utils.cs",
               "RelativeDocumentMoniker": "Utils.cs",
               "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Utils.cs",
               "RelativeToolTip": "Utils.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwA0AAABZAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAwAAABwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T20:56:03.466Z"
+              "WhenOpened": "2024-03-13T20:56:03.466Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SynergicService.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicService.cs",
-              "RelativeDocumentMoniker": "Models\\SynergicService.cs",
-              "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicService.cs",
-              "RelativeToolTip": "Models\\SynergicService.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAwAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T20:52:32.352Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "ServiceElementResponse.cs",
               "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\ServiceElementResponse.cs",
               "RelativeDocumentMoniker": "Models\\Responses\\ServiceElementResponse.cs",
               "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\ServiceElementResponse.cs",
               "RelativeToolTip": "Models\\Responses\\ServiceElementResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:52:43.956Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UserAuthenticationController.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\UserAuthenticationController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserAuthenticationController.cs",
-              "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\UserAuthenticationController.cs",
-              "RelativeToolTip": "Controllers\\UserAuthenticationController.cs",
-              "ViewState": "AQIAADIAAAAAAAAAAAAmwFEAAABGAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:54:52.835Z"
+              "WhenOpened": "2024-03-13T19:52:43.956Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -104,26 +82,66 @@
               "RelativeDocumentMoniker": "Controllers\\ServicesController.cs",
               "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\ServicesController.cs",
               "RelativeToolTip": "Controllers\\ServicesController.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAACwAAABSAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEwAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-13T19:50:31.43Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
+              "Title": "UserAuthenticationController.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\UserAuthenticationController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserAuthenticationController.cs",
+              "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\UserAuthenticationController.cs",
+              "RelativeToolTip": "Controllers\\UserAuthenticationController.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAmwFEAAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T19:54:52.835Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SynergicUser.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicUser.cs",
+              "RelativeDocumentMoniker": "Models\\SynergicUser.cs",
+              "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicUser.cs",
+              "RelativeToolTip": "Models\\SynergicUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAIAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T19:34:38.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SynergicService.cs",
+              "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicService.cs",
+              "RelativeDocumentMoniker": "Models\\SynergicService.cs",
+              "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicService.cs",
+              "RelativeToolTip": "Models\\SynergicService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-13T20:52:32.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "DefaultResponse.cs",
               "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\DefaultResponse.cs",
               "RelativeDocumentMoniker": "Models\\Responses\\DefaultResponse.cs",
               "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\DefaultResponse.cs",
               "RelativeToolTip": "Models\\Responses\\DefaultResponse.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T20:39:45.859Z"
+              "WhenOpened": "2024-03-13T20:39:45.859Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "LoginResponse.cs",
               "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\LoginResponse.cs",
               "RelativeDocumentMoniker": "Models\\Responses\\LoginResponse.cs",
@@ -131,19 +149,8 @@
               "RelativeToolTip": "Models\\Responses\\LoginResponse.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:46:13.242Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "SynergicUser.cs",
-              "DocumentMoniker": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicUser.cs",
-              "RelativeDocumentMoniker": "Models\\SynergicUser.cs",
-              "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\SynergicUser.cs",
-              "RelativeToolTip": "Models\\SynergicUser.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAUAAAAeAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:34:38.984Z"
+              "WhenOpened": "2024-03-13T19:46:13.242Z",
+              "EditorCaption": ""
             }
           ]
         }
