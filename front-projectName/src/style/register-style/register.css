@@ -83,7 +83,11 @@ label {
     color: var(--logo-blue);
     font-weight: bold;
 }
-
+label .required {
+    color: red;
+    padding-left: 10px;
+    font-size: .7rem;
+}
 input, select {
     margin-bottom: 10px;
     padding: 10px;

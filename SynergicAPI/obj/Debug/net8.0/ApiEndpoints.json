@@ -1,8 +1,60 @@
 [
   {
-    "ContainingType": "SynergicAPI.Controllers.LoginController",
+    "ContainingType": "SynergicAPI.Controllers.ServicesController",
+    "Method": "AddService",
+    "RelativePath": "api/Services/AddService",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "service",
+        "Type": "SynergicAPI.Models.SynergicService",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SynergicAPI.Models.Responses.DefaultResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SynergicAPI.Controllers.ServicesController",
+    "Method": "GetServices",
+    "RelativePath": "api/Services/GetServices",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "services",
+        "Type": "SynergicAPI.Models.SynergicServices",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "SynergicAPI.Models.Responses.ServiceElementResponse[]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "SynergicAPI.Controllers.UserAuthenticationController",
     "Method": "Login",
-    "RelativePath": "api/Login/Login",
+    "RelativePath": "api/UserAuthentication/Login",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -15,7 +67,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SynergicAPI.Models.LoginResponse",
+        "Type": "SynergicAPI.Models.Responses.LoginResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -26,9 +78,9 @@
     ]
   },
   {
-    "ContainingType": "SynergicAPI.Controllers.RegisterController",
+    "ContainingType": "SynergicAPI.Controllers.UserAuthenticationController",
     "Method": "Register",
-    "RelativePath": "api/Register/Register",
+    "RelativePath": "api/UserAuthentication/Register",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -41,7 +93,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "SynergicAPI.Models.RegisterResponse",
+        "Type": "SynergicAPI.Models.Responses.DefaultResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

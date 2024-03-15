@@ -1,6 +1,11 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
+import handlePassword from "../utils/passError";
+import handlePassRepat from "../utils/handlePassRepat";
 
 function Signup() {
+  const [submited, setSubmited] = useState("");
+  const [passErr, setPassErr] = useState("");
+  const [repatErr, setRepatErr] = useState("");
   const initValues = {
     fname: "",
     lname: "",
@@ -9,7 +14,7 @@ function Signup() {
     password: "",
     passwordRepat: "",
     phone: "",
-    gender: "",
+    gender: "true",
     bDate: "",
   };
 
@@ -27,7 +32,6 @@ function Signup() {
         };
     }
   };
-
   const [values, dispatch] = useReducer(reducer, initValues);
 
   function change(e) {
@@ -38,15 +42,64 @@ function Signup() {
       value: element.value,
     });
   }
+
   function submit(e) {
     e.preventDefault();
-    console.log(values);
+    let isValid = true;
+    setSubmited(true);
+    // Check if any required fields are empty
+    const requiredFields = [
+      "fname",
+      "lname",
+      "userName",
+      "email",
+      "password",
+      "passwordRepat",
+      "phone",
+      "gender",
+      "bDate",
+    ];
+    const emptyFields = requiredFields.filter((field) => !values[field]);
+    if (emptyFields.length > 0) {
+      isValid = false;
+    }
+
+    // Validate password
+    const errorPassMsg = handlePassword(values.password);
+    if (errorPassMsg) {
+      setPassErr(errorPassMsg);
+      isValid = false;
+    } else {
+      setPassErr("");
+    }
+
+    // Validate repeated password
+    const errorRepatPassMsg = handlePassRepat(
+      values.password,
+      values.passwordRepat
+    );
+    if (errorRepatPassMsg) {
+      setRepatErr(errorRepatPassMsg);
+      isValid = false;
+    } else {
+      setRepatErr("");
+    }
+
+    if (isValid) {
+      console.log(values);
+    }
   }
+
   return (
     <form className="signup" onSubmit={submit}>
       <div className="input-togthor ">
         <div>
-          <label htmlFor="fname">First name</label>
+          <label htmlFor="fname">
+            First name
+            {values.fname === "" && submited && (
+              <span className="required">*Required</span>
+            )}
+          </label>
           <input
             type="text"
             id="fname"
@@ -56,7 +109,12 @@ function Signup() {
           />
         </div>
         <div>
-          <label htmlFor="lname">Last name</label>
+          <label htmlFor="lname">
+            Last name
+            {values.lname === "" && submited && (
+              <span className="required">*Required</span>
+            )}
+          </label>
           <input
             type="text"
             id="lname"
@@ -67,7 +125,12 @@ function Signup() {
         </div>
       </div>
 
-      <label htmlFor="userName">User Name</label>
+      <label htmlFor="userName">
+        User Name
+        {values.userName === "" && submited && (
+          <span className="required">*Required</span>
+        )}
+      </label>
       <input
         type="userName"
         id="userName"
@@ -76,7 +139,12 @@ function Signup() {
         onChange={change}
       />
 
-      <label htmlFor="email">Email</label>
+      <label htmlFor="email">
+        Email
+        {values.email === "" && submited && (
+          <span className="required">*Required</span>
+        )}
+      </label>
       <input
         type="email"
         id="email"
@@ -85,7 +153,10 @@ function Signup() {
         onChange={change}
       />
 
-      <label htmlFor="password">Password</label>
+      <label htmlFor="password">
+        Password
+        {passErr && submited && <span className="required">*{passErr}</span>}
+      </label>
       <input
         type="password"
         id="password"
@@ -94,7 +165,10 @@ function Signup() {
         onChange={change}
       />
 
-      <label htmlFor="passwordRepat">Repeat Password</label>
+      <label htmlFor="passwordRepat">
+        Repeat Password
+        {repatErr && submited && <span className="required">*{repatErr}</span>}
+      </label>
       <input
         type="password"
         id="passwordRepat"
@@ -103,7 +177,12 @@ function Signup() {
         onChange={change}
       />
 
-      <label htmlFor="phone">Phone Number</label>
+      <label htmlFor="phone">
+        Phone Number
+        {values.phone === "" && submited && (
+          <span className="required">*Required</span>
+        )}
+      </label>
       <input
         type="tel"
         id="phone"
@@ -114,19 +193,29 @@ function Signup() {
 
       <div className="input-togthor ">
         <div>
-          <label htmlFor="gender">Gender</label>
+          <label htmlFor="gender">
+            Gender
+            {values.gender === "" && submited && (
+              <span className="required">*Required</span>
+            )}
+          </label>
           <select
             name="gender"
             id="gender"
             onChange={change}
-            value={values.bDate}
+            value={values.gender}
           >
-            <option value="1">Male</option>
-            <option value="0">Female</option>
+            <option value={true}>Male</option>
+            <option value={false}>Female</option>
           </select>
         </div>
         <div>
-          <label htmlFor="bDate">Birth Date</label>
+          <label htmlFor="bDate">
+            Birth Date
+            {values.bDate === "" && submited && (
+              <span className="required">*Required</span>
+            )}
+          </label>
           <input
             type="date"
             name="bDate"

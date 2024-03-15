@@ -1,11 +1,11 @@
-﻿namespace SynergicAPI.Models
+﻿namespace SynergicAPI.Models.Responses
 {
-    public class RegisterResponse
+    public class DefaultResponse
     {
         public int statusCode { get; set; }
         public string statusMessage { get; set; }
 
-        public RegisterResponse()
+        public DefaultResponse()
         {
             statusCode = (int)Utils.StatusCodings.OK;
             statusMessage = "OK";

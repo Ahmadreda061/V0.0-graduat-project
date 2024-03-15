@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import { showRegisterContext } from "../App";
 
 function Register() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const handeleShowReg = useContext(showRegisterContext);
 
   function hanldeCardClick(e) {
