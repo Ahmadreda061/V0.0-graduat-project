@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "Models\\Registration.cs",
               "ToolTip": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\Models\\Registration.cs",
               "RelativeToolTip": "Models\\Registration.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAvAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-15T19:11:34.197Z",
               "EditorCaption": ""
@@ -75,8 +75,7 @@
               "RelativeToolTip": "Utils.cs",
               "ViewState": "AQIAAAgAAAAAAAAAAAAQwBoAAAAaAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T20:56:03.466Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T20:56:03.466Z"
             },
             {
               "$type": "Document",
@@ -100,8 +99,7 @@
               "RelativeToolTip": "Controllers\\ServicesController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAEwAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:50:31.43Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T19:50:31.43Z"
             },
             {
               "$type": "Document",
@@ -113,8 +111,7 @@
               "RelativeToolTip": "Controllers\\UserAuthenticationController.cs",
               "ViewState": "AQIAADgAAAAAAAAAAAAmwBoAAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:54:52.835Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T19:54:52.835Z"
             },
             {
               "$type": "Document",
@@ -126,8 +123,7 @@
               "RelativeToolTip": "Models\\SynergicUser.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAIAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T19:34:38.984Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T19:34:38.984Z"
             },
             {
               "$type": "Document",
@@ -139,8 +135,7 @@
               "RelativeToolTip": "Models\\SynergicService.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAQAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-13T20:52:32.352Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-13T20:52:32.352Z"
             },
             {
               "$type": "Document",
