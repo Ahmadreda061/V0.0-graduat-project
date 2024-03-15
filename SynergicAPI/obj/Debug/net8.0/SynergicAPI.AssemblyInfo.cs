@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SynergicAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60bb24488c5a04098046e71ceb08c1872f9b904c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+566a992e6e2fe3ec2f8d20a383b2e26c6e0e0b62")]
 [assembly: System.Reflection.AssemblyProductAttribute("SynergicAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SynergicAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

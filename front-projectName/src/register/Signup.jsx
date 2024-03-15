@@ -1,6 +1,7 @@
 import { useReducer, useState } from "react";
 import handlePassword from "../utils/passError";
 import handlePassRepat from "../utils/handlePassRepat";
+import axios from "axios";
 
 function Signup() {
   const [submited, setSubmited] = useState("");
@@ -43,7 +44,7 @@ function Signup() {
     });
   }
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault();
     let isValid = true;
     setSubmited(true);
@@ -85,8 +86,26 @@ function Signup() {
       setRepatErr("");
     }
 
-    if (isValid) {
-      console.log(values);
+    try {
+      if (isValid) {
+        let res = await axios.post(
+          "https://localhost:7293/api/UserAuthentication/Register",
+          {
+            email: values.email,
+            username: values.userName,
+            password: values.password,
+            fName: values.fName,
+            lName: values.lName,
+            gender: JSON.parse(values.gender),
+            bDate: values.bDate,
+            phoneNumber: values.phone,
+          }
+        );
+
+        console.log(res);
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 

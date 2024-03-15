@@ -8,7 +8,7 @@
         public string fName { get; set; }
         public string lName { get; set; }
         public bool Gender { get; set; }
-        public DateOnly bDate { get; set; }
+        public string bDate { get; set; }
         public string PhoneNumber { get; set; }
     }
 }
