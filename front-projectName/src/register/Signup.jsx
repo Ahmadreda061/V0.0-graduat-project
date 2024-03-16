@@ -88,6 +88,7 @@ function Signup() {
 
     try {
       if (isValid) {
+        console.log(values);
         let res = await axios.post(
           "https://localhost:7293/api/UserAuthentication/Register",
           {
@@ -102,10 +103,10 @@ function Signup() {
           }
         );
 
-        console.log(res);
+        // console.log(res);
       }
     } catch (err) {
-      console.log(err);
+      console.log(1);
     }
   }
 
