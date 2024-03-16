@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj": {}
+    "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\TestAPI.csproj": {}
   },
   "projects": {
-    "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj": {
+    "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\TestAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj",
-        "projectName": "SynergicAPI",
-        "projectPath": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\SynergicAPI.csproj",
+        "projectUniqueName": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\TestAPI.csproj",
+        "projectName": "TestAPI",
+        "projectPath": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\TestAPI.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
         "outputPath": "D:\\Graduation Project\\V0.0-graduat-project\\SynergicAPI\\obj\\",
         "projectStyle": "PackageReference",

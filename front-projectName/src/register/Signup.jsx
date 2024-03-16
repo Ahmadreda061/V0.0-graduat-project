@@ -88,21 +88,26 @@ function Signup() {
 
     try {
       if (isValid) {
+
+        console.log(values.fname);
+        console.log(values.lname);
+        console.log(values.email);
+
         let res = await axios.post(
-          "https://localhost:7293/api/UserAuthentication/Register",
+          "https://localhost:7014/api/UserAuthentication/Register",
           {
             email: values.email,
+            fName: values.fname,
+            lName: values.lname,
             username: values.userName,
             password: values.password,
-            fName: values.fName,
-            lName: values.lName,
             gender: JSON.parse(values.gender),
             bDate: values.bDate,
             phoneNumber: values.phone,
           }
         );
 
-        console.log(res);
+
       }
     } catch (err) {
       console.log(err);
