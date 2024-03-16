@@ -16,9 +16,13 @@ function LandingPage() {
           dicta nobis facilis, quod impedit, perferendis repudiandae quas, nemo
           veniam suscipit aut!
         </p>
-        <button className="text-btn btn" onClick={handeleShowReg}>
-          Register
-        </button>
+        {!localStorage.getItem("account") ? (
+          <button className="text-btn btn" onClick={handeleShowReg}>
+            Register
+          </button>
+        ) : (
+          <button className="text-btn btn">Show More</button>
+        )}
       </div>
       <div className="landing--hero">
         <div className="hero-image">

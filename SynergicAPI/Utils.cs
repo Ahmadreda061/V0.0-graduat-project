@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace SynergicAPI
 {
@@ -16,15 +14,15 @@ namespace SynergicAPI
         public enum StatusCodings
         {
             Unknown_Error = -1,
-            OK = 0,
-            Email_Not_Found = 1,
-            Email_Or_User_Used = 2,
-            Bad_Email_Form = 3,
-            Account_Suspended = 4,
-            Password_Incorrect = 5,
-            Account_Not_Found = 6,
+            OK = 0,//No error occured
+            Email_Not_Found = 1,//The given email was not found on the db
+            Email_Or_User_Used = 2,//The provided email/username is already used in another account
+            Bad_Email_Form = 3,//The given Email is not in the correct form ex:mail@provider.domain
+            Account_Suspended = 4,//The account has been banned/suspended IsActive=0 in the db
+            Password_Incorrect = 5,//Self Explained
+            Account_Not_Found = 6,//The account not found for login
             Illegal_Data = 7,//The data are not as expected.
-            Short_Password = 8,
+            Short_Password = 8,//Self Explained
         }
 
         /// <summary>

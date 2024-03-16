@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynergicAPI", "SynergicAPI.csproj", "{50E08E80-7767-4962-97DD-87B6AE5CAB03}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynergicAPI", "SynergicAPI.csproj", "{00651103-5460-41BE-83AD-03079E5B0D12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{50E08E80-7767-4962-97DD-87B6AE5CAB03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50E08E80-7767-4962-97DD-87B6AE5CAB03}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50E08E80-7767-4962-97DD-87B6AE5CAB03}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50E08E80-7767-4962-97DD-87B6AE5CAB03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00651103-5460-41BE-83AD-03079E5B0D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00651103-5460-41BE-83AD-03079E5B0D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00651103-5460-41BE-83AD-03079E5B0D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00651103-5460-41BE-83AD-03079E5B0D12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {72A60B41-8B2D-4E63-A85F-E05085FFE65A}
+		SolutionGuid = {96109AB3-7BB3-476C-9703-31018EB2B52C}
 	EndGlobalSection
 EndGlobal

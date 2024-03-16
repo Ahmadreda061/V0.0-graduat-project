@@ -91,10 +91,23 @@ function Navbar() {
                 <button className="btn">become vendor</button>
               </Link>
             </li>
-            {showRegisterBtn && (
-              <li className="line nav-btn" onClick={handeleShowReg}>
+
+            {!localStorage.getItem("account") && showRegisterBtn ? (
+              <li className=" nav-btn" onClick={handeleShowReg}>
                 <button className="btn">Register</button>
               </li>
+            ) : (
+              localStorage.getItem("account") && (
+                <li
+                  className=" nav-btn"
+                  onClick={() => {
+                    localStorage.removeItem("account");
+                    window.location.reload();
+                  }}
+                >
+                  <button className="btn">Sign Out</button>
+                </li>
+              )
             )}
           </ul>
         </div>

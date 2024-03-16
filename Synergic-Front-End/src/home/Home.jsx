@@ -1,8 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import LandingPage from "./LandingPage";
 import Categories from "./Categories";
-import "../style/home-style/home.css";
 import Recomendation from "./Recomendation";
+import "../style/home-style/home.css";
+
 function Home() {
   const cardsContainerRef = useRef(null);
   const handleScrollLeft = () => {

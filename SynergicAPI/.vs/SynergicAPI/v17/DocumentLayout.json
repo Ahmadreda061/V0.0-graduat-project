@@ -3,28 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\controllers\\userauthenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:controllers\\userauthenticationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:utils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\models\\responses\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:models\\responses\\loginresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\models\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:models\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{00651103-5460-41BE-83AD-03079E5B0D12}|SynergicAPI.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\RegisterController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Controllers\\RegisterController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|c:\\users\\ahmad reda\\desktop\\graduat-project\\v0.0-graduat-project\\synergicapi\\models\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{50E08E80-7767-4962-97DD-87B6AE5CAB03}|SynergicAPI.csproj|solutionrelative:models\\registration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\RegisterResponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,21 +54,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 258,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Program.cs*",
-              "RelativeToolTip": "Program.cs*",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T22:32:56.545Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
@@ -68,6 +63,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "UserAuthenticationController.cs",
+              "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\UserAuthenticationController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserAuthenticationController.cs",
+              "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\UserAuthenticationController.cs",
+              "RelativeToolTip": "Controllers\\UserAuthenticationController.cs",
+              "ViewState": "AQIAAHQAAAAAAAAAAAAwwAkAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T21:16:20.793Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "LoginResponse.cs",
+              "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\LoginResponse.cs",
+              "RelativeDocumentMoniker": "Models\\Responses\\LoginResponse.cs",
+              "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\Responses\\LoginResponse.cs",
+              "RelativeToolTip": "Models\\Responses\\LoginResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T21:15:56.04Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-15T22:32:56.545Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -80,20 +114,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Utils.cs",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Utils.cs",
               "RelativeDocumentMoniker": "Utils.cs",
               "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Utils.cs",
               "RelativeToolTip": "Utils.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAJAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAAgwBUAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-11T17:28:07.198Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "RegisterResponse.cs",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\RegisterResponse.cs",
               "RelativeDocumentMoniker": "Models\\RegisterResponse.cs",
@@ -105,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "RegisterController.cs",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\RegisterController.cs",
               "RelativeDocumentMoniker": "Controllers\\RegisterController.cs",
@@ -122,13 +156,14 @@
               "RelativeDocumentMoniker": "Models\\Registration.cs",
               "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\Registration.cs",
               "RelativeToolTip": "Models\\Registration.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-11T17:23:27.338Z"
+              "WhenOpened": "2024-03-11T17:23:27.338Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "LoginResponse.cs",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\LoginResponse.cs",
               "RelativeDocumentMoniker": "Models\\LoginResponse.cs",
@@ -140,7 +175,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "LoginController.cs",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
@@ -152,15 +187,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Login.cs",
               "DocumentMoniker": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\Login.cs",
               "RelativeDocumentMoniker": "Models\\Login.cs",
               "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Models\\Login.cs",
               "RelativeToolTip": "Models\\Login.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAsAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-11T17:23:02.539Z"
+              "WhenOpened": "2024-03-11T17:23:02.539Z",
+              "EditorCaption": ""
             }
           ]
         }
