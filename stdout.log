@@ -1,0 +1,9 @@
+npm ERR! code ENOENT
+npm ERR! syscall open
+npm ERR! path D:\Graduation Project\V0.0-graduat-project\package.json
+npm ERR! errno -4058
+npm ERR! enoent Could not read package.json: Error: ENOENT: no such file or directory, open 'D:\Graduation Project\V0.0-graduat-project\package.json'
+npm ERR! enoent This is related to npm not being able to find a file.
+npm ERR! enoent 
+
+npm ERR! A complete log of this run can be found in: C:\Users\User\AppData\Local\npm-cache\_logs\2024-03-17T23_10_25_873Z-debug-0.log
