@@ -31,6 +31,7 @@ function LandingPage() {
             alt="hero image"
             width={200}
             height={200}
+            loading="lazy"
           />
         </div>
       </div>

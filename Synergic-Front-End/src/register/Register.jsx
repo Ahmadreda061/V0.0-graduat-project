@@ -29,7 +29,7 @@ function Register() {
           onClick={hanldeCardClick}
         >
           <div className="register-image">
-            <img src={getImageUrl("register-img.jfif")} alt="register image" />
+            <img src={getImageUrl("register-img.jfif")} alt="register image"/>
           </div>
           <div className={`register-form ${!isRegistered ? "signup" : ""}`}>
             <i className="fa-solid fa-xmark" onClick={handeleShowReg}></i>
