@@ -54,12 +54,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 258,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
@@ -70,8 +66,7 @@
               "RelativeToolTip": "Controllers\\UserAuthenticationController.cs",
               "ViewState": "AQIAAHQAAAAAAAAAAAAwwAkAAAAtAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-16T21:16:20.793Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-16T21:16:20.793Z"
             },
             {
               "$type": "Document",
@@ -83,8 +78,7 @@
               "RelativeToolTip": "Models\\Responses\\LoginResponse.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-16T21:15:56.04Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-16T21:15:56.04Z"
             },
             {
               "$type": "Document",
@@ -96,8 +90,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-15T22:32:56.545Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-15T22:32:56.545Z"
             },
             {
               "$type": "Document",
@@ -109,8 +102,7 @@
               "RelativeToolTip": "appsettings.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-03-15T21:59:00.827Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-15T21:59:00.827Z"
             },
             {
               "$type": "Document",
@@ -120,7 +112,7 @@
               "RelativeDocumentMoniker": "Utils.cs",
               "ToolTip": "C:\\Users\\ahmad reda\\Desktop\\graduat-project\\V0.0-graduat-project\\SynergicAPI\\Utils.cs",
               "RelativeToolTip": "Utils.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAgwBUAAAAMAAAA",
+              "ViewState": "AQIAAAoAAAAAAAAAAAA1wBUAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-11T17:28:07.198Z",
               "EditorCaption": ""
@@ -158,8 +150,7 @@
               "RelativeToolTip": "Models\\Registration.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-11T17:23:27.338Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-11T17:23:27.338Z"
             },
             {
               "$type": "Document",
@@ -195,8 +186,11 @@
               "RelativeToolTip": "Models\\Login.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-11T17:23:02.539Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-11T17:23:02.539Z"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
