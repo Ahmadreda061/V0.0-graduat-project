@@ -33,7 +33,7 @@ function Login() {
     const isValid = validateForm();
     if (isValid) {
       axios
-        .post("https://localhost:7014/api/UserAuthentication/Login", formData)
+        .post("https://localhost:7200/api/UserAuthentication/Login", formData)
         .then((res) => {
           const data = res.data;
           if (data.statusCode === 0) {

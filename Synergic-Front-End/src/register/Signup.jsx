@@ -45,7 +45,7 @@ function Signup({ handeleIsRegistered }) {
       postData.gender = JSON.parse(formData.gender); // parse gender to boolean
       axios
         .post(
-          "https://localhost:7014/api/UserAuthentication/Register",
+          "https://localhost:7200/api/UserAuthentication/Register",
           postData
         )
         .then((res) => {
