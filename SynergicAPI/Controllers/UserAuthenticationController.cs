@@ -56,18 +56,18 @@ namespace SynergicAPI.Controllers
 
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
                                        "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken, @ProfileResponse)";
-                string userToken = Utils.HashString(registration.Username + registration.fName + registration.lName, "TokenHashing");
+                string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
 
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
                 {
                     insertCommand.Parameters.AddWithValue("@Email", registration.Email);
                     insertCommand.Parameters.AddWithValue("@Username", registration.Username);
                     insertCommand.Parameters.AddWithValue("@Password", registration.Password);
-                    insertCommand.Parameters.AddWithValue("@IsActive", 1);
-                    insertCommand.Parameters.AddWithValue("@IsVendor", 0);
+                    insertCommand.Parameters.AddWithValue("@IsActive", true);
+                    insertCommand.Parameters.AddWithValue("@IsVendor", false);
                     insertCommand.Parameters.AddWithValue("@FirstName", registration.fName);
                     insertCommand.Parameters.AddWithValue("@LastName", registration.lName);
-                    insertCommand.Parameters.AddWithValue("@Gender", registration.Gender ? 1 : 0);
+                    insertCommand.Parameters.AddWithValue("@Gender", registration.Gender);
                     insertCommand.Parameters.AddWithValue("@BirthDate", registration.bDate);
                     insertCommand.Parameters.AddWithValue("@PhoneNumber", registration.PhoneNumber);
                     insertCommand.Parameters.AddWithValue("@UserToken", userToken);
@@ -128,7 +128,7 @@ namespace SynergicAPI.Controllers
                                 response.statusCode = (int)Utils.StatusCodings.Password_Incorrect;
                                 response.statusMessage = "Password is incorrect";
                             }
-                            else if ((int)reader["IsActive"] == 0) // Account is inactive.
+                            else if (!(bool)reader["IsActive"]) // Account is inactive.
                             {
                                 response.statusCode = (int)Utils.StatusCodings.Account_Suspended;
                                 response.statusMessage = "Account is suspended";
