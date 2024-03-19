@@ -1,4 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using SynergicAPI.Models;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 
 namespace SynergicAPI
 {
@@ -7,7 +11,7 @@ namespace SynergicAPI
         /// <summary>
         /// The UserAccount form in the Database.
         /// </summary>
-        public static string UserAccountString => "UserAccount(Email, Username, Password, IsActive, IsVendor, fName, lName, Gender, bDate, PhoneNumber, UserToken)";
+        public static string UserAccountString => "UserAccount(Email, Username, Password, IsActive, IsVendor, fName, lName, Gender, bDate, PhoneNumber, UserToken, ProfilePicture)";
         public static string ServicesString => "Services(OwnerID, ServiceTitle, ServicePrice, ServiceDescription, ServiceCategory)";
         public static string ServicesImagesString => "ServicesImages(ServiceID, ImageData)";
 
@@ -51,6 +55,14 @@ namespace SynergicAPI
                     .Replace("-", String.Empty);
 
                 return hash;
+            }
+        }
+        public static byte[] BitmapToByteArray(Bitmap bitmap, ImageFormat format)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                bitmap.Save(stream, format); // Change format as per your requirement
+                return stream.ToArray();
             }
         }
         /// <summary>

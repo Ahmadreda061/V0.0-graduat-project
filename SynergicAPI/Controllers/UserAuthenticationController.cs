@@ -2,6 +2,7 @@
 using SynergicAPI.Models;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
+using System.Drawing;
 
 namespace SynergicAPI.Controllers
 {
@@ -10,10 +11,17 @@ namespace SynergicAPI.Controllers
     public class UserAuthenticationController : ControllerBase
     {
         private readonly IConfiguration configuration;
+        byte[] DefaultProfileImage;
 
         public UserAuthenticationController(IConfiguration _configuration)
         {
+            // Determine the path to the image file
+            string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png");
+
             configuration = _configuration;
+
+            var img = new Bitmap(imagePath);
+            DefaultProfileImage = Utils.BitmapToByteArray(img, System.Drawing.Imaging.ImageFormat.Png);
         }
 
         [HttpPost]
@@ -47,7 +55,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
-                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken)";
+                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken, @ProfileResponse)";
                 string userToken = Utils.HashString(registration.Username + registration.fName + registration.lName, "TokenHashing");
 
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
@@ -63,6 +71,7 @@ namespace SynergicAPI.Controllers
                     insertCommand.Parameters.AddWithValue("@BirthDate", registration.bDate);
                     insertCommand.Parameters.AddWithValue("@PhoneNumber", registration.PhoneNumber);
                     insertCommand.Parameters.AddWithValue("@UserToken", userToken);
+                    insertCommand.Parameters.AddWithValue("@ProfileResponse", DefaultProfileImage);
 
                     int rowsAffected = insertCommand.ExecuteNonQuery();
 
