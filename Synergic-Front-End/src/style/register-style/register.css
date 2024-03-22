@@ -40,7 +40,6 @@
 .register-form, form {
     display: flex;
     flex-direction: column;
-    
 }
 
 form{
@@ -107,7 +106,7 @@ input:focus, select:focus {
         height: 100% !important;
     }
 
-    .input-togthor {
+    .register--card .input-togthor {
         display: block;
     }
     

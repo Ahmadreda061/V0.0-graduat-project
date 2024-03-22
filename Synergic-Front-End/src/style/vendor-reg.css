@@ -1,0 +1,145 @@
+.vendor-Reg {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+    background-color: #fff;
+    padding: 7rem 0;
+}
+
+.vendor-Reg > * {
+    width: calc(50% - 40px);
+}
+
+.payment--form {
+    width: 70%;
+    margin: auto;
+}
+
+.payment--form label {
+    font-size: 1.1rem ;
+}
+
+.payment--form input {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.payment--form .input-togthor div,
+.payment--form .input-togthor input {
+    width: 90px;
+    font-size: 1.4rem;
+}
+
+.payment--form label {
+    font-size: 1.1rem ;
+}
+.visa-cards {
+    height: 520px;
+    position: relative;
+    border-radius: 7px;
+    margin-top: 20px;
+    left: 100px;
+    
+}
+
+.front-card, .back-card {
+    box-shadow: 0 0 25px 0 rgb(0 0 0 / 25%);
+    width: 450px;
+    height: 240px;
+    color: #EEF;
+    position: relative;
+}
+
+.front-card {
+    background: rgb(63,91,227);
+    background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);
+    padding: 20px;
+    right: 53px;
+}
+
+.back-card {
+    background: url('../assets/images/bg-card-back.png') no-repeat;
+    top: 30px;right: 0;
+    background-size: cover;
+}
+
+.front-card i {
+    font-size: 3rem;
+    color: #fff;
+}
+
+.info--card-number{
+    margin-top: 2.5rem;
+    text-align: center;
+    font-size: 2rem;
+    flex: content;
+}
+
+.info--bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.5rem;
+}
+
+.back-card-info { 
+    height: 100%;
+    
+}
+
+.back-card-info .cvc {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-39%);
+}
+
+@media screen and (width <= 1277px) {
+    .vendor-Reg {
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .vendor-Reg > * {
+        width: 100%;
+    }
+
+    
+    .wall {
+        width: 0;
+    }
+
+    .visa-cards {
+        left: 0;
+        
+    }
+    /* .visa-cards > * {
+        position: static;
+        margin: 0 auto;
+    } */
+    
+}
+
+@media screen and (width <= 920px) {
+    .payment--form .input-togthor {
+        flex-wrap: wrap !important;
+    }
+
+    .payment--form .input-togthor > * {
+        width: 48% !important;
+        flex: none !important;
+    }
+    .payment--form .input-togthor > *:last-child {
+        text-align: start !important;
+    }
+
+    .payment--form .input-togthor input {
+        width: 100%;
+    }
+
+    .payment--form .input-togthor label {
+        position: static !important;
+    }
+}
+@media screen and (width <=471px) {
+    .payment--form .input-togthor > * {width: 100% !important;}
+}

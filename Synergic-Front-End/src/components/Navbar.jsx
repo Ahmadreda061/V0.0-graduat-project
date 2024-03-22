@@ -52,12 +52,14 @@ function Navbar() {
       <div className="container">
         <div className="navbar--nav d-flex-between-center ">
           <div className="nav--logo">
-            <img
-              src={getImageUrl("logo.png")}
-              alt="logo image"
-              width={200}
-              height={200}
-            />
+            <Link to="/">
+              <img
+                src={getImageUrl("logo.png")}
+                alt="logo image"
+                width={200}
+                height={200}
+              />
+            </Link>
           </div>
           {bars && (
             <i
@@ -87,13 +89,17 @@ function Navbar() {
               <Link className="line nav--paths_link">explore</Link>
             </li>
             <li className="nav-btn">
-              <Link className="line nav--paths_link">
+              <Link
+                onClick={() => setShowRegisterBtn(true)}
+                to="/vendorRegistertion"
+                className="line nav--paths_link"
+              >
                 <button className="btn">become vendor</button>
               </Link>
             </li>
 
             {!localStorage.getItem("account") && showRegisterBtn ? (
-              <li className=" nav-btn" onClick={handeleShowReg}>
+              <li className="line nav-btn" onClick={handeleShowReg}>
                 <button className="btn">Register</button>
               </li>
             ) : (

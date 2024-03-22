@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useRef } from "react";
 import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";

@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react";
 import axios from "axios";
+import useFormReducer from "../utils/useFormReducer";
 
 function Signup({ handeleIsRegistered }) {
   const [submitted, setSubmitted] = useState(false);
@@ -15,27 +16,7 @@ function Signup({ handeleIsRegistered }) {
     phoneNumber: "",
     passwordRepat: "",
   };
-  const reducer = (values, action) => {
-    switch (action.type) {
-      case "INPUT":
-      case "SELECT":
-        return {
-          ...values,
-          [action.name]: action.value,
-        };
-      default:
-        return values;
-    }
-  };
-  const [formData, dispatch] = useReducer(reducer, initValues);
-
-  function change(e, type) {
-    const { name, value } = e.target;
-    dispatch({ type, name, value });
-    // Clear error message when input changes
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  }
-
+  const { formData, change } = useFormReducer(initValues, setErrors);
   function submit(e) {
     e.preventDefault();
     setSubmitted(true);
@@ -50,7 +31,6 @@ function Signup({ handeleIsRegistered }) {
         )
         .then((res) => {
           const data = res.data;
-          console.log(data);
           if (data.statusCode === 0) {
             // succussfuly registered
             setTimeout(() => handeleIsRegistered(), 300);

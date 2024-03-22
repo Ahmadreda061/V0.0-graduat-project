@@ -5,10 +5,12 @@
     border: 2px solid var(--logo-blue);
     border-radius: 12px;
     cursor: pointer;
-    transition: .3s ease-in-out;
-    background-color: var(--logo-blue);
+    transition: .3s ;
+    background: rgb(63,91,227);
+    background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);
     color: var(--main-bg);
-    font-weight: 700
+    font-weight: 700;
+
 }
 
 img {
@@ -16,7 +18,8 @@ img {
     height: auto;
 }
 .btn:hover {
-    background-color: var(--main-bg);
+    background: var(--main-bg);
+    background: linear-gradient(302deg, #fff 100%);
     color: var(--logo-blue)
 }
 
@@ -105,12 +108,13 @@ img {
     width: fit-content;
     margin: 0 auto 3rem;
     padding: 10px;
-    font-weight: 800
+    font-weight: 800;
+    color: var(--text-header)
 }
 
 .section--header a {
     text-decoration: none;
-    color: var(--text-header)
+    
 }
 
 .title {
@@ -132,4 +136,13 @@ img {
     position: absolute;
     backdrop-filter: blur(3px);
     background-color: rgba(0, 0, 0, 0.329);
+}
+
+.wall {
+    width: 30%;
+    height: calc(100vh - 100px);
+    position: absolute;
+    background: rgb(63,91,227);
+    background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);    
+    left: 0;
 }

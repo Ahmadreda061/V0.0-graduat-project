@@ -65,7 +65,7 @@
     transition: .6s ease-in-out;
 }
 
-.active .nav--paths_link:after {
+.active .line:after {
     height: 0;
 }
 
