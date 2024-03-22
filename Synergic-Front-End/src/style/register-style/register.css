@@ -106,7 +106,7 @@ input:focus, select:focus {
         height: 100% !important;
     }
 
-    .register--card .input-togthor {
+         .input-togthor {
         display: block;
     }
     
