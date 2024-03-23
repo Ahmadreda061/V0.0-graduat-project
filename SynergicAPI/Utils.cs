@@ -14,6 +14,7 @@ namespace SynergicAPI
         public static string UserAccountString => "UserAccount(Email, Username, Password, IsActive, IsVendor, fName, lName, Gender, bDate, PhoneNumber, UserToken, ProfilePicture)";
         public static string ServicesString => "Services(OwnerID, ServiceTitle, ServicePrice, ServiceDescription, ServiceCategory)";
         public static string ServicesImagesString => "ServicesImages(ServiceID, ImageData)";
+        public static string VendorAccountString => "VendorAccount(OwnerID, CardholderName, cardNumber, expMonth, expYear, CVC)";
 
         public enum StatusCodings
         {
@@ -27,6 +28,7 @@ namespace SynergicAPI
             Account_Not_Found = 6,//The account not found for login
             Illegal_Data = 7,//The data are not as expected.
             Short_Password = 8,//Self Explained
+            Invalid_Card_Info = 9,//Self Explained
         }
 
         /// <summary>

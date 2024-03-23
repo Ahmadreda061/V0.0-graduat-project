@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SynergicAPI.Models.Responses;
-using SynergicAPI.Models;
-using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 
 namespace SynergicAPI.Controllers
@@ -30,9 +27,9 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                string InsertServiceQuery = $"SELECT * FROM UserAccount WHERE UserToken = @UserToken";
+                string query = $"SELECT * FROM UserAccount WHERE UserToken = @UserToken";
 
-                using (SqlCommand command = new SqlCommand(InsertServiceQuery, con))
+                using (SqlCommand command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@UserToken", UserToken);
 

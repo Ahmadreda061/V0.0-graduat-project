@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SynergicAPI.Models;
 using SynergicAPI.Models.Responses;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 
@@ -142,6 +143,119 @@ namespace SynergicAPI.Controllers
 
             return response;
         }
+
+        [HttpPost]
+        [Route("SignVendor")]
+        public DefaultResponse SignVendor(VendorInfo info)
+        {
+            DefaultResponse response = new DefaultResponse();
+            info.user.Password = Utils.HashString(info.user.Password, "SynergicPasswordHashSalt");//Hash the password for security reasons.
+
+            if (!ValidateCardInfo(info))
+            {
+                response.statusCode = (int)Utils.StatusCodings.Invalid_Card_Info;
+                response.statusMessage = "Provided Info Not Correct!";
+            }
+            else
+            {
+                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+                {
+                    con.Open();
+                    string query = "UPDATE UserAccount SET IsVendor = @IsVendor WHERE (Username = @Username AND Password = @Password AND UserToken = @UserToken)";
+                    bool added = true;
+                    using (SqlCommand command = new SqlCommand(query, con))
+                    {
+                        command.Parameters.AddWithValue("@IsVendor", true);
+                        command.Parameters.AddWithValue("@Username", info.user.Username);
+                        command.Parameters.AddWithValue("@Password", info.user.Password);
+                        command.Parameters.AddWithValue("@UserToken", info.user.UserToken);
+
+                        int altered = command.ExecuteNonQuery();
+                        if (altered == 0)
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                            response.statusMessage = "Account not valid or not found!";//This Shouldn't be reached unless the user altered some data illegaly
+                            added = false;
+                        }
+                    }
+
+                    if (added)
+                    {
+                        query = $"INSERT INTO {Utils.VendorAccountString} VALUES((SELECT ID FROM UserAccount WHERE Username LIKE @Username), @CardholderName, @cardNumber, @expMonth, @expYear, @CVC)";
+
+                        using (SqlCommand command = new SqlCommand(query, con))
+                        {
+                            command.Parameters.AddWithValue("@Username", info.user.Username);
+                            command.Parameters.AddWithValue("@CardholderName", info.CardholderName);
+                            command.Parameters.AddWithValue("@cardNumber", info.CardNumber);
+                            command.Parameters.AddWithValue("@expMonth", info.expMonth);
+                            command.Parameters.AddWithValue("@expYear", info.expYear);
+                            command.Parameters.AddWithValue("@CVC", info.CVC);
+
+                            int altered = command.ExecuteNonQuery();
+                            if (altered == 0)
+                            {
+                                response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                                response.statusMessage = "How did we get here?";//This Shouldn't be reached
+                            }
+                        }
+                    }
+                }
+            }
+            return response;
+        }
+
+        private bool ValidateCardInfo(VendorInfo info)
+        {
+            // Perform basic checks
+            if (string.IsNullOrEmpty(info.CardholderName) ||
+                string.IsNullOrEmpty(info.CardNumber) ||
+                info.expMonth < 1 || info.expMonth > 12 ||
+                info.expYear < DateTime.Now.Year || (info.expYear == DateTime.Now.Year && info.expMonth < DateTime.Now.Month) ||
+                info.CVC <= 0)
+            {
+                return false;
+            }
+
+            // Check Luhn algorithm for card number
+            if (!IsLuhnValid(info.CardNumber))
+            {
+                return false;
+            }
+
+            // Additional checks can be added here if necessary
+
+            // If all checks pass, return true
+            return true;
+        }
+
+        private bool IsLuhnValid(string cardNumber)
+        {
+            // Remove non-digit characters
+            cardNumber = cardNumber.Replace(" ", "").Replace("-", "");
+
+            // Convert the card number string into an array of digits
+            int[] digits = cardNumber.Select(c => c - '0').ToArray();
+
+            // Double every second digit from right to left. If doubling of a digit results in a two-digit number,
+            // add up the two digits to get a single-digit number (treat the two digits as individual numbers)
+            for (int i = digits.Length - 2; i >= 0; i -= 2)
+            {
+                int doubled = digits[i] * 2;
+                if (doubled > 9)
+                {
+                    doubled = doubled % 10 + doubled / 10;
+                }
+                digits[i] = doubled;
+            }
+
+            // Sum all the digits
+            int sum = digits.Sum();
+
+            // If the sum is a multiple of 10, then the card number is valid according to the Luhn algorithm
+            return sum % 10 == 0;
+        }
+
 
         bool UserExists(SqlConnection connection, Registration registration)
         {
