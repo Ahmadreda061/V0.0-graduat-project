@@ -175,32 +175,11 @@ namespace SynergicAPI.Controllers
             }
             return response.ToArray();
         }
-        bool isLegitUser(SqlConnection connection, SynergicUser user)
-        {
-            string query = "SELECT * FROM UserAccount WHERE Username = @Username AND UserToken = @UserToken";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Username", user.Username);
-                command.Parameters.AddWithValue("@UserToken", user.UserToken);
-                int count = (int)command.ExecuteScalar();
-                return count > 0;
-            }
-        }
-        bool isLegitUserValidatePassword(SqlConnection connection, SynergicUser user)
-        {
-            string query = "SELECT * FROM UserAccount WHERE Username = @Username AND UserToken = @UserToken AND Password = @Password";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Username", user.Username);
-                command.Parameters.AddWithValue("@UserToken", user.UserToken);
-                command.Parameters.AddWithValue("@Password", user.Password);
-                int count = (int)command.ExecuteScalar();
-                return count > 0;
-            }
-        }
         bool isLegitUserWithID(SqlConnection connection, SynergicUser user, out int userID)
         {
-            string query = "SELECT * FROM UserAccount WHERE UserToken = @UserToken AND Password = @Password";
+            userID = -1;
+
+            string query = "SELECT ID FROM UserAccount WHERE UserToken = @UserToken AND Password = @Password";
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@UserToken", user.UserToken);
@@ -213,37 +192,43 @@ namespace SynergicAPI.Controllers
                         userID = (int)reader["ID"];
                         return true;
                     }
-                    else
-                    {
-                        userID = 0; // or any default value
-                        return false;
-                    }
+                    else return false;
                 }
             }
         }
-        int GetServiceID(SqlConnection connection, SynergicService service, int UserID)
+        int GetServiceID(SqlConnection connection, SynergicService service, int userID)
         {
             int serviceID = -1;
 
-            string query = $"SELECT * FROM Services WHERE OwnerID = @OwnerID AND ServiceTitle = @ServiceTitle AND ServicePrice = @ServicePrice AND ServiceDescription = @ServiceDescription AND ServiceCategory = @ServiceCategory";
+            string query = @"SELECT ServiceID 
+                     FROM Services 
+                     WHERE OwnerID = @OwnerID 
+                     AND ServiceTitle = @ServiceTitle 
+                     AND ServicePrice = @ServicePrice 
+                     AND ServiceDescription = @ServiceDescription 
+                     AND ServiceCategory = @ServiceCategory";
+
             using (SqlCommand command = new SqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@OwnerID", UserID);
+                // Set parameters
+                command.Parameters.AddWithValue("@OwnerID", userID);
                 command.Parameters.AddWithValue("@ServiceTitle", service.Title);
                 command.Parameters.AddWithValue("@ServicePrice", service.Price);
                 command.Parameters.AddWithValue("@ServiceDescription", service.Description);
                 command.Parameters.AddWithValue("@ServiceCategory", service.Category);
 
-                using (var reader = command.ExecuteReader())
+                connection.Open();
+                // Execute the query
+                object result = command.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
                 {
-                    if (reader.Read())
-                    {
-                        serviceID = (int)reader["ServiceID"];
-                    }
+                    serviceID = (int)result;
                 }
             }
 
             return serviceID;
         }
+
     }
 }

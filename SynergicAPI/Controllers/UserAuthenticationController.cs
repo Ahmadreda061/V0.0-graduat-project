@@ -256,7 +256,6 @@ namespace SynergicAPI.Controllers
             return sum % 10 == 0;
         }
 
-
         bool UserExists(SqlConnection connection, Registration registration)
         {
             string query = "SELECT COUNT(*) FROM UserAccount WHERE Email = @Email OR Username = @Username";
