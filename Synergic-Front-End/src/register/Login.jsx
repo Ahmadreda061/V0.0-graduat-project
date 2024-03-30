@@ -1,11 +1,9 @@
 import axios from "axios";
-import { useContext, useReducer, useState } from "react";
-import { showRegisterContext } from "../App";
+import { useReducer, useState } from "react";
 
-function Login() {
+function Login({ handleRegisterOverlay }) {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const handeleShowReg = useContext(showRegisterContext); // when log in succussfuly the reg card hidden
   const initValues = {
     email_or_Username: "",
     password: "",
@@ -38,8 +36,10 @@ function Login() {
           const data = res.data;
           if (data.statusCode === 0) {
             // succussfuly Log in
-            localStorage.setItem("account", formData.email_or_Username);
-            setTimeout(() => handeleShowReg(), 300);
+            localStorage.setItem("Key", data.userToken);
+
+            setTimeout(() => handleRegisterOverlay(), 300);
+            window.location.reload();
           } else if (data.statusCode === 6) {
             // The account not found for login
             setErrors((prevErrors) => ({

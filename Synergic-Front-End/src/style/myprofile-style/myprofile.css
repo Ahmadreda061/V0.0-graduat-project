@@ -1,0 +1,77 @@
+.myprofile {
+    height: 100vh;
+    display: flex;
+    background-color: #f1f5f9;
+}
+
+.myprofile--pages {
+    flex: 1;
+}
+
+.pages--nav .section--header {
+    margin: 0;
+    cursor: auto;
+    font-size: 2rem;
+    text-transform: capitalize;}
+.pages--nav {
+    background-color: #fff;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+} 
+
+.nav--bell {
+    font-size: 1.4rem;
+    color: var(--logo-blue);
+    cursor: pointer;
+}
+
+.pages--content {
+    padding: 30px;
+}
+
+.informations {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 4px ;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+    color: #585858;
+    flex-direction: row;
+    align-items: normal;
+    position: relative;
+    
+}
+
+.informations--avatar {
+    width: 400px;
+    border-right: 3px solid #f1f5f9;
+    position: relative;
+}
+
+.informations--sections .info-box {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap:10px ; column-gap: 40px;
+    padding: 20px ;
+    align-items: center
+}
+.informations--sections .info-box:not(:last-of-type) {
+    border-bottom: 3px solid #f1f5f9;;
+}
+
+.info-box--header {
+    width: 100%;
+}
+
+.informations--sections label {
+    color: inherit;
+    margin-right: 5px;
+}
+
+.informations--sections input {
+    padding: 5px
+}
+

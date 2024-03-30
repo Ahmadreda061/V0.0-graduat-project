@@ -3,8 +3,9 @@ import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";
 import "../style/home-style/home.css";
+import Navbar from "../components/Navbar";
 
-function Home() {
+function Home({ handleRegisterOverlay }) {
   const cardsContainerRef = useRef(null);
   const handleScrollLeft = () => {
     const container = cardsContainerRef.current;
@@ -25,7 +26,7 @@ function Home() {
     <>
       <header>
         <div className="container">
-          <LandingPage />
+          <LandingPage handleRegisterOverlay={handleRegisterOverlay} />
         </div>
       </header>
       <main>

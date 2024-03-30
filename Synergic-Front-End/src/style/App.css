@@ -17,6 +17,26 @@ img {
     width: 100%;
     height: auto;
 }
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    text-transform: capitalize;
+    color: var(--text);
+    transition: .3s ease-in-out;
+}
+
+a:hover{
+    color: var(--text-header)
+}
+
+a:focus{
+    outline: none;
+}
+
 .btn:hover {
     background: var(--main-bg);
     background: linear-gradient(302deg, #fff 100%);
@@ -140,9 +160,56 @@ img {
 
 .wall {
     width: 30%;
-    height: calc(100vh - 100px);
+    height: 100%;
     position: absolute;
     background: rgb(63,91,227);
     background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);    
     left: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+     align-items: center;
+    padding: 20px 0 0;
+}
+
+.input-togthor {
+    display: flex;
+    gap: 10px;
+}
+
+.input-togthor > * {
+    flex: 1
+}
+
+.input-togthor label {
+    display: block;
+}
+
+.input-togthor input, .input-togthor select {
+    width: 100%;
+}
+
+label {
+    font-size: .8rem;
+    color: var(--logo-blue);
+    font-weight: bold;
+}
+label .required {
+    color: red;
+    padding-left: 10px;
+    font-size: .7rem;
+}
+input, select {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 15px;
+    border: 2px solid #aaa;
+    transition: border-color .3s;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--logo-blue);
 }

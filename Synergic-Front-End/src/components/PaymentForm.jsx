@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 function PaymentForm(props) {
@@ -5,13 +6,23 @@ function PaymentForm(props) {
   function submit(e) {
     e.preventDefault();
     setSubmitted(true);
-    validateForm();
+    const isValid = validateForm();
+    if (isValid) {
+      // const user = props.user;
+      // const formData = props.formData;
+      axios
+        .post("https://localhost:7200/api/UserAuthentication/SignVendor", {
+          user: props.user,
+          ...props.formData,
+        })
+        .then((res) => console.log(res));
+    }
   }
 
   function validateForm() {
     const requiredFields = [
-      "holderName",
-      "number",
+      "cardholderName",
+      "cardNumber",
       "expMonth",
       "expYear",
       "cvc",
@@ -35,31 +46,31 @@ function PaymentForm(props) {
   }
   return (
     <form className="payment--form " onSubmit={submit}>
-      <label htmlFor="holderName">
+      <label htmlFor="cardholderName">
         CARDHOLDER NAME
-        {props.errors.holderName && submitted && (
-          <span className="required">{props.errors.holderName}</span>
+        {props.errors.cardholderName && submitted && (
+          <span className="required">{props.errors.cardholderName}</span>
         )}
       </label>
       <input
         type="text"
-        name="holderName"
-        id="holderName"
-        value={props.formData.holderName}
+        name="cardholderName"
+        id="cardholderName"
+        value={props.formData.cardholderName}
         onChange={(e) => props.change(e, "INPUT")}
         placeholder="e.g Ahmad Reda"
       />
-      <label htmlFor="number">
+      <label htmlFor="cardNumber">
         CARD NUMBER
-        {props.errors.number && submitted && (
-          <span className="required">{props.errors.number}</span>
+        {props.errors.cardNumber && submitted && (
+          <span className="required">{props.errors.cardNumber}</span>
         )}
       </label>
       <input
         type="text"
-        name="number"
-        id="number"
-        value={props.formData.number}
+        name="cardNumber"
+        id="cardNumber"
+        value={props.formData.cardNumber}
         onChange={(e) => props.change(e, "cardnumber")}
         placeholder="0000 0000 0000 0000 "
         maxLength="19"

@@ -4,11 +4,9 @@ import getImageUrl from "../utils/image-util";
 import Login from "./Login";
 import Signup from "./Signup";
 import { useContext, useState } from "react";
-import { showRegisterContext } from "../App";
 
-function Register() {
+function Register({ handleRegisterOverlay }) {
   const [isRegistered, setIsRegistered] = useState(false);
-  const handeleShowReg = useContext(showRegisterContext);
   function handeleIsRegistered() {
     /*
      if click in log in link make isReg to true and go to log in view else if click in sign up link so registerd and go to sign up view 
@@ -23,16 +21,19 @@ function Register() {
   }
   return (
     <div className="register">
-      <div className="overlay" onClick={handeleShowReg}>
+      <div className="overlay" onClick={handleRegisterOverlay}>
         <div
           className={`register--card ${!isRegistered && "signup"}`}
           onClick={hanldeCardClick}
         >
           <div className="register-image">
-            <img src={getImageUrl("register-img.jfif")} alt="register image"/>
+            <img src={getImageUrl("register-img.jfif")} alt="register image" />
           </div>
           <div className={`register-form ${!isRegistered ? "signup" : ""}`}>
-            <i className="fa-solid fa-xmark" onClick={handeleShowReg}></i>
+            <i
+              className="fa-solid fa-xmark"
+              onClick={handleRegisterOverlay}
+            ></i>
             <h3 className="title form-title">
               {isRegistered ? "Log in" : "Sign Up"}
             </h3>
@@ -43,7 +44,7 @@ function Register() {
             )}
 
             {isRegistered ? (
-              <Login />
+              <Login handleRegisterOverlay={handleRegisterOverlay} />
             ) : (
               <Signup handeleIsRegistered={handeleIsRegistered} />
             )}

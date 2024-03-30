@@ -4,6 +4,7 @@
     margin-top: 100px;
     background-color: #fff;
     padding: 7rem 0;
+    gap: 40px;
 }
 
 .vendor-Reg > * {
@@ -13,6 +14,7 @@
 .payment--form {
     width: 70%;
     margin: auto;
+    align-items: normal;
 }
 
 .payment--form label {
@@ -27,22 +29,15 @@
 .payment--form .input-togthor div,
 .payment--form .input-togthor input {
     width: 90px;
-    font-size: 1.4rem;
 }
 
-.payment--form label {
-    font-size: 1.1rem ;
-}
 .visa-cards {
     height: 520px;
     position: relative;
-    border-radius: 7px;
-    margin-top: 20px;
     left: 100px;
-    
 }
 
-.front-card, .back-card {
+.visa-cards > * {
     box-shadow: 0 0 25px 0 rgb(0 0 0 / 25%);
     width: 450px;
     height: 240px;
@@ -51,7 +46,6 @@
 }
 
 .front-card {
-    background: rgb(63,91,227);
     background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);
     padding: 20px;
     right: 53px;
@@ -72,7 +66,6 @@
     margin-top: 2.5rem;
     text-align: center;
     font-size: 2rem;
-    flex: content;
 }
 
 .info--bottom {
@@ -83,7 +76,6 @@
 
 .back-card-info { 
     height: 100%;
-    
 }
 
 .back-card-info .cvc {
@@ -103,19 +95,16 @@
         width: 100%;
     }
 
-    
     .wall {
         width: 0;
     }
 
     .visa-cards {
-        left: 0;
-        
+        left: 0;  
     }
-    /* .visa-cards > * {
-        position: static;
+    .visa-cards > * {
         margin: 0 auto;
-    } */
+    }
     
 }
 
@@ -140,6 +129,9 @@
         position: static !important;
     }
 }
+
 @media screen and (width <=471px) {
-    .payment--form .input-togthor > * {width: 100% !important;}
+    .payment--form .input-togthor > * {
+        width: 100% !important;
+    }
 }

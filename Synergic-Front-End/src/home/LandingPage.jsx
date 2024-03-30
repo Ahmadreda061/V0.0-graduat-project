@@ -1,10 +1,6 @@
-import { useContext } from "react";
 import "../style/home-style/landingPage.css";
 import getImageUrl from "../utils/image-util";
-import { showRegisterContext } from "../App";
-function LandingPage() {
-  const handeleShowReg = useContext(showRegisterContext);
-
+function LandingPage({ handleRegisterOverlay }) {
   return (
     <div className="landing">
       <div className="landing--text">
@@ -16,8 +12,8 @@ function LandingPage() {
           dicta nobis facilis, quod impedit, perferendis repudiandae quas, nemo
           veniam suscipit aut!
         </p>
-        {!localStorage.getItem("account") ? (
-          <button className="text-btn btn" onClick={handeleShowReg}>
+        {!localStorage.getItem("Key") ? (
+          <button className="text-btn btn" onClick={handleRegisterOverlay}>
             Register
           </button>
         ) : (
@@ -27,11 +23,10 @@ function LandingPage() {
       <div className="landing--hero">
         <div className="hero-image">
           <img
-            src={getImageUrl("landingImage.jpg")}
+            src={getImageUrl("landingImage-min.png")}
             alt="hero image"
             width={200}
             height={200}
-            loading="lazy"
           />
         </div>
       </div>

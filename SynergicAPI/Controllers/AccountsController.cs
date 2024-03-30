@@ -41,7 +41,7 @@ namespace SynergicAPI.Controllers
                             response.Username = (string)reader["Username"];
                             response.fName = (string)reader["fName"];
                             response.lName = (string)reader["lName"];
-                            response.Gender = (int)reader["Gender"] == 1;
+                            response.Gender = (Boolean)reader["Gender"] == true;
                             response.bDate = (string)reader["bDate"];
                             response.PhoneNumber = (string)reader["PhoneNumber"];
                             response.UserToken = (string)reader["UserToken"];

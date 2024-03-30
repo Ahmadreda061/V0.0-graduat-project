@@ -1,0 +1,34 @@
+.user-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 20px 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%
+}
+
+
+.user--image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 1px solid #222;
+}
+
+.user--bio {
+    font-size: .8rem;
+    text-align: center;
+    max-width: 247px;
+}
+
+.user--name {
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    color: var(--text);
+    font-weight: 400;
+}
+

@@ -18,11 +18,7 @@
     height: auto;
 }
 
-
-
-
 .nav--paths {
-    list-style: none;
     gap: 15px;
     height: 100%;
 }
@@ -36,19 +32,7 @@
 }
 
 .nav--paths_link {
-    text-decoration: none;
-    text-transform: capitalize;
-    color: var(--text);
-    transition: .3s ease-in-out;
     flex: 1;
-}
-
-.nav--paths_link:hover{
-    color: var(--text-header)
-}
-
-.nav--paths_link:focus{
-    outline: none;
 }
 
 /* phone view nav bar */

@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 import "../style/components-style/navbar.css";
 import getImageUrl from "../utils/image-util";
-import { showRegisterContext } from "../App";
 
-function Navbar() {
+function Navbar({ handleRegisterOverlay }) {
   const [bars, setBars] = useState(false);
   const [showPaths, setShowPaths] = useState(false);
   const [showRegisterBtn, setShowRegisterBtn] = useState(false);
-  const handeleShowReg = useContext(showRegisterContext);
+  const userKey = localStorage.getItem("Key");
 
   useEffect(() => {
     const handleResize = () => {
@@ -82,32 +81,38 @@ function Navbar() {
                 home
               </Link>
             </li>
+            {userKey && (
+              <li>
+                <Link to="/myprofile" className="line nav--paths_link">
+                  my profile
+                </Link>
+              </li>
+            )}
             <li>
-              <Link className="line nav--paths_link">my profile</Link>
-            </li>
-            <li>
-              <Link className="line nav--paths_link">explore</Link>
+              <Link to="/" className="line nav--paths_link">
+                explore
+              </Link>
             </li>
             <li className="nav-btn">
               <Link
-                onClick={() => setShowRegisterBtn(true)}
-                to="/vendorRegistertion"
+                onClick={() => !userKey && handleRegisterOverlay()}
+                to={userKey && "/vendorRegistertion"}
                 className="line nav--paths_link"
               >
                 <button className="btn">become vendor</button>
               </Link>
             </li>
 
-            {!localStorage.getItem("account") && showRegisterBtn ? (
-              <li className="line nav-btn" onClick={handeleShowReg}>
+            {!localStorage.getItem("Key") && showRegisterBtn ? (
+              <li className="line nav-btn" onClick={handleRegisterOverlay}>
                 <button className="btn">Register</button>
               </li>
             ) : (
-              localStorage.getItem("account") && (
+              localStorage.getItem("Key") && (
                 <li
-                  className=" nav-btn"
+                  className=" nav-btn line"
                   onClick={() => {
-                    localStorage.removeItem("account");
+                    localStorage.removeItem("Key");
                     window.location.reload();
                   }}
                 >
