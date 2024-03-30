@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SynergicAPI.Models;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
 
@@ -46,6 +47,7 @@ namespace SynergicAPI.Controllers
                             response.PhoneNumber = (string)reader["PhoneNumber"];
                             response.UserToken = (string)reader["UserToken"];
                             response.ProfilePicture = (byte[])reader["ProfilePicture"];
+                            response.UserBio = (string)reader["UserBio"];
                         }
                         else
                         {
@@ -56,6 +58,130 @@ namespace SynergicAPI.Controllers
                 }
             }
             return response;
+        }
+
+        [HttpPost]
+        [Route("SetProfile")]
+        public SetProfileResponse SetProfile(SetProfileForm data)
+        {
+            var response = new SetProfileResponse();
+            var validateResult = ValidateDataChange(data);
+
+            string oldToken;
+            if (validateResult == Utils.StatusCodings.OK)
+            {
+                oldToken = data.UserToken;
+                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+                {
+                    con.Open();
+                    string query = "UPDATE UserAccount SET ";
+                    if (data.fName != null) query += "fName = @fName,";
+                    if (data.lName != null) query += "lName = @lName,";
+                    if (data.Username != null) query += "Username = @Username,";
+                    if (data.Email != null) query += "Email = @Email,";
+                    if (data.UserBio != null) query += "UserBio = @UserBio,";
+                    if (data.ProfilePicture != null) query += "ProfilePicture = @ProfilePicture,";
+                    query = query.TrimEnd(',');
+                    query += " WHERE UserToken = @UserToken";
+
+
+                    using (SqlCommand command = new SqlCommand(query, con))
+                    {
+                        if (data.fName != null) command.Parameters.AddWithValue("@fName", data.fName);
+                        if (data.lName != null) command.Parameters.AddWithValue("@lName", data.lName);
+                        if (data.Username != null) command.Parameters.AddWithValue("@Username", data.Username);
+                        if (data.Email != null) command.Parameters.AddWithValue("@Email", data.Email);
+                        if (data.UserBio != null) command.Parameters.AddWithValue("@UserBio", data.UserBio);
+                        if (data.ProfilePicture != null) command.Parameters.AddWithValue("@ProfilePicture", data.ProfilePicture);
+                        command.Parameters.AddWithValue("@UserToken", data.UserToken);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    if (ChangeToken(data))
+                    {
+                        query = "SELECT fName, Username, lName FROM UserAccount WHERE UserToken = @UserToken";
+                        using (SqlCommand command = new SqlCommand(query, con))
+                        {
+                            command.Parameters.AddWithValue("@UserToken", oldToken);
+
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                if (reader.Read())
+                                {
+                                    string userToken = Utils.HashString((string)reader["fName"] + (string)reader["Username"] + (string)reader["lName"], "TokenHashing");
+
+                                    response.newUserToken = userToken;
+                                }
+                            }
+                        }
+
+
+                        query = "UPDATE UserAccount SET UserToken = @NewUserToken WHERE UserToken = @OldUserToken";
+                        using (SqlCommand command = new SqlCommand(query, con))
+                        {
+                            command.Parameters.AddWithValue("@NewUserToken", response.newUserToken);
+                            command.Parameters.AddWithValue("@OldUserToken", data.UserToken);
+                            command.ExecuteNonQuery();
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                response.newUserToken = data.UserToken;
+
+                switch (validateResult)
+                {
+                    case Utils.StatusCodings.Email_Or_User_Used:
+                        response.statusMessage = "The Email is already Used!";
+                        break;
+                    case Utils.StatusCodings.Illegal_Data:
+                        response.statusMessage = "Error Validating the Name (Username, First Name or Last Name)!";
+                        break;
+                    case Utils.StatusCodings.No_Change:
+                        response.statusMessage = "Data was not changed!";
+                        break;
+                    case Utils.StatusCodings.Small_Image:
+                        response.statusMessage = "The Profile Picture is too small, minimum is 128x128!";
+                        break;
+                    case Utils.StatusCodings.Bad_Email_Form:
+                        response.statusMessage = "The Email is not in correct form!";
+                        break;
+                    default:
+                        response.statusMessage = "All OK";
+                        break;
+                }
+            }
+            return response;
+        }
+
+        private Utils.StatusCodings ValidateDataChange(SetProfileForm data)
+        {
+            if (data.fName == null && data.lName == null && data.Username == null && data.Email == null && data.UserBio == null && data.ProfilePicture == null) return Utils.StatusCodings.No_Change; //No data change
+
+            if(data.fName != null && !Utils.RegexName(data.fName)) return Utils.StatusCodings.Illegal_Data;
+            if(data.lName != null && !Utils.RegexName(data.lName)) return Utils.StatusCodings.Illegal_Data;
+            if(data.Username != null && !Utils.RegexName(data.Username)) return Utils.StatusCodings.Illegal_Data;
+            if(data.Email != null && !Utils.RegexEmail(data.Email)) return Utils.StatusCodings.Bad_Email_Form;
+            if(data.ProfilePicture != null && Utils.DefaultProfileImage.Length > data.ProfilePicture.Length) return Utils.StatusCodings.Small_Image;
+
+            if(data.Username != null || data.Email != null)
+            {
+                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+                {
+                    con.Open();
+                    if (Utils.UserExists(con, data.Username, data.Email)) return Utils.StatusCodings.Email_Or_User_Used;
+                }
+            }
+
+            return Utils.StatusCodings.OK;
+        }
+
+        bool ChangeToken(SetProfileForm data)
+        {
+            return (data.fName != null || data.lName != null || data.Username != null) ;
         }
     }
 }

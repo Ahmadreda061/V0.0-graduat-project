@@ -11,11 +11,6 @@
         public string PhoneNumber { get; set; }
         public string UserToken { get; set; }
         public byte[] ProfilePicture { get; set; }
-
-        public ProfileResponse()
-        {
-            statusCode = (int)Utils.StatusCodings.OK;
-            statusMessage = "OK";
-        }
+        public string UserBio { get; set; }
     }
 }

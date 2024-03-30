@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SynergicAPI.Models;
 using SynergicAPI.Models.Responses;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Drawing;
 
 namespace SynergicAPI.Controllers
 {
@@ -12,17 +10,12 @@ namespace SynergicAPI.Controllers
     public class UserAuthenticationController : ControllerBase
     {
         private readonly IConfiguration configuration;
-        byte[] DefaultProfileImage;
 
         public UserAuthenticationController(IConfiguration _configuration)
         {
             // Determine the path to the image file
-            string imagePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png");
 
             configuration = _configuration;
-
-            var img = new Bitmap(imagePath);
-            DefaultProfileImage = Utils.BitmapToByteArray(img, System.Drawing.Imaging.ImageFormat.Png);
         }
 
         [HttpPost]
@@ -48,7 +41,7 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                if (UserExists(con, registration)) //Checks whether the email or username is already used.
+                if (Utils.UserExists(con, registration.Username, registration.Email)) //Checks whether the email or username is already used.
                 {
                     response.statusCode = (int)Utils.StatusCodings.Email_Or_User_Used;
                     response.statusMessage = "Email or Username has already been used!";
@@ -56,7 +49,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
-                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken, @ProfileResponse)";
+                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken, @ProfileResponse, @UserBio)";
                 string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
 
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
@@ -72,7 +65,8 @@ namespace SynergicAPI.Controllers
                     insertCommand.Parameters.AddWithValue("@BirthDate", registration.bDate);
                     insertCommand.Parameters.AddWithValue("@PhoneNumber", registration.PhoneNumber);
                     insertCommand.Parameters.AddWithValue("@UserToken", userToken);
-                    insertCommand.Parameters.AddWithValue("@ProfileResponse", DefaultProfileImage);
+                    insertCommand.Parameters.AddWithValue("@ProfileResponse", Utils.DefaultProfileImage);
+                    insertCommand.Parameters.AddWithValue("@UserBio", "empty!");
 
                     int rowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -254,18 +248,6 @@ namespace SynergicAPI.Controllers
 
             // If the sum is a multiple of 10, then the card number is valid according to the Luhn algorithm
             return sum % 10 == 0;
-        }
-
-        bool UserExists(SqlConnection connection, Registration registration)
-        {
-            string query = "SELECT COUNT(*) FROM UserAccount WHERE Email = @Email OR Username = @Username";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@Email", registration.Email);
-                command.Parameters.AddWithValue("@Username", registration.Username);
-                int count = (int)command.ExecuteScalar();
-                return count > 0;
-            }
         }
     }
 }
