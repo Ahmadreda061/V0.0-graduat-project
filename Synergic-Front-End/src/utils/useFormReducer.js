@@ -23,7 +23,6 @@ function useFormReducer(initialState, setErrors) {
 
   function change(e, type) {
     const { name, value } = e.target;
-    console.log(name)
     dispatch({ type, name, value });
     // Clear error message when input changes
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));

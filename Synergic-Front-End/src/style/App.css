@@ -164,15 +164,15 @@ a:focus{
     position: absolute;
     background: rgb(63,91,227);
     background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);    
-    left: 0;
+    left: 0;top: 0;
 }
 
-form {
+/* form {
     display: flex;
     flex-direction: column;
-     align-items: center;
+    align-items: center;
     padding: 20px 0 0;
-}
+} */
 
 .input-togthor {
     display: flex;

@@ -3,7 +3,7 @@ import "../style/register-style/register.css";
 import getImageUrl from "../utils/image-util";
 import Login from "./Login";
 import Signup from "./Signup";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 function Register({ handleRegisterOverlay }) {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -14,22 +14,23 @@ function Register({ handleRegisterOverlay }) {
     */
     setIsRegistered((prevIsReg) => !prevIsReg);
   }
-  function hanldeCardClick(e) {
-    /*  the card inside the overlay so when clicked the card like we clicked the overlay so 
-        you prevent the event from propagating to parent elements*/
-    e.stopPropagation();
-  }
+
   return (
     <div className="register">
       <div className="overlay" onClick={handleRegisterOverlay}>
         <div
           className={`register--card ${!isRegistered && "signup"}`}
-          onClick={hanldeCardClick}
+          onClick={(e) =>
+            e.stopPropagation()
+          } /*  the card inside the overlay so when clicked the card like we clicked the overlay so 
+          you prevent the event from propagating to parent elements*/
         >
           <div className="register-image">
             <img src={getImageUrl("register-img.jfif")} alt="register image" />
           </div>
-          <div className={`register-form ${!isRegistered ? "signup" : ""}`}>
+          <div
+            className={`register-form ${!isRegistered ? "signup" : "login"}`}
+          >
             <i
               className="fa-solid fa-xmark"
               onClick={handleRegisterOverlay}

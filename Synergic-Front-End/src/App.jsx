@@ -20,12 +20,15 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const location = useLocation();
   const userKey = localStorage.getItem("Key");
+
   function handleRegisterOverlay() {
     setRegisterOverlay((prevRegisterOverlay) => !prevRegisterOverlay);
   }
+
   useEffect(() => {
     setShowNavbar(!location.pathname.includes("/myprofile"));
   }, [location.pathname]);
+
   useEffect(() => {
     if (userKey)
       axios

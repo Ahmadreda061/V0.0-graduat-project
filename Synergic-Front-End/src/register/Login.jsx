@@ -1,112 +1,52 @@
-import axios from "axios";
-import { useReducer, useState } from "react";
-
+import { useState } from "react";
+import validateForm from "../utils/validateForm";
+import useFormReducer from "../utils/useFormReducer";
+import checkLoginDB from "./utils/checkLoginDB";
+import createFormElements from "./utils/CreateFormElements";
 function Login({ handleRegisterOverlay }) {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const formFields = [
+    { name: "email_or_Username", type: "text", label: "Email or Username" },
+    { name: "password", type: "password", label: "Password" },
+  ];
+
   const initValues = {
     email_or_Username: "",
     password: "",
   };
 
-  const reducer = (values, action) => {
-    return {
-      ...values,
-      [action.name]: action.value,
-    };
-  };
-
-  const [formData, dispatch] = useReducer(reducer, initValues);
-
-  function change(e) {
-    const { name, value } = e.target;
-    dispatch({ name, value });
-    // Clear error message when input changes
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
-  }
-
+  const { formData, change } = useFormReducer(initValues, setErrors);
+  const FormElements = createFormElements(
+    formFields,
+    errors,
+    change,
+    submitted
+  );
   function submit(e) {
     e.preventDefault();
     setSubmitted(true);
-    const isValid = validateForm();
+    const isValid = logInValidateForm();
     if (isValid) {
-      axios
-        .post("https://localhost:7200/api/UserAuthentication/Login", formData)
-        .then((res) => {
-          const data = res.data;
-          if (data.statusCode === 0) {
-            // succussfuly Log in
-            localStorage.setItem("Key", data.userToken);
-
-            setTimeout(() => handleRegisterOverlay(), 300);
-            window.location.reload();
-          } else if (data.statusCode === 6) {
-            // The account not found for login
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              email_or_Username: data.statusMessage,
-            }));
-          } else if (data.statusCode === 5) {
-            // Password_Incorrect
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              password: data.statusMessage,
-            }));
-          }
-        });
+      checkLoginDB(formData, setErrors)
+        .then(() => {
+          handleRegisterOverlay();
+          window.location.reload();
+        })
+        .catch((err) => console.log(err));
     }
   }
 
-  function validateForm() {
-    const requiredFields = ["email_or_Username", "password"];
-    const newErrors = {};
-
-    // Validate required fields
-    requiredFields.forEach((field) => {
-      if (!formData[field]) {
-        newErrors[field] = "*Required";
-      }
-    });
-    // Validate password
-    const passError =
-      formData.password.length < 8 ? "Password must be more than 8 char's" : "";
-    if (passError) {
-      newErrors.password = passError;
-    }
-
+  function logInValidateForm() {
+    const newErrors = validateForm(formData);
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
+
   return (
     <form className="login" onSubmit={submit}>
       <input type="hidden" name="hidden" />
-      <label htmlFor="email_or_Username">
-        Email or Username{" "}
-        {errors.email_or_Username && submitted && (
-          <span className="required">*{errors.email_or_Username}</span>
-        )}
-      </label>
-      <input
-        type="text"
-        id="email_or_Username"
-        name="email_or_Username"
-        placeholder="Email or Username"
-        onChange={change}
-      />
-
-      <label htmlFor="password">
-        Password{" "}
-        {errors.password && submitted && (
-          <span className="required">*{errors.password}</span>
-        )}
-      </label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        placeholder="Password"
-        onChange={change}
-      />
+      {FormElements}
 
       <button className="btn">Log In</button>
     </form>
