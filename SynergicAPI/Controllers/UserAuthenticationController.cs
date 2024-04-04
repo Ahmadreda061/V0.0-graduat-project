@@ -201,25 +201,20 @@ namespace SynergicAPI.Controllers
 
         private bool ValidateCardInfo(VendorInfo info)
         {
-            // Perform basic checks
             if (string.IsNullOrEmpty(info.CardholderName) ||
                 string.IsNullOrEmpty(info.CardNumber) ||
                 info.expMonth < 1 || info.expMonth > 12 ||
-                info.expYear < DateTime.Now.Year || (info.expYear == DateTime.Now.Year && info.expMonth < DateTime.Now.Month) ||
+                info.expYear < DateTime.Now.Year % 100 || (info.expYear == DateTime.Now.Year % 100 && info.expMonth < DateTime.Now.Month) ||
                 info.CVC <= 0)
             {
                 return false;
             }
 
-            // Check Luhn algorithm for card number
             if (!IsLuhnValid(info.CardNumber))
             {
                 return false;
             }
 
-            // Additional checks can be added here if necessary
-
-            // If all checks pass, return true
             return true;
         }
 
