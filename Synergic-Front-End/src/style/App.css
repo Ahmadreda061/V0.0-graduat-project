@@ -213,7 +213,7 @@ input:focus, select:focus {
 }
 
 textarea {
-    height: 280px;
+    height: 220px;
     max-width: 50%;
     border: 2px solid #ccc;
     border-radius: 4px;

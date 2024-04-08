@@ -1,6 +1,7 @@
 .myprofile {
     display: flex;
     background-color: #f1f5f9;
+    min-height: 100vh;
 }
 
 .myprofile--pages {

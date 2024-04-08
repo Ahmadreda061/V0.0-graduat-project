@@ -37,6 +37,13 @@
     .sidebar {
         width: 80px;
     }
+    .sidebar--page {
+        text-align: center;
+    }
+    .sidebar--page i {
+        font-size: 1.2rem;
+        margin-right: 0;
+    }
     .sidebar--page span {
         display: none;
     }
