@@ -1,0 +1,47 @@
+.dropdown {
+    position: relative;
+    bottom: 30px;
+}
+
+/* Dropdown button */
+.dropbtn {
+    background-color: var(--logo-blue);
+    color: white;
+    padding: 6px 10px;
+    font-size: .8rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+  /* Dropdown content (hidden by default) */
+  .dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1;
+    position: relative;
+    bottom: -11px;
+  }
+  
+  /* Dropdown links */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    box-shadow: 1px 1px 10px rgba(131, 131, 131, 0.918);
+  }
+  .dropdown-content a::before {
+    content: '';
+    position: absolute;
+    border: 13px solid;
+    border-color: var(--logo-blue) transparent transparent transparent;
+    top: -12px;
+}
+  /* Dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }

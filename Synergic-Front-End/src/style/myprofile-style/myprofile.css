@@ -1,18 +1,19 @@
 .myprofile {
-    height: 100vh;
     display: flex;
     background-color: #f1f5f9;
 }
 
 .myprofile--pages {
     flex: 1;
-}
+} 
 
 .pages--nav .section--header {
     margin: 0;
     cursor: auto;
     font-size: 2rem;
-    text-transform: capitalize;}
+    text-transform: capitalize;
+}
+
 .pages--nav {
     background-color: #fff;
     width: 100%;
@@ -40,15 +41,16 @@
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     color: #585858;
     display: flex;
-    flex-direction: row;
-    align-items: normal;
     position: relative;
 }
 
 .informations--avatar {
-    width: 400px;
     border-right: 3px solid #f1f5f9;
     position: relative;
+    padding: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .informations--sections .info-box {
@@ -56,22 +58,40 @@
     flex-wrap: wrap;
     row-gap:10px ; column-gap: 40px;
     padding: 20px ;
-    align-items: center
 }
+
 .informations--sections .info-box:not(:last-of-type) {
     border-bottom: 3px solid #f1f5f9;;
 }
 
 .info-box--header {
     width: 100%;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
 }
 
-.informations--sections label {
+.info-box--contant {
+    position: relative;
+}
+
+.info-box--contant label{
     color: inherit;
     margin-right: 5px;
 }
-
-.informations--sections input {
+.info-box--contant label .required {
+    position: absolute;
+    top: -17px;
+    right: 7px;
+}
+.info-box--contant input {
     padding: 5px
 }
 
+@media screen and (width <= 1172px) {
+    .informations {
+        flex-direction: column;
+    }
+    .informations--avatar {
+        border: none;
+    }
+}

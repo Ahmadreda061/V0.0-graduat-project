@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../style/components-style/navbar.css";
 import getImageUrl from "../utils/image-util";
 
@@ -9,6 +9,12 @@ function Navbar({ handleRegisterOverlay }) {
   const [showPaths, setShowPaths] = useState(false);
   const [showRegisterBtn, setShowRegisterBtn] = useState(false);
   const userKey = localStorage.getItem("Key");
+  const location = useLocation();
+  const handleSignOut = () => {
+    // when remove the key to sign out when u'r in a route depend to user will crash so when the user sign out will go to home page
+    location.pathname = "http://localhost:5173/";
+    localStorage.removeItem("Key");
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -93,6 +99,7 @@ function Navbar({ handleRegisterOverlay }) {
                 explore
               </Link>
             </li>
+
             <li className="nav-btn">
               <Link
                 onClick={() => !userKey && handleRegisterOverlay()}
@@ -109,14 +116,12 @@ function Navbar({ handleRegisterOverlay }) {
               </li>
             ) : (
               localStorage.getItem("Key") && (
-                <li
-                  className=" nav-btn line"
-                  onClick={() => {
-                    localStorage.removeItem("Key");
-                    window.location.reload();
-                  }}
-                >
-                  <button className="btn">Sign Out</button>
+                <li className="nav-btn line">
+                  <Link to="/">
+                    <button onClick={handleSignOut} className="btn">
+                      Sign Out
+                    </button>
+                  </Link>
                 </li>
               )
             )}

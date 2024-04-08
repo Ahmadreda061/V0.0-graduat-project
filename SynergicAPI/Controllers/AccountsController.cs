@@ -135,18 +135,23 @@ namespace SynergicAPI.Controllers
                 switch (validateResult)
                 {
                     case Utils.StatusCodings.Email_Or_User_Used:
-                        response.statusMessage = "The Email is already Used!";
+                        response.statusCode = 2;
+                        response.statusMessage = "Email Is already Used!";
                         break;
                     case Utils.StatusCodings.Illegal_Data:
+                        response.statusCode = 7;
                         response.statusMessage = "Error Validating the Name (Username, First Name or Last Name)!";
                         break;
                     case Utils.StatusCodings.No_Change:
+                        response.statusCode = 10;
                         response.statusMessage = "Data was not changed!";
                         break;
                     case Utils.StatusCodings.Small_Image:
+                        response.statusCode = 11;
                         response.statusMessage = "The Profile Picture is too small, minimum is 128x128!";
                         break;
                     case Utils.StatusCodings.Bad_Email_Form:
+                        response.statusCode = 3;
                         response.statusMessage = "The Email is not in correct form!";
                         break;
                     default:

@@ -18,7 +18,7 @@ function formReducer(state, action) {
   }
 }
 
-function useFormReducer(initialState, setErrors) {
+function useFormReducer(initialState, setErrors, setEditedFileds) {
   const [formData, dispatch] = useReducer(formReducer, initialState);
 
   function change(e, type) {
@@ -26,6 +26,8 @@ function useFormReducer(initialState, setErrors) {
     dispatch({ type, name, value });
     // Clear error message when input changes
     setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
+    if(setEditedFileds)
+      setEditedFileds(prevEdited => ({...prevEdited, [name]: value}))
   }
 
   return { formData, change };

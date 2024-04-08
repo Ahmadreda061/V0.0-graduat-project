@@ -39,7 +39,8 @@ function App() {
         )
         .then((res) => res.data)
         .then((data) => {
-          setUserInfo(data);
+          const { statusCode, statusMessage, ...savedData } = data;
+          setUserInfo(savedData);
         });
   }, []);
 
@@ -47,14 +48,15 @@ function App() {
     // if user log in and didn't get the data for any reson render loding the page
     return <Loading />;
   }
+  const contextValues = { userInfo, setUserInfo };
   return (
     <>
+      {showNavbar && <Navbar handleRegisterOverlay={handleRegisterOverlay} />}
       <Suspense fallback={<Loading />}>
-        {showNavbar && <Navbar handleRegisterOverlay={handleRegisterOverlay} />}
-        <userInfoContext.Provider value={userInfo}>
+        <userInfoContext.Provider value={contextValues}>
           <Routes>
             <Route
-              index
+              path="/"
               element={<Home handleRegisterOverlay={handleRegisterOverlay} />}
             />
             <Route path="/vendorRegistertion" element={<VendorReg />} />

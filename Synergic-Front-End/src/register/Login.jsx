@@ -2,13 +2,18 @@ import { useState } from "react";
 import validateForm from "../utils/validateForm";
 import useFormReducer from "../utils/useFormReducer";
 import checkLoginDB from "./utils/checkLoginDB";
-import createFormElements from "./utils/CreateFormElements";
+import createFormElements from "../components/CreateFormElements";
 function Login({ handleRegisterOverlay }) {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const formFields = [
-    { name: "email_or_Username", type: "text", label: "Email or Username" },
-    { name: "password", type: "password", label: "Password" },
+    {
+      name: "email_or_Username",
+      type: "text",
+      label: "Email or Username",
+      field: "INPUT",
+    },
+    { name: "password", type: "password", label: "Password", field: "INPUT" },
   ];
 
   const initValues = {

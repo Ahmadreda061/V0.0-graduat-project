@@ -9,7 +9,7 @@
     background: rgb(63,91,227);
     background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);
     color: var(--main-bg);
-    font-weight: 700;
+    font-weight: 500;
 
 }
 
@@ -119,6 +119,9 @@ a:focus{
     .container {
         padding: 0 40px
     }
+    textarea {
+        max-width: 100%;
+    }
 }
 
 .section--header {
@@ -156,6 +159,7 @@ a:focus{
     position: absolute;
     backdrop-filter: blur(3px);
     background-color: rgba(0, 0, 0, 0.329);
+    top: 0;left: 0;
 }
 
 .wall {
@@ -166,13 +170,6 @@ a:focus{
     background: linear-gradient(302deg, rgba(63,91,227,1) 0%, rgba(71,78,148,1) 40%, rgba(83,113,255,1) 100%);    
     left: 0;top: 0;
 }
-
-/* form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0 0;
-} */
 
 .input-togthor {
     display: flex;
@@ -195,8 +192,9 @@ label {
     font-size: .8rem;
     color: var(--logo-blue);
     font-weight: bold;
+    margin: 6px;
 }
-label .required {
+.required {
     color: red;
     padding-left: 10px;
     font-size: .7rem;
@@ -212,4 +210,24 @@ input, select {
 input:focus, select:focus {
     outline: none;
     border-color: var(--logo-blue);
+}
+
+textarea {
+    height: 280px;
+    max-width: 50%;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    font-size: 16px;
+    resize: none;
+    padding: 12px 20px;
+}
+
+@media screen and (width < 600px) {
+    .container {
+        padding: 0 40px
+    }
+    textarea {
+        max-width: 100%;
+    }
 }

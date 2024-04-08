@@ -17,7 +17,6 @@ function SidebarProfile() {
       <div className="sidebar--logo">
         <Link to="/">
           <img
-            style={{ width: "150px" }}
             src={getImageUrl("logo.png")}
             alt="logo image"
             width={200}
@@ -30,7 +29,7 @@ function SidebarProfile() {
         <li>
           <Link
             style={
-              activeLink == "myProfile"
+              activeLink == "myprofile"
                 ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
                 : { backgroundColor: "#fff" }
             }
@@ -39,7 +38,7 @@ function SidebarProfile() {
             to="/myprofile"
           >
             <i className="fa-regular fa-user fa-fw"></i>
-            Informations
+            <span>Informations</span>
           </Link>
         </li>
         <li>
@@ -54,7 +53,7 @@ function SidebarProfile() {
             to="/myprofile/services"
           >
             <i className="fa-solid fa-diagram-project fa-fw"></i>
-            Services
+            <span>Services</span>
           </Link>
         </li>
         <li>
@@ -69,7 +68,7 @@ function SidebarProfile() {
             to="/myprofile/reviews"
           >
             <i className="fa-regular fa-comment fa-fw"></i>
-            Reviews
+            <span>Reviews</span>
           </Link>
         </li>
         <li>
@@ -84,7 +83,7 @@ function SidebarProfile() {
             to="/myprofile/requests"
           >
             <i className="fa-regular fa-bell fa-fw"></i>
-            Requests
+            <span>Requests</span>
           </Link>
         </li>
       </ul>

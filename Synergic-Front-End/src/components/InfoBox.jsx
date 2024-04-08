@@ -3,13 +3,19 @@ function InfoBox(props) {
 
   const elements = Object.entries(props.values).map(
     ([key, { label, value }], index) => {
+      const isReadOnly = ["phoneNumber", "gender", "bDate"].includes(key);
       return (
-        <div key={index}>
-          <label htmlFor={key}>{label}:</label>
+        <div key={index} className="info-box--contant">
+          <label htmlFor={key}>
+            {label}:
+            {props.errors[key] && (
+              <span className="required">{props.errors[key]}</span>
+            )}
+          </label>
           <input
             name={key}
             type="text"
-            readOnly={(key == "email" || key == "gender") && true}
+            readOnly={isReadOnly}
             id={key}
             value={value}
             onChange={(e) => props.change(e, "INPUT")}

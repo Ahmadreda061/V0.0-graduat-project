@@ -1,9 +1,10 @@
 export default function validateForm(formData, passCheck = true) {
     const requiredFields = Object.keys(formData) // convert the object to array of keys
+    const optionalFields = ["insta", "facebook", "linkedIn"];
     const newErrors = {}
     // Validate required fields
     requiredFields.forEach((field) => {
-        if (!formData[field]) {
+        if (!formData[field] && !optionalFields.includes(field)) {
         newErrors[field] = "*Required";
     }
     });

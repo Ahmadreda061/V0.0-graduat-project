@@ -100,7 +100,7 @@ input:focus, select:focus {
     border-color: var(--logo-blue);
 }
 
-.signup .form-element:not(:first-of-type, :nth-of-type(2)),
+.signup .form-element,
 .login .form-element {
     display: flex;
     flex-direction: column;
@@ -114,17 +114,16 @@ input:focus, select:focus {
     margin-right: 5px;
 }
 
-.signup .form-element:nth-of-type(2),.signup .form-element:first-of-type  {
+.signup .form-element:nth-of-type(-n+2)  {
     width: calc(50% - 5px);
     display: inline-block;
-    
 }
 
-.signup .form-element:nth-of-type(2) label, .signup .form-element:first-of-type label {
+.signup .form-element:nth-of-type(-2) label {
     display: block;
 }
 
-.signup .form-element:nth-of-type(2) input, .signup .form-element:first-of-type input {
+.signup .form-element:nth-of-type(-n+2) input {
     width: 100%;
 }
 @media screen and (width <= 920px) {

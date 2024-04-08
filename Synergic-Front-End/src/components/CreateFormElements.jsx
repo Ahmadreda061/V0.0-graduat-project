@@ -1,4 +1,4 @@
-import FormElement from "../../components/FormElement";
+import FormElement from "./FormElement";
 
 export default function createFormElements(
   formFields,
@@ -10,11 +10,9 @@ export default function createFormElements(
     return (
       <FormElement
         key={index}
-        name={field.name}
-        label={field.label}
+        {...field}
         error={errors[field.name]}
         submitted={submitted}
-        type={field.type}
         change={change}
       />
     );

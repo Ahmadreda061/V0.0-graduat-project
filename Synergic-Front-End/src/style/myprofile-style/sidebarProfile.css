@@ -1,9 +1,8 @@
 
 .sidebar {
     background-color: #fff;
-    width: 250px;
+    width: 177px;
     box-shadow: 0 0 10px #d8d8d8;
-    padding: 20px;
     position: relative;
 }
 
@@ -19,13 +18,11 @@
     position: absolute;
     bottom: 17px;left: 0;
     background-color: #f6f6f6;
-    
 }
 .sidebar--page {
     display: block;
-    padding: 10px 10px;
     border-radius: 7px;
-
+    padding: 10px 20px;
 }
 
 .sidebar--page:hover {
@@ -34,4 +31,13 @@
 
 .sidebar--page i {
     margin-right: 10px;
+}
+
+@media screen and (width <= 808px) {
+    .sidebar {
+        width: 80px;
+    }
+    .sidebar--page span {
+        display: none;
+    }
 }

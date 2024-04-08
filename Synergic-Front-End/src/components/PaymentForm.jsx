@@ -1,39 +1,53 @@
 import axios from "axios";
 import React, { useState } from "react";
+import validateForm from "../utils/validateForm";
+import createFormElements from "./CreateFormElements";
+import ConfirmPass from "../components/ConfirmPass";
 
 function PaymentForm(props) {
+  const date = new Date();
   const [submitted, setSubmitted] = useState(false);
+  const [cofirmPassword, setCofirmPassword] = useState(false);
+
   function submit(e) {
     e.preventDefault();
     setSubmitted(true);
-    const isValid = validateForm();
+    const isValid = paymentValidateForm();
     if (isValid) {
-      // const user = props.user;
-      // const formData = props.formData;
-      axios
-        .post("https://localhost:7200/api/UserAuthentication/SignVendor", {
-          user: props.user,
-          ...props.formData,
-        })
-        .then((res) => console.log(res));
+      setCofirmPassword(true);
+      if (props.formData.password) {
+        // if there is data in the password post it
+        axios
+          .post("https://localhost:7200/api/UserAuthentication/SignVendor", {
+            user: { ...props.user, password: props.formData.password },
+            ...props.formData,
+          })
+          .then((res) => {
+            return res.data;
+          })
+          .then((data) => {
+            if (data.statusCode === 0) {
+              window.location.pathname = "/";
+            }
+            if (data.statusCode === 9) {
+              props.setError((prevError) => ({
+                ...prevError,
+                general: data.statusMessage,
+              }));
+            }
+            if (data.statusCode === 6) {
+              props.setError((prevError) => ({
+                ...prevError,
+                password: "*incorect password",
+              }));
+            }
+          });
+      }
     }
   }
+  function paymentValidateForm() {
+    const newErrors = validateForm(props.formData, true);
 
-  function validateForm() {
-    const requiredFields = [
-      "cardholderName",
-      "cardNumber",
-      "expMonth",
-      "expYear",
-      "cvc",
-    ];
-    const newErrors = {};
-    // Validate required fields
-    requiredFields.forEach((field) => {
-      if (!props.formData[field]) {
-        newErrors[field] = "*Required";
-      }
-    });
     // invalid month
     if (
       props.formData.expMonth &&
@@ -41,100 +55,55 @@ function PaymentForm(props) {
     ) {
       newErrors["expMonth"] = "*Invalid";
     }
+
+    // invalid Card Number
+    if (props.formData.cardNumber.length < 16)
+      newErrors["cardNumber"] = "* Must be more than 16 char's";
+
+    // invalid exp date
+    const expYear = props.formData.expYear;
+    if (
+      expYear < date.getFullYear() % 100 ||
+      (expYear == date.getFullYear() % 100 &&
+        props.formData.expMonth < date.getMonth())
+    )
+      newErrors["general"] = "*expiration date must be in the future ";
+    else {
+      delete newErrors["general"];
+    }
+
     props.setError(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return (
+      Object.keys(newErrors).length === 0 || Object.keys(newErrors).length === 1
+    );
   }
+
+  function handleConfirmPass() {
+    setCofirmPassword((prevState) => !prevState);
+    return cofirmPassword;
+  }
+
+  const FormElements = createFormElements(
+    props.formFields,
+    props.errors,
+    props.change,
+    submitted
+  );
   return (
     <form className="payment--form " onSubmit={submit}>
-      <label htmlFor="cardholderName">
-        CARDHOLDER NAME
-        {props.errors.cardholderName && submitted && (
-          <span className="required">{props.errors.cardholderName}</span>
-        )}
-      </label>
-      <input
-        type="text"
-        name="cardholderName"
-        id="cardholderName"
-        value={props.formData.cardholderName}
-        onChange={(e) => props.change(e, "INPUT")}
-        placeholder="e.g Ahmad Reda"
-      />
-      <label htmlFor="cardNumber">
-        CARD NUMBER
-        {props.errors.cardNumber && submitted && (
-          <span className="required">{props.errors.cardNumber}</span>
-        )}
-      </label>
-      <input
-        type="text"
-        name="cardNumber"
-        id="cardNumber"
-        value={props.formData.cardNumber}
-        onChange={(e) => props.change(e, "cardnumber")}
-        placeholder="0000 0000 0000 0000 "
-        maxLength="19"
-      />
-      <div className="input-togthor">
-        <div style={{ flex: "none" }}>
-          <label htmlFor="expMonth">
-            MM
-            {props.errors.expMonth && submitted && (
-              <span className="required">{props.errors.expMonth}</span>
-            )}
-          </label>
-          <input
-            type="text"
-            name="expMonth"
-            id="expMonth"
-            value={props.formData.expMonth}
-            onChange={(e) => props.change(e, "INPUT")}
-            placeholder="00"
-            maxLength="2"
-          />
-        </div>
-
-        <div style={{ flex: "1" }}>
-          <label htmlFor="expYear">
-            YY
-            {props.errors.expYear && submitted && (
-              <span className="required">{props.errors.expYear}</span>
-            )}
-          </label>
-          <input
-            type="text"
-            name="expYear"
-            id="expYear"
-            value={props.formData.expYear}
-            onChange={(e) => props.change(e, "INPUT")}
-            placeholder="00"
-            maxLength="2"
-          />
-        </div>
-        <div style={{ textAlign: "-webkit-right" }}>
-          <label
-            htmlFor="cvc"
-            style={{
-              right: `${props.errors.cvc ? "-13px" : "54px"}`,
-              position: "relative",
-            }}
-          >
-            CVC
-            {props.errors.cvc && submitted && (
-              <span className="required">{props.errors.cvc}</span>
-            )}
-          </label>
-          <input
-            type="text"
-            name="cvc"
-            id="cvc"
-            value={props.formData.cvc}
-            onChange={(e) => props.change(e, "INPUT")}
-            placeholder="000"
-            maxLength="3"
-          />
-        </div>
-      </div>
+      <div className="formElements">{FormElements}</div>
+      {cofirmPassword && (
+        <ConfirmPass
+          value={props.formData.password}
+          change={props.change}
+          error={props.errors.password}
+          cofirmPassword={cofirmPassword}
+          handleConfirmPass={handleConfirmPass}
+        />
+      )}
+      <span className="required" style={{ fontSize: "1rem", display: "block" }}>
+        {props.errors["general"]}
+      </span>
       <button className="btn">Confirm</button>
     </form>
   );

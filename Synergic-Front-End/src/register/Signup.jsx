@@ -2,7 +2,7 @@ import { useState } from "react";
 import useFormReducer from "../utils/useFormReducer";
 import postUserToDB from "./utils/postUserToDB";
 import validateForm from "../utils/validateForm";
-import createFormElements from "./utils/CreateFormElements";
+import createFormElements from "../components/CreateFormElements";
 import arrayToObj from "../utils/ArraytoObj";
 import FormElement from "../components/FormElement";
 function Signup({ handeleIsRegistered }) {
@@ -10,13 +10,18 @@ function Signup({ handeleIsRegistered }) {
   const [errors, setErrors] = useState({});
 
   const formFields = [
-    { name: "fName", type: "text", label: "First Name" },
-    { name: "lName", type: "text", label: "Last Name" },
-    { name: "username", type: "text", label: "Username" },
-    { name: "email", type: "text", label: "Email" },
-    { name: "password", type: "password", label: "Password" },
-    { name: "passwordRepat", type: "password", label: "Repeat Password" },
-    { name: "phoneNumber", type: "tel", label: "Phone Number" },
+    { name: "fName", type: "text", label: "First Name", field: "INPUT" },
+    { name: "lName", type: "text", label: "Last Name", field: "INPUT" },
+    { name: "username", type: "text", label: "Username", field: "INPUT" },
+    { name: "email", type: "text", label: "Email", field: "INPUT" },
+    { name: "password", type: "password", label: "Password", field: "INPUT" },
+    {
+      name: "passwordRepat",
+      type: "password",
+      label: "Repeat Password",
+      field: "INPUT",
+    },
+    { name: "phoneNumber", type: "tel", label: "Phone Number", field: "INPUT" },
   ];
 
   const initValuesObject = arrayToObj(formFields, "name");
@@ -31,7 +36,6 @@ function Signup({ handeleIsRegistered }) {
     change,
     submitted
   );
-
   function submit(e) {
     e.preventDefault();
     setSubmitted(true);
@@ -89,6 +93,8 @@ function Signup({ handeleIsRegistered }) {
           submitted={submitted}
           type="date"
           change={change}
+          value={formData.bDate}
+          field="INPUT"
         />
       </div>
       <button className="btn">Sign Up</button>
