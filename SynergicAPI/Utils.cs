@@ -11,7 +11,7 @@ namespace SynergicAPI
         /// <summary>
         /// The UserAccount form in the Database.
         /// </summary>
-        public static string UserAccountString => "UserAccount(Email, Username, Password, IsActive, IsVendor, fName, lName, Gender, bDate, PhoneNumber, UserBio, SocialAccounts, ProfilePicture, UserToken)";
+        public static string UserAccountString => "UserAccount(Email, Username, Password, IsActive, IsVendor, fName, lName, Gender, bDate, PhoneNumber, UserBio, SocialAccounts, ProfilePicture, UserRating, UserToken)";
         public static string ServicesString => "Services(OwnerID, ServiceTitle, ServicePrice, ServiceDescription, ServiceCategory)";
         public static string ServicesImagesString => "ServicesImages(ServiceID, ImageData)";
         public static string PaymentAccountString => "PaymentAccount(OwnerID, CardholderName, cardNumber, expMonth, expYear, CVC)";

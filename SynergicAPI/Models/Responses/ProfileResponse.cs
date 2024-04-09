@@ -12,6 +12,7 @@
         public string UserToken { get; set; }
         public byte[] ProfilePicture { get; set; }
         public string UserBio { get; set; }
+        public string UserRating { get; set; }
         public string SocialAccounts { get; set; }
     }
 }

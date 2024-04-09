@@ -48,6 +48,7 @@ namespace SynergicAPI.Controllers
                             response.UserToken = (string)reader["UserToken"];
                             response.ProfilePicture = (byte[])reader["ProfilePicture"];
                             response.UserBio = (string)reader["UserBio"];
+                            response.UserRating = (string)reader["UserRating"];
                             response.SocialAccounts = (string)reader["SocialAccounts"];
                         }
                         else

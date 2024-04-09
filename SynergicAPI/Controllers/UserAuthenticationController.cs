@@ -54,8 +54,9 @@ namespace SynergicAPI.Controllers
                 }
 
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
-                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, @UserToken, @ProfileResponse, @UserBio)";
-                string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
+                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, '', '',  @ProfilePicture, '0', @UserToken)";
+
+        string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
 
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
                 {
@@ -69,9 +70,8 @@ namespace SynergicAPI.Controllers
                     insertCommand.Parameters.AddWithValue("@Gender", registration.Gender);
                     insertCommand.Parameters.AddWithValue("@BirthDate", registration.bDate);
                     insertCommand.Parameters.AddWithValue("@PhoneNumber", registration.PhoneNumber);
+                    insertCommand.Parameters.AddWithValue("@ProfilePicture", Utils.DefaultProfileImage);
                     insertCommand.Parameters.AddWithValue("@UserToken", userToken);
-                    insertCommand.Parameters.AddWithValue("@ProfileResponse", Utils.DefaultProfileImage);
-                    insertCommand.Parameters.AddWithValue("@UserBio", "empty!");
 
                     int rowsAffected = insertCommand.ExecuteNonQuery();
 
