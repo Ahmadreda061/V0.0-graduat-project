@@ -48,6 +48,7 @@ namespace SynergicAPI.Controllers
                             response.UserToken = (string)reader["UserToken"];
                             response.ProfilePicture = (byte[])reader["ProfilePicture"];
                             response.UserBio = (string)reader["UserBio"];
+                            response.SocialAccounts = (string)reader["SocialAccounts"];
                         }
                         else
                         {
@@ -81,6 +82,7 @@ namespace SynergicAPI.Controllers
                     if (data.Email != null) query += "Email = @Email,";
                     if (data.UserBio != null) query += "UserBio = @UserBio,";
                     if (data.ProfilePicture != null) query += "ProfilePicture = @ProfilePicture,";
+                    if (data.SocialAccounts != null) query += "SocialAccounts = @SocialAccounts,";
                     query = query.TrimEnd(',');
                     query += " WHERE UserToken = @UserToken";
 
@@ -93,6 +95,7 @@ namespace SynergicAPI.Controllers
                         if (data.Email != null) command.Parameters.AddWithValue("@Email", data.Email);
                         if (data.UserBio != null) command.Parameters.AddWithValue("@UserBio", data.UserBio);
                         if (data.ProfilePicture != null) command.Parameters.AddWithValue("@ProfilePicture", data.ProfilePicture);
+                        if (data.SocialAccounts != null) command.Parameters.AddWithValue("@SocialAccounts", data.SocialAccounts);
                         command.Parameters.AddWithValue("@UserToken", data.UserToken);
 
                         command.ExecuteNonQuery();
