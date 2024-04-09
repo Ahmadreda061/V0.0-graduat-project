@@ -131,28 +131,27 @@ namespace SynergicAPI.Controllers
             else
             {
                 response.newUserToken = data.UserToken;
+                response.statusCode = (int)validateResult;
 
                 switch (validateResult)
                 {
-                    case Utils.StatusCodings.Email_Or_User_Used:
-                        response.statusCode = 2;
-                        response.statusMessage = "Email Is already Used!";
-                        break;
                     case Utils.StatusCodings.Illegal_Data:
-                        response.statusCode = 7;
                         response.statusMessage = "Error Validating the Name (Username, First Name or Last Name)!";
                         break;
                     case Utils.StatusCodings.No_Change:
-                        response.statusCode = 10;
                         response.statusMessage = "Data was not changed!";
                         break;
                     case Utils.StatusCodings.Small_Image:
-                        response.statusCode = 11;
                         response.statusMessage = "The Profile Picture is too small, minimum is 128x128!";
                         break;
                     case Utils.StatusCodings.Bad_Email_Form:
-                        response.statusCode = 3;
                         response.statusMessage = "The Email is not in correct form!";
+                        break;
+                    case Utils.StatusCodings.Email_Used:
+                        response.statusMessage = "Email Is already Used!";
+                        break;
+                    case Utils.StatusCodings.Username_Used:
+                        response.statusMessage = "Username Is already Used!";
                         break;
                     default:
                         response.statusMessage = "All OK";
@@ -177,7 +176,9 @@ namespace SynergicAPI.Controllers
                 using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
                 {
                     con.Open();
-                    if (Utils.UserExists(con, data.Username, data.Email)) return Utils.StatusCodings.Email_Or_User_Used;
+
+                    if(data.Email != null) if (Utils.EmailUsed(con, data.Email)) return Utils.StatusCodings.Email_Used;
+                    if(data.Username != null) if (Utils.UsernameUsed(con, data.Username)) return Utils.StatusCodings.Username_Used;
                 }
             }
 

@@ -14,7 +14,7 @@ namespace SynergicAPI
         public static string UserAccountString => "UserAccount(Email, Username, Password, IsActive, IsVendor, fName, lName, Gender, bDate, PhoneNumber, UserToken, ProfilePicture, UserBio)";
         public static string ServicesString => "Services(OwnerID, ServiceTitle, ServicePrice, ServiceDescription, ServiceCategory)";
         public static string ServicesImagesString => "ServicesImages(ServiceID, ImageData)";
-        public static string VendorAccountString => "VendorAccount(OwnerID, CardholderName, cardNumber, expMonth, expYear, CVC)";
+        public static string PaymentAccountString => "PaymentAccount(OwnerID, CardholderName, cardNumber, expMonth, expYear, CVC)";
         public static byte[] DefaultProfileImage = BitmapToByteArray(new Bitmap(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png")), ImageFormat.Png);
 
         public enum StatusCodings
@@ -32,6 +32,8 @@ namespace SynergicAPI
             Invalid_Card_Info = 9,//Self Explained
             No_Change = 10,//Self Explained
             Small_Image = 11,//Self Explained
+            Email_Used = 12,//Self Explained
+            Username_Used = 13,//Self Explained
         }
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace SynergicAPI
             return Regex.IsMatch(text, @"^[a-zA-Z0-9_]{3,16}$", RegexOptions.IgnoreCase);
         }
 
-        public static bool UserExists(SqlConnection connection, string? Username, string? Email)
+        public static bool AccountExists(SqlConnection connection, string? Username, string? Email)
         {
             string query = "SELECT COUNT(*) FROM UserAccount WHERE ";
             if (Email != null && Username != null)
@@ -106,6 +108,29 @@ namespace SynergicAPI
                 return count > 0;
             }
         }
+        public static bool EmailUsed(SqlConnection connection, string Email)
+        {
+            string query = "SELECT COUNT(*) FROM UserAccount WHERE Email = @Email";
 
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Email", Email);
+
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
+        public static bool UsernameUsed(SqlConnection connection, string Username)
+        {
+            string query = "SELECT COUNT(*) FROM UserAccount WHERE Username = @Username";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Username", Username);
+
+                int count = (int)command.ExecuteScalar();
+                return count > 0;
+            }
+        }
     }
 }

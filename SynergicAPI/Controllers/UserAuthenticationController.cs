@@ -36,12 +36,17 @@ namespace SynergicAPI.Controllers
                 response.statusMessage = "Incorrect Email form!";
                 return response;
             }
-
+            if (!Utils.RegexName(registration.Username) || !Utils.RegexName(registration.fName) || !Utils.RegexName(registration.lName)) //The Name (UName, FName, LName) is in incorrect form.
+            {
+                response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
+                response.statusMessage = "Incorrect (Username, FName, LName) form!";
+                return response;
+            }
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
             {
                 con.Open();
 
-                if (Utils.UserExists(con, registration.Username, registration.Email)) //Checks whether the email or username is already used.
+                if (Utils.AccountExists(con, registration.Username, registration.Email)) //Checks whether the email or username is already used.
                 {
                     response.statusCode = (int)Utils.StatusCodings.Email_Or_User_Used;
                     response.statusMessage = "Email or Username has already been used!";
@@ -139,8 +144,8 @@ namespace SynergicAPI.Controllers
         }
 
         [HttpPost]
-        [Route("SignVendor")]
-        public DefaultResponse SignVendor(VendorInfo info)
+        [Route("SignPaymentInfo")]
+        public DefaultResponse SignPayment(PaymentInfo info)
         {
             DefaultResponse response = new DefaultResponse();
             info.user.Password = Utils.HashString(info.user.Password, "SynergicPasswordHashSalt");//Hash the password for security reasons.
@@ -155,27 +160,30 @@ namespace SynergicAPI.Controllers
                 using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
                 {
                     con.Open();
-                    string query = "UPDATE UserAccount SET IsVendor = @IsVendor WHERE (Username = @Username AND Password = @Password AND UserToken = @UserToken)";
                     bool added = true;
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    if (info.IsVendor)
                     {
-                        command.Parameters.AddWithValue("@IsVendor", true);
-                        command.Parameters.AddWithValue("@Username", info.user.Username);
-                        command.Parameters.AddWithValue("@Password", info.user.Password);
-                        command.Parameters.AddWithValue("@UserToken", info.user.UserToken);
-
-                        int altered = command.ExecuteNonQuery();
-                        if (altered == 0)
+                        string query = "UPDATE UserAccount SET IsVendor = @IsVendor WHERE (Username = @Username AND Password = @Password AND UserToken = @UserToken)";
+                        using (SqlCommand command = new SqlCommand(query, con))
                         {
-                            response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
-                            response.statusMessage = "Account not valid or not found!";//This Shouldn't be reached unless the user altered some data illegaly
-                            added = false;
+                            command.Parameters.AddWithValue("@IsVendor", true);
+                            command.Parameters.AddWithValue("@Username", info.user.Username);
+                            command.Parameters.AddWithValue("@Password", info.user.Password);
+                            command.Parameters.AddWithValue("@UserToken", info.user.UserToken);
+
+                            int altered = command.ExecuteNonQuery();
+                            if (altered == 0)
+                            {
+                                response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                                response.statusMessage = "Account not valid or not found!";//This Shouldn't be reached unless the user altered some data illegaly
+                                added = false;
+                            }
                         }
                     }
 
                     if (added)
                     {
-                        query = $"INSERT INTO {Utils.VendorAccountString} VALUES((SELECT ID FROM UserAccount WHERE Username LIKE @Username), @CardholderName, @cardNumber, @expMonth, @expYear, @CVC)";
+                        string query = $"INSERT INTO {Utils.PaymentAccountString} VALUES((SELECT ID FROM UserAccount WHERE Username LIKE @Username), @CardholderName, @cardNumber, @expMonth, @expYear, @CVC)";
 
                         using (SqlCommand command = new SqlCommand(query, con))
                         {
@@ -199,7 +207,7 @@ namespace SynergicAPI.Controllers
             return response;
         }
 
-        private bool ValidateCardInfo(VendorInfo info)
+        private bool ValidateCardInfo(PaymentInfo info)
         {
             if (string.IsNullOrEmpty(info.CardholderName) ||
                 string.IsNullOrEmpty(info.CardNumber) ||
