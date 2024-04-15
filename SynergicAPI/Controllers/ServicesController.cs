@@ -217,7 +217,6 @@ namespace SynergicAPI.Controllers
                 command.Parameters.AddWithValue("@ServiceDescription", service.Description);
                 command.Parameters.AddWithValue("@ServiceCategory", service.Category);
 
-                connection.Open();
                 // Execute the query
                 object result = command.ExecuteScalar();
 
