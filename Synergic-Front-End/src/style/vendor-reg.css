@@ -31,26 +31,19 @@
     width: 90px;
 }
 
-.formElements {
-    display: flex;
-    flex-direction: column;
-}
-
-.formElements .form-element:nth-last-of-type(3) {
+.payment--form .formElements .form-element:nth-last-of-type(3) {
     margin-right: 5%;
 }
 
-.formElements .form-element:nth-last-of-type(2) {
+.payment--form .formElements .form-element:nth-last-of-type(2) {
     margin-right: 20%;
 }
 
-.formElements .form-element:nth-last-of-type(-n+3) {
-    display: inline-block;
-    width: 25%;
-    /* background-color: red; */
-    
+.payment--form .formElements .form-element:nth-last-of-type(-n+3) {
+    display: inline-block ;
+    width: 25% ;
 }
-.formElements .form-element:nth-last-of-type(-n+3) input {
+.payment--form .formElements .form-element:nth-last-of-type(-n+3) input {
     width: 100%;
 }
 

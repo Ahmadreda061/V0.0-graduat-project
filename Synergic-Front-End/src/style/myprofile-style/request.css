@@ -1,0 +1,14 @@
+.request-card {
+    padding: 50px 20px 20px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.request-card img {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    top: -42px;
+}

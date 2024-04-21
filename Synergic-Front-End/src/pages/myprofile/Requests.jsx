@@ -1,5 +1,13 @@
+import "../../style/myprofile-style/request.css";
+import Request from "./myprofile-component/Request";
 function Requests() {
-  return <div>Requests</div>;
+  return (
+    <div className="myprofile-cards">
+      <Request />
+      <Request />
+      <Request />
+    </div>
+  );
 }
 
 export default Requests;
