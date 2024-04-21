@@ -23,28 +23,28 @@ function vendorReg() {
       label: "CARD NUMBER",
       placeholder: "0000 0000 0000 0000",
       maxLength: "16",
-      field: "cardnumber",
+      field: "number",
     },
     {
       name: "expMonth",
       label: "MM",
       placeholder: "00",
       maxLength: "2",
-      field: "INPUT",
+      field: "number",
     },
     {
       name: "expYear",
       label: "YY",
       placeholder: "00",
       maxLength: "2",
-      field: "INPUT",
+      field: "number",
     },
     {
       name: "cvc",
       label: "CVC",
       placeholder: "000",
       maxLength: "3",
-      field: "INPUT",
+      field: "number",
     },
   ];
 

@@ -3,7 +3,6 @@ import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";
 import "../style/home-style/home.css";
-import Navbar from "../components/Navbar";
 
 function Home({ handleRegisterOverlay }) {
   const cardsContainerRef = useRef(null);

@@ -1,0 +1,119 @@
+.service-preview {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: 40% 40%;
+    justify-content: center;
+    gap: 50px;
+    padding-top: 80px;
+}
+
+.service-preview--images {
+    position: relative;
+    height: fit-content;
+}
+
+.service-preview--images > img {
+    max-height:300px ;
+}
+
+.service-preview--images img {
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
+.preview--images--addtional-images {
+    position: relative;
+    margin-top: 30px;
+    display: flex;
+    height: 150px;
+    gap: 20px;
+    overflow: hidden;
+}
+
+.preview--images--addtional-images img {
+    width: calc((100% - 40px) / 3);
+    cursor: pointer;
+    transition: .3s;
+    overflow: hidden;
+}
+.preview--images--addtional-images img:hover {
+    filter: grayscale(50%) ;
+    -webkit-filter: grayscale(50%) ;
+    transform:  scale(.9);
+
+}
+
+.service-preview--info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.service-preview--info > :not(:first-child) {
+    margin-top: 20px;
+}
+
+.preview--info--title {
+    font-size: 3rem;
+}
+
+.preview--info--description {
+    max-height: 204px;
+    overflow: hidden;
+    position: relative;
+    transition: max-height .5s ease;
+    -webkit-transition: max-height .5s ease;
+    -moz-transition: max-height .5s ease;
+    -ms-transition: max-height .5s ease;
+    -o-transition: max-height .5s ease;
+}
+
+.preview--info--description::after {
+    content: '...';
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    background-color: white;
+    font-size: 2.2rem;
+    opacity: 1;
+    transition: opacity .3 ease;
+}
+
+.preview--info--description:hover {
+    max-height: 1000px;
+}
+
+.preview--info--description:hover::after {
+    opacity:0;
+}
+
+.preview--info--price {
+    color: var(--text-header);
+    font-weight: 900;
+    font-size: 2.4rem;
+    margin-top: 30px;
+
+}
+
+.preview--info--req {
+    /* align-self: flex-start; */
+    margin-top: 30px;
+}
+
+@media screen and (width < 1474px) {
+    .service-preview {
+        grid-template-columns: 50% 50%;
+    }
+
+    .preview--info--title {
+        font-size: 2rem;
+    }
+}
+
+@media screen and (width < 920px) {
+    .service-preview {
+        grid-template-columns: 100% ;
+    }
+
+}

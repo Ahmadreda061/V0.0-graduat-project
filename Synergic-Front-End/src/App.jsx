@@ -2,6 +2,8 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { createContext, useEffect, useState, lazy, Suspense } from "react";
 import "./style/App.css";
 import axios from "axios";
+import ServiceCreation from "./pages/ServiceCreation";
+import ServicePreview from "./components/ServicePreview";
 const Home = lazy(() => import("./home/Home"));
 const Register = lazy(() => import("./register/Register"));
 const VendorReg = lazy(() => import("./pages/VendorReg"));
@@ -60,6 +62,8 @@ function App() {
               element={<Home handleRegisterOverlay={handleRegisterOverlay} />}
             />
             <Route path="/vendorRegistertion" element={<VendorReg />} />
+            <Route path="serviceCreation" element={<ServiceCreation />}></Route>
+            <Route path="/servicepreview" element={<ServicePreview />}></Route>
             <Route path="/myprofile" element={<Myprofile />}>
               <Route index element={<Information />}></Route>
               <Route path="services" element={<Services />}></Route>

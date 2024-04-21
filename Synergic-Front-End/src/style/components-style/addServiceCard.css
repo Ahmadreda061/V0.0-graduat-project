@@ -1,0 +1,31 @@
+.add-service {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: default;
+    width: 450px; 
+    height: 300px;
+}
+
+.add-service .circle {
+    width: 150px;
+    height: 150px;
+}
+
+.add-service .circle:hover  {
+    background-color: transparent;
+    color: var(--text-header)
+}
+
+.add-service .fa-plus {
+    font-size: 5rem;
+}
+
+
+@media screen and (width <= 720px) {
+    .add-service  {
+        width: 100%;
+    }
+}
+
+

@@ -7,27 +7,8 @@ section {
     margin: 4rem 0;
 }
 
-.scroll-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: #fff;
-    border: none;
-    padding: 10px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 1;
-    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
-}
 
 .section--header a {
     color: var(--text-header)
 }
 
-.left {
-    left: 0
-}
-
-.right {
-    right: 0
-}

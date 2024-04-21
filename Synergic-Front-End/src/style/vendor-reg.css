@@ -31,7 +31,7 @@
     width: 90px;
 }
 
-.formElements .form-element {
+.formElements {
     display: flex;
     flex-direction: column;
 }
@@ -142,33 +142,3 @@
     }
 }
 
-.confirmpass { 
-    position: absolute;
-    top: 0;left: 0;
-    width: 100%;
-    height: 100vh;
-}
-
-.confirmpass .overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.confirmpass--field {
-    background-color: #fff;
-    padding: 40px 20px 20px ;
-    border-radius: 20px;
-    position: relative;
-    width: 400px;
-}
-
-.confirmpass--field .form-element {
-    display: flex;
-    flex-direction: column;
-}
-
-.confirmpass--field .btn {
-    width: 100%;
-    
-}

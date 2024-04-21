@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import "../style/components-style/drop-down.css";
 import fileToBase from "../utils/fleToBase";
+import checkImage from "../utils/chaekImage";
 function DropDown({ setUserInfo }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const fileRef = useRef(null);
@@ -11,13 +12,8 @@ function DropDown({ setUserInfo }) {
     fileRef.current.click();
   };
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    const validExtensions = [".png", ".jpg", ".jpeg"];
-
-    const isValidExtension = validExtensions.some((ext) =>
-      file.name.toLowerCase().endsWith(ext)
-    );
+  const handleFileChange = async (e) => {
+    const { file, isValidExtension } = checkImage(e);
 
     if (file && isValidExtension) {
       const imgBase64 = await fileToBase(file).then((res) => res);

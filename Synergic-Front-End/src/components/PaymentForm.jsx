@@ -18,7 +18,7 @@ function PaymentForm(props) {
       if (props.formData.password) {
         // if there is data in the password post it
         axios
-          .post("https://localhost:7200/api/UserAuthentication/SignPaymentInfo", {
+          .post("https://localhost:7200/api/UserAuthentication/SignVendor", {
             user: { ...props.user, password: props.formData.password },
             ...props.formData,
           })

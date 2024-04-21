@@ -9,7 +9,7 @@ function formReducer(state, action) {
         ...state,
         [action.name]: action.value,
       };
-    case 'cardnumber': return {
+    case 'number': return {
       ...state,
       [action.name]: formatNumber(action.value)
     }

@@ -1,0 +1,38 @@
+
+.service-card {
+    /* will change width and height  */
+   
+    box-shadow: 1px 1px 10px #333;
+    cursor: pointer;
+}
+
+.serivce--main-image {
+    height: 70%;
+}
+
+.serivce--main-image img {
+    height: 100%;
+    object-fit:cover;
+}
+
+.serivce--info {
+    padding: 10px 20px 20px;}
+
+.serivce--info .title {
+    font-size: 2rem;
+}
+
+.serivce--info--price {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--logo-blue);
+    font-size: 1.5rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: -33px;
+    right: -12px;
+}

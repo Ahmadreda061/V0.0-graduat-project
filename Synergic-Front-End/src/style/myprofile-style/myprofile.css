@@ -6,7 +6,27 @@
 
 .myprofile--pages {
     flex: 1;
-} 
+}
+
+.myprofile-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 80px;
+    padding: 20px 60px;
+}
+.myprofile-card {
+    width: 450px; 
+    height: 300px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;    
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
 
 .pages--nav .section--header {
     margin: 0;
@@ -96,3 +116,18 @@
         border: none;
     }
 }
+
+@media screen and (width <= 720px) {
+    .myprofile-cards {
+        padding: 0;
+    }
+    .myprofile-cards a {
+        width: 100%;
+        text-align: center;
+    }
+    .myprofile-card {
+        width: 100%;
+    }
+}
+
+

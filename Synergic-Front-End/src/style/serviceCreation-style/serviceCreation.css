@@ -1,0 +1,103 @@
+.service-creation {
+    margin-top: 100px ;
+}
+
+.creation-form {
+    display: flex;
+    min-height: calc(100vh - 100px);
+}
+
+.creation-form > * {
+    padding: 50px 0;
+}
+
+.creation-form label {
+    font-size: 1.3rem;
+}
+
+.creation-form input,.creation-form select  {
+    font-size: 1.1rem;
+}
+
+.creation-form--info {
+    flex: 1;    
+    padding-right: 30px;
+    position: relative;
+}
+
+.creation-info--row1 {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 30px;
+}
+
+.creation-info--row1 .form-element {
+    flex: 1;
+}
+
+.creation-info--row2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.creation-info--row2 textarea {
+    min-width: 100%;
+    min-height: 50vh;
+}
+.creation-form--info .btn {
+    position: absolute;
+    right: 30px;
+    margin-top: 20px;
+}
+.creation-form--images {
+    border-left: 3px solid #eee;
+    padding-left: 30px;
+    width: 30%;
+}
+
+.creation-form--images input {
+    display: none;
+}
+
+.creation-form--images label {
+    border: 1px solid;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+}
+
+.images-preview {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-left: 5px;
+}
+
+.images-preview--image {
+    position: relative;
+    width: calc((100% / 2) - 20px);
+
+}
+.images-preview--image .fa-xmark {
+    color: red;
+}
+.images-preview img {
+    border-radius: 10px;
+}
+
+@media screen and (width < 920px) {
+    .creation-form--images {
+        width: 50%;
+    }
+    .images-preview img {
+        width: 100%;
+    }
+    
+}

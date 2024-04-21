@@ -100,12 +100,6 @@ input:focus, select:focus {
     border-color: var(--logo-blue);
 }
 
-.signup .form-element,
-.login .form-element {
-    display: flex;
-    flex-direction: column;
-}
-
 .signup .form-element:nth-of-type(2) {
     margin-left: 5px;
 }
