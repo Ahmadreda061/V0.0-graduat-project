@@ -95,7 +95,7 @@ function Navbar({ handleRegisterOverlay }) {
               </li>
             )}
             <li>
-              <Link to="/" className="line nav--paths_link">
+              <Link to="/explore" className="line nav--paths_link">
                 explore
               </Link>
             </li>

@@ -1,9 +1,9 @@
 .service-preview {
     margin-top: 100px;
     display: grid;
-    grid-template-columns: 40% 40%;
+    grid-template-columns: 40% 50%;
     justify-content: center;
-    gap: 50px;
+    gap: 100px;
     padding-top: 80px;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .service-preview--images > img {
-    max-height:300px ;
+    max-height:400px ;
 }
 
 .service-preview--images img {

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import "../style/components-style/drop-down.css";
 import fileToBase from "../utils/fleToBase";
 import checkImage from "../utils/chaekImage";
-function DropDown({ setUserInfo }) {
+function DropDown({ setUserInfo, serviceOwnerToken }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const fileRef = useRef(null);
   const toggleDropdown = () => {
@@ -27,13 +27,15 @@ function DropDown({ setUserInfo }) {
   };
   return (
     <div>
-      <button className="dropbtn" type="button" onClick={toggleDropdown}>
-        <i
-          className="fa-regular fa-pen-to-square"
-          style={{ marginRight: "5px" }}
-        ></i>
-        Edit
-      </button>
+      {!serviceOwnerToken && (
+        <button className="dropbtn" type="button" onClick={toggleDropdown}>
+          <i
+            className="fa-regular fa-pen-to-square"
+            style={{ marginRight: "5px" }}
+          ></i>
+          Edit
+        </button>
+      )}
       {isDropdownOpen && (
         <div className="dropdown-content">
           <a href="#" onClick={handleUploadImage}>

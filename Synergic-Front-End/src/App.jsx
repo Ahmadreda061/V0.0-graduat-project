@@ -1,9 +1,9 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import { createContext, useEffect, useState, lazy, Suspense } from "react";
 import "./style/App.css";
-import axios from "axios";
-import ServiceCreation from "./pages/ServiceCreation";
-import ServicePreview from "./components/ServicePreview";
+import "./style/myprofile-style/services.css";
+import "./style/myprofile-style/myprofile.css";
+import getUser from "./utils/getUser";
 const Home = lazy(() => import("./home/Home"));
 const Register = lazy(() => import("./register/Register"));
 const VendorReg = lazy(() => import("./pages/VendorReg"));
@@ -14,6 +14,9 @@ const Requests = lazy(() => import("./pages/myprofile/Requests"));
 const Navbar = lazy(() => import("./components/Navbar"));
 const Information = lazy(() => import("./pages/myprofile/Information"));
 const Loading = lazy(() => import("./components/Loding"));
+const ServiceCreation = lazy(() => import("./pages/ServiceCreation"));
+const ServicePreview = lazy(() => import("./components/ServicePreview"));
+const Explore = lazy(() => import("./pages/explore/Explore"));
 export const userInfoContext = createContext();
 
 function App() {
@@ -32,19 +35,10 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    if (userKey)
-      axios
-        .get(
-          `https://localhost:7200/api/Accounts/GetProfile?UserToken=${localStorage.getItem(
-            "Key"
-          )}`
-        )
-        .then((res) => res.data)
-        .then((data) => {
-          const { statusCode, statusMessage, ...savedData } = data;
-          setUserInfo(savedData);
-        });
-  }, []);
+    if (userKey) {
+      getUser(userKey).then((res) => setUserInfo(res));
+    }
+  }, [location.pathname]);
 
   if (userInfo == null && userKey) {
     // if user log in and didn't get the data for any reson render loding the page
@@ -62,6 +56,7 @@ function App() {
               element={<Home handleRegisterOverlay={handleRegisterOverlay} />}
             />
             <Route path="/vendorRegistertion" element={<VendorReg />} />
+            <Route path="/explore" element={<Explore />} />
             <Route path="serviceCreation" element={<ServiceCreation />}></Route>
             <Route path="/servicepreview" element={<ServicePreview />}></Route>
             <Route path="/myprofile" element={<Myprofile />}>

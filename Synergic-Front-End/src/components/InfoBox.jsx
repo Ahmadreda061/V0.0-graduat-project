@@ -3,7 +3,9 @@ function InfoBox(props) {
 
   const elements = Object.entries(props.values).map(
     ([key, { label, value }], index) => {
-      const isReadOnly = ["phoneNumber", "gender", "bDate"].includes(key);
+      const isReadOnly =
+        props.serviceOwnerToken ||
+        ["phoneNumber", "gender", "bDate"].includes(key);
       return (
         <div key={index} className="info-box--contant">
           <label htmlFor={key}>
@@ -13,6 +15,15 @@ function InfoBox(props) {
             )}
           </label>
           <input
+            style={
+              props.serviceOwnerToken && {
+                border: "none",
+                fontWeight: "bold",
+                fontSize: "1rem",
+                color: "#3f5be3",
+                cursor: "auto",
+              }
+            }
             name={key}
             type="text"
             readOnly={isReadOnly}

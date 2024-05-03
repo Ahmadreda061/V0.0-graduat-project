@@ -83,6 +83,7 @@ function SidebarProfile() {
             to="/myprofile/requests"
           >
             <i className="fa-regular fa-bell fa-fw"></i>
+
             <span>Requests</span>
           </Link>
         </li>

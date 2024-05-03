@@ -1,0 +1,138 @@
+.request-overlay {
+    position: fixed;
+    background-color: rgb(0 0 0 / 6%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.request-overlay--card {
+    position: relative;
+    background-color: #fff;
+    width: 50%;
+    border-radius: 15px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.overlay--card-top {
+    padding: 25px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    box-shadow: 1px 1px 10px 1px #cccecc;}
+
+.card-top--customer-info {
+    display: flex;
+    gap: 20px;
+}
+
+.overlay--card-top  img {
+    position: static;
+    width: 100px;
+    height: 100px;
+}
+
+.customer-info--name {
+    margin-top: 20px;
+    display: block;
+    color: var( --text-header);
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.card-top--request-info {
+    margin-right: 9%;
+}
+
+.request-info--service-name {
+    font-size: 1.6rem;
+    color: var(--text-header);
+}
+
+.request-info--service-price {
+    color: var(--text-header);
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    width: 100%;
+}
+
+.overlay--card-down {
+    padding: 25px 35px;
+}
+
+.card-down--comment-btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-down--comment {
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.card-down--comment span {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--text-header);
+    font-weight: 600;
+}
+
+.card-down--btns {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.card-down--btns > * {
+    flex:1;
+}
+
+.card-down--btns > .green {
+    background: none;
+    border-color: #4CAF50;
+    background-color: #4CAF50;
+    
+}
+
+.card-down--btns > .green:hover {
+    background-color: #fff;
+    color: #4CAF50;
+}
+
+.card-down--btns > .red {
+    background: none;
+    border-color: #F44336;
+    background-color: #F44336;
+    
+}
+
+.card-down--btns > .red:hover {
+    background-color: #fff;
+    color: #F44336;
+}
+
+@media screen and (width < 1047px) {
+    .request-info--service-name {
+        font-size: 1.4rem;
+    }
+
+}
+
+@media screen and (width < 808px) {
+    .request-overlay--card  {
+        width: 100%;
+        height: 100%;
+    }
+
+}
+@media screen and (width < 543px) {
+    .overlay--card-top {
+        flex-direction: column; 
+        align-items: flex-start;
+        gap: 20px;
+    }
+}

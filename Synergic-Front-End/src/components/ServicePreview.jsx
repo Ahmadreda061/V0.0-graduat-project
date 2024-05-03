@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "../style/components-style/servicePreview.css";
 import Loading from "./Loding";
+import { Link } from "react-router-dom";
 function ServicePreview() {
   const [mainImageIndex, setMainImage] = useState(0);
   const [serviceInfo, setServiceInfo] = useState({});
@@ -53,10 +54,19 @@ function ServicePreview() {
     ...images.slice(0, mainImageIndex),
     ...images.slice(mainImageIndex + 1),
   ];
+
+  const serviceOwner = serviceInfo["serviceOwner"];
   return (
     <div className="container">
       <div className="service-preview">
         <div className="service-preview--images">
+          <div className="service-preview--serviceowenr">
+            <Link
+              to={`/myprofile?UT=${serviceOwner && serviceOwner.userToken}`}
+            >
+              {serviceOwner && serviceOwner.username}
+            </Link>
+          </div>
           {mainImage}
           <div
             className="preview--images--addtional-images"
@@ -64,7 +74,6 @@ function ServicePreview() {
           >
             {subImages}
           </div>
-
           {images.length > 4 && (
             <>
               <button
@@ -94,7 +103,18 @@ function ServicePreview() {
           <p className="preview--info--description description ">
             {serviceInfo["description"]}
           </p>
+          <form action="">
+            <div className="form-element">
+              <label htmlFor="">optional comment</label>
+              <textarea
+                name=""
+                id=""
+                placeholder="add your comment here"
+              ></textarea>
+            </div>
+          </form>
           <span className="preview--info--price">${serviceInfo["price"]}</span>
+
           <button className="btn preview--info--req">Request</button>
         </div>
       </div>

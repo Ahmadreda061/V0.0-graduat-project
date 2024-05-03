@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { userInfoContext } from "../../App";
 import UserCard from "../../components/UserCard";
 import InfoBox from "../../components/InfoBox";
@@ -7,25 +7,27 @@ import validateForm from "../../utils/validateForm";
 import isAllAlphabetic from "../../utils/isAllAlphabetic";
 import isValidUsername from "../../utils/isValidUsername";
 import setProfile from "./utils/setProfile";
+import { UserTokenContext } from "./Myprofile";
+import getUser from "../../utils/getUser";
 
 function Information() {
-  const { userInfo } = useContext(userInfoContext);
+  const serviceOwnerToken = useContext(UserTokenContext);
+  const { userInfo, setUserInfo } = useContext(userInfoContext);
+
   const [errors, setErrors] = useState({});
-  const [editedFileds, setEditedFileds] = useState({});
+  const [editedFields, setEditedFields] = useState({});
   const { formData, change } = useFormReducer(
     { ...userInfo },
     setErrors,
-    setEditedFileds
+    setEditedFields
   );
-
   function submit(e) {
     e.preventDefault();
     const isValid = editInfoValidateForm();
-    if (isValid || userInfo.profilePicture != formData.profilePicture) {
-      // change userInfo.profilePicture direct and formData.profilePicture will never change so there can we now if the pic edit or not
+    if (isValid || userInfo.profilePicture !== formData.profilePicture) {
       const postData = {
         userToken: userInfo.userToken,
-        ...editedFileds,
+        ...editedFields,
         profilePicture: userInfo.profilePicture,
       };
       setProfile(postData, setErrors);
@@ -33,21 +35,20 @@ function Information() {
   }
 
   function editInfoValidateForm() {
-    if (Object.keys(editedFileds).length > 0) {
+    if (Object.keys(editedFields).length > 0) {
       const newErrors = { ...validateForm(formData, false) };
 
-      // check if the first name is only Alphabetic...
       if (!isAllAlphabetic(formData.fName)) {
-        newErrors["fName"] = "*must have Alphabetic only";
+        newErrors["fName"] = "* Must have alphabetic characters only";
       }
 
-      // check if the last name is only Alphabetic...
       if (!isAllAlphabetic(formData.lName)) {
-        newErrors["lName"] = "*must have Alphabetic only";
+        newErrors["lName"] = "* Must have alphabetic characters only";
       }
-      // check if the username have correct format
+
       if (!isValidUsername(formData.username)) {
-        newErrors["username"] = "*Expcted Alphabetic, Nums and _ only";
+        newErrors["username"] =
+          "* Expected alphabetic characters, numbers, and underscores only";
       }
 
       setErrors(newErrors);
@@ -56,14 +57,32 @@ function Information() {
     return false;
   }
 
+  useEffect(() => {
+    if (serviceOwnerToken) {
+      getUser(serviceOwnerToken).then((res) => {
+        setUserInfo(res);
+        Object.keys(res).forEach((key) => {
+          change({ target: { name: key, value: res[key] } }, "INPUT");
+        });
+      });
+    }
+  }, [serviceOwnerToken]);
   return (
     <>
       <form className="informations" onSubmit={submit}>
         <div className="informations--avatar">
-          <UserCard />
+          <UserCard
+            serviceOwnerToken={serviceOwnerToken}
+            profilePicture={formData.profilePicture}
+            fName={formData.fName}
+            lName={formData.lName}
+            userRating={formData.userRating}
+            setUserInfo={formData.setUserInfo}
+          />
         </div>
         <div className="informations--sections">
           <InfoBox
+            serviceOwnerToken={serviceOwnerToken}
             header="General Information"
             errors={errors}
             change={change}
@@ -75,6 +94,7 @@ function Information() {
           />
 
           <InfoBox
+            serviceOwnerToken={serviceOwnerToken}
             header="Personal Information"
             errors={errors}
             change={change}
@@ -92,13 +112,14 @@ function Information() {
             }}
           />
           <InfoBox
+            serviceOwnerToken={serviceOwnerToken}
             header="Social Media Accounts"
             errors={errors}
             change={change}
             values={{
-              insta: { label: "insta", value: formData.insta },
-              facebook: { label: "facebook", value: formData.facebook },
-              linkedIn: { label: "linkedIn", value: formData.linkedIn },
+              insta: { label: "Instagram", value: formData.insta },
+              facebook: { label: "Facebook", value: formData.facebook },
+              linkedIn: { label: "LinkedIn", value: formData.linkedIn },
             }}
           />
           <div className="info-box" style={{ flexDirection: "column" }}>
@@ -109,6 +130,16 @@ function Information() {
               Bio
             </label>
             <textarea
+              style={
+                serviceOwnerToken && {
+                  border: "none",
+                  fontWeight: "bold",
+                  fontSize: "1rem",
+                  color: "#3f5be3",
+                  cursor: "auto",
+                }
+              }
+              readOnly={serviceOwnerToken && true}
               id="userBio"
               name="userBio"
               placeholder="Enter your bio..."
@@ -116,12 +147,14 @@ function Information() {
               value={formData.userBio}
             ></textarea>
           </div>
-          <button
-            className="btn informations--confirm"
-            style={{ margin: "20px" }}
-          >
-            Confirm Changes
-          </button>
+          {!serviceOwnerToken && (
+            <button
+              className="btn informations--confirm"
+              style={{ margin: "20px" }}
+            >
+              Confirm Changes
+            </button>
+          )}
         </div>
       </form>
     </>

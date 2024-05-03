@@ -1,0 +1,44 @@
+.filter-categories.active {
+    height: 220px;
+}
+
+.filter-rating.active {
+    height: 193px;
+}
+
+.filter-categories, .filter-rating {
+    background-color: #222;
+    display: flex;
+    flex-direction: column;
+    color: #eee ;
+    padding: 10px 20px 0;
+    width: 70%;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    height: 50px;
+    overflow: hidden;
+    transition: .3s;
+}
+.filter-categories:last-child,
+.filter-rating:last-child  {
+    margin-bottom: 5px
+}
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    /* font-size: 2rem; */
+    align-items: center;
+    margin-bottom: 10px;
+
+}
+
+.filter-header span {
+    cursor: pointer;
+}
+.filter-categories h3, .filter-rating h3{
+    font-size: 1.5rem;
+}
+
+.filter-categories label {
+    color: #eee;
+}

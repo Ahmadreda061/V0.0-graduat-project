@@ -1,0 +1,25 @@
+.explore {
+    margin-top: 100px;
+}
+
+.explore--content {
+    display: grid;
+    grid-template-columns: 300px 70%;
+    gap: 5%;
+    /* height: 100vh; */
+    padding: 50px 0
+}
+
+.content-items {
+    display: flex;
+    /* justify-content: center; */
+    flex-wrap: wrap;
+    gap: 67px 80px ;
+}
+
+.content-items .serivce--info--price {
+    bottom: -46px;
+}
+.content-items .service-card {
+    width: 200px !important;
+}
