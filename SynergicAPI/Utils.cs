@@ -15,6 +15,9 @@ namespace SynergicAPI
         public static string ServicesString => "Services(OwnerID, ServiceTitle, ServicePrice, ServiceDescription, ServiceCategory)";
         public static string ServicesImagesString => "ServicesImages(ServiceID, ImageData)";
         public static string PaymentAccountString => "PaymentAccount(OwnerID, CardholderName, cardNumber, expMonth, expYear, CVC)";
+        public static string ReviewString => "UserReview(WriterID, TargetID, Review, Rating)";
+
+
         public static byte[] DefaultProfileImage = BitmapToByteArray(new Bitmap(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png")), ImageFormat.Png);
 
         public enum StatusCodings
@@ -130,6 +133,79 @@ namespace SynergicAPI
 
                 int count = (int)command.ExecuteScalar();
                 return count > 0;
+            }
+        }
+        public static bool IsLegitUserWithID(SqlConnection connection, SynergicUser user, out int userID)
+        {
+            userID = -1;
+
+            string query = "SELECT ID FROM UserAccount WHERE UserToken = @UserToken AND Password = @Password";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserToken", user.UserToken);
+                command.Parameters.AddWithValue("@Password", Utils.HashString(user.Password, "SynergicPasswordHashSalt"));
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        userID = (int)reader["ID"];
+                        return true;
+                    }
+                    else return false;
+                }
+            }
+        }
+        public static bool UsernameToUserID(SqlConnection connection, string username, out int userID)
+        {
+            userID = -1;
+
+            string query = "SELECT ID FROM UserAccount WHERE Username = @Username";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Username", username);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        userID = (int)reader["ID"];
+                        return true;
+                    }
+                    else return false;
+                }
+            }
+        }
+        public static bool UserIDToUsername(SqlConnection connection, int userID, out string username)
+        {
+            username = "";
+
+            string query = "SELECT Username FROM UserAccount WHERE ID = @ID";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ID", userID);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        username = (string)reader["Username"];
+                        return true;
+                    }
+                    else return false;
+                }
+            }
+        }
+        public static string UserIDToUsername(SqlConnection connection, int userID)
+        {
+
+            string query = "SELECT Username FROM UserAccount WHERE ID = @ID";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ID", userID);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read()) return (string)reader["Username"];
+                    else return "";
+                }
             }
         }
     }

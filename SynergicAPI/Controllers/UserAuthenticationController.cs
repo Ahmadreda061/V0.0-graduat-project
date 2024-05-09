@@ -56,7 +56,7 @@ namespace SynergicAPI.Controllers
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
                                        "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, '', '',  @ProfilePicture, '0', @UserToken)";
 
-        string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
+                string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
 
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
                 {

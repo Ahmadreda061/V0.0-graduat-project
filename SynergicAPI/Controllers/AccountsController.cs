@@ -42,7 +42,7 @@ namespace SynergicAPI.Controllers
                             response.Username = (string)reader["Username"];
                             response.fName = (string)reader["fName"];
                             response.lName = (string)reader["lName"];
-                            response.Gender = (Boolean)reader["Gender"] == true;
+                            response.Gender = (bool)reader["Gender"] == true;
                             response.bDate = (string)reader["bDate"];
                             response.PhoneNumber = (string)reader["PhoneNumber"];
                             response.UserToken = (string)reader["UserToken"];
@@ -192,6 +192,107 @@ namespace SynergicAPI.Controllers
         bool ChangeToken(SetProfileForm data)
         {
             return (data.fName != null || data.lName != null || data.Username != null) ;
+        }
+
+        [HttpPost]
+        [Route("PostReview")]
+        public DefaultResponse PostReview(UserReviewContent data)
+        {
+            var response = new DefaultResponse();
+
+            if(data.Rating < 1 || data.Rating > 10)
+            {
+                response.statusCode = ((int)Utils.StatusCodings.Illegal_Data);
+                response.statusMessage = $"Got rating {data.Rating}, when the allowed value should be between 1 and 10";
+                return response;
+            }
+
+            if (data.Review.Length == 0 || data.Review.Length > 256)
+            {
+                response.statusCode = ((int)Utils.StatusCodings.Illegal_Data);
+                response.statusMessage = $"Got Review with length {data.Review.Length}, when the allowed length is between 1 and 256";
+                return response;
+            }
+
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            {
+                con.Open();
+
+                if(!Utils.IsLegitUserWithID(con, data.sender, out int writerID))
+                {
+                    response.statusCode = ((int)Utils.StatusCodings.Account_Not_Found);
+                    response.statusMessage = "The sender account couldn't be found!";
+                    return response;
+                }
+                if (!Utils.UsernameToUserID(con, data.targetUsername, out int recieverID))
+                {
+                    response.statusCode = ((int)Utils.StatusCodings.Account_Not_Found);
+                    response.statusMessage = "The reciever account couldn't be found!";
+                    return response;
+                }
+
+                string query = $"INSERT INTO {Utils.ReviewString} VALUES(@WriterID, @TargetID, @Review, @Rating)";
+                using(SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@WriterID", writerID);
+                    cmd.Parameters.AddWithValue("@TargetID", recieverID);
+                    cmd.Parameters.AddWithValue("@Review", data.Review);
+                    cmd.Parameters.AddWithValue("@Rating", data.Rating);
+                    int added = cmd.ExecuteNonQuery();
+                    if(added == 0)
+                    {
+                        response.statusCode = ((int)Utils.StatusCodings.Unknown_Error);
+                        response.statusMessage = "Review couldn't be added!";
+                        return response;
+                    }
+                }
+            }
+
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetReview")]
+        public UserReviewResponse GetUserReviews(string Username)
+        {
+            UserReviewResponse response = new UserReviewResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            {
+                con.Open();
+
+                if (!Utils.UsernameToUserID(con, Username, out int recieverID))
+                {
+                    response.statusCode = ((int)Utils.StatusCodings.Account_Not_Found);
+                    response.statusMessage = "The user couldn't be found!";
+                    return response;
+                }
+
+                string query = $"SELECT * FROM UserReview WHERE TargetID LIKE @TargetID";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@TargetID", recieverID);
+                    List<(int, int, string, int)> contents = new List<(int, int, string, int)>();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            contents.Add(((int)reader["WriterID"], (int)reader["TargetID"], (string)reader["Review"], (int)reader["Rating"]));
+                        }
+                    }
+
+                    response.contents = contents.Select((v) => {
+                        return new LiteUserReviewContent()
+                        {
+                            senderUsername = Utils.UserIDToUsername(con, v.Item1),
+                            targetUsername = Utils.UserIDToUsername(con, v.Item2),
+                            Review = v.Item3,
+                            Rating = v.Item4,
+                        };
+                    }).ToArray();
+                }
+            }
+            return response;
         }
     }
 }

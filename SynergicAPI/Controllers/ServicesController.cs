@@ -32,7 +32,7 @@ namespace SynergicAPI.Controllers
                 con.Open();
 
                 int userID;
-                if (isLegitUserWithID(con, service.user, out userID))
+                if (Utils.IsLegitUserWithID(con, service.user, out userID))
                 {
                     string InsertServiceQuery = $"INSERT INTO {Utils.ServicesString} " +
                                                            "VALUES (@OwnerID, @ServiceTitle, @ServicePrice, @ServiceDescription, @ServiceCategory)";
@@ -175,27 +175,7 @@ namespace SynergicAPI.Controllers
             }
             return response.ToArray();
         }
-        bool isLegitUserWithID(SqlConnection connection, SynergicUser user, out int userID)
-        {
-            userID = -1;
 
-            string query = "SELECT ID FROM UserAccount WHERE UserToken = @UserToken AND Password = @Password";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@UserToken", user.UserToken);
-                command.Parameters.AddWithValue("@Password", Utils.HashString(user.Password, "SynergicPasswordHashSalt"));
-
-                using (var reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        userID = (int)reader["ID"];
-                        return true;
-                    }
-                    else return false;
-                }
-            }
-        }
         int GetServiceID(SqlConnection connection, SynergicService service, int userID)
         {
             int serviceID = -1;
