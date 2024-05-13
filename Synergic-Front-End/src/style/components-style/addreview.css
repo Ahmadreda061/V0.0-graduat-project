@@ -1,0 +1,8 @@
+.review-msg {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-msg textarea {
+    max-width: 100% !important;
+}

@@ -8,11 +8,12 @@ import isAllAlphabetic from "../../utils/isAllAlphabetic";
 import isValidUsername from "../../utils/isValidUsername";
 import setProfile from "./utils/setProfile";
 import { UserTokenContext } from "./Myprofile";
-import getUser from "../../utils/getUser";
+import axios from "axios";
 
 function Information() {
-  const serviceOwnerToken = useContext(UserTokenContext);
+  const serviceOwnerInfo = useContext(UserTokenContext);
   const { userInfo, setUserInfo } = useContext(userInfoContext);
+  const [serviceOwnerToken, setServiceOwnerToken] = useState(null);
 
   const [errors, setErrors] = useState({});
   const [editedFields, setEditedFields] = useState({});
@@ -21,8 +22,12 @@ function Information() {
     setErrors,
     setEditedFields
   );
+
   function submit(e) {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
+
     const isValid = editInfoValidateForm();
     if (isValid || userInfo.profilePicture !== formData.profilePicture) {
       const postData = {
@@ -33,10 +38,16 @@ function Information() {
       setProfile(postData, setErrors);
     }
   }
-
   function editInfoValidateForm() {
     if (Object.keys(editedFields).length > 0) {
-      const newErrors = { ...validateForm(formData, false) };
+      const {
+        serviceOwnerToken,
+        socialAccounts,
+        userBio,
+        userRating,
+        ...ReqData
+      } = formData;
+      const newErrors = { ...validateForm(ReqData, false) };
 
       if (!isAllAlphabetic(formData.fName)) {
         newErrors["fName"] = "* Must have alphabetic characters only";
@@ -58,26 +69,52 @@ function Information() {
   }
 
   useEffect(() => {
-    if (serviceOwnerToken) {
-      getUser(serviceOwnerToken).then((res) => {
-        setUserInfo(res);
-        Object.keys(res).forEach((key) => {
-          change({ target: { name: key, value: res[key] } }, "INPUT");
-        });
+    if (serviceOwnerInfo != null) {
+      setServiceOwnerToken(serviceOwnerInfo.userToken);
+      Object.keys(serviceOwnerInfo).forEach((key) => {
+        change(
+          { target: { name: key, value: serviceOwnerInfo[key] } },
+          "INPUT"
+        );
       });
     }
-  }, [serviceOwnerToken]);
+  }, [serviceOwnerInfo]);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `https://localhost:7200/api/Accounts/GetReview?Username=${userInfo.username}`
+  //     )
+  //     .then((res) => res.data)
+  //     .then((data) => {
+  //       const sumRating = data.contents.reduce(
+  //         (acc, review) => acc + parseInt(review.rating),
+  //         0
+  //       );
+  //       const rating = sumRating / data.contents.length;
+
+  //       setUserInfo((prevState) => ({
+  //         ...prevState,
+  //         userRating: Math.round(rating),
+  //       }));
+  //     });
+  // }, []);
   return (
     <>
-      <form className="informations" onSubmit={submit}>
+      <form onSubmit={submit} className="informations">
         <div className="informations--avatar">
           <UserCard
             serviceOwnerToken={serviceOwnerToken}
-            profilePicture={formData.profilePicture}
+            profilePicture={
+              // make the page of service owner using formData...
+              serviceOwnerToken
+                ? formData.profilePicture
+                : userInfo.profilePicture
+            }
             fName={formData.fName}
             lName={formData.lName}
-            userRating={formData.userRating}
-            setUserInfo={formData.setUserInfo}
+            // userRating={userInfo.userRating}
+            setUserInfo={setUserInfo}
+            username={formData.username}
           />
         </div>
         <div className="informations--sections">
@@ -142,7 +179,7 @@ function Information() {
               readOnly={serviceOwnerToken && true}
               id="userBio"
               name="userBio"
-              placeholder="Enter your bio..."
+              placeholder={serviceOwnerToken ? "No Bio" : "Enter Your Bio..."}
               onChange={(e) => change(e, "INPUT")}
               value={formData.userBio}
             ></textarea>

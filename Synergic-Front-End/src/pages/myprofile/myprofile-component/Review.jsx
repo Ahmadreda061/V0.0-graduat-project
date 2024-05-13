@@ -1,5 +1,5 @@
 import getImageUrl from "../../../utils/image-util";
-function Review({ msg }) {
+function Review({ msg, rating, senderUsername }) {
   return (
     <div className="myprofile-card review-card ">
       <img
@@ -9,10 +9,9 @@ function Review({ msg }) {
         width="200"
       />
       <h3 className="review--fullname">
-        <span className="fname">Ahmad </span>
-        <span className="lname">Reda</span>
+        <span className="fname">{senderUsername} </span>
       </h3>
-      <span className="review--rating">⭐⭐⭐</span>
+      <span className="review--rating">{"⭐".repeat(rating)}</span>
       <p className="review--detiles">{msg}</p>
     </div>
   );

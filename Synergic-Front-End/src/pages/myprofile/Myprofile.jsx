@@ -1,25 +1,34 @@
 import { Outlet, useLocation } from "react-router-dom";
 import SidebarProfile from "./SidebarProfile";
 import "../../style/myprofile-style/myprofile.css";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import getUser from "../../utils/getUser";
+import { userInfoContext } from "../../App";
 export const UserTokenContext = createContext(null);
 function Myprofile() {
-  const [userToken, setUserToken] = useState(null);
+  const { userInfo } = useContext(userInfoContext);
+  const [serviceOwnerToken, setServiceOwnerToken] = useState(null);
+  const [serviceOwnerInfo, setServiceOwnerInfo] = useState(null);
   const location = useLocation();
   const path = location.pathname;
 
-  // const [userInfo, setUserInfo] = useState(null);
-
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const token = searchParams.get("UT");
-    setUserToken(token);
+    setServiceOwnerToken(searchParams.get("UT"));
   }, []);
 
+  useEffect(() => {
+    if (serviceOwnerToken && userInfo.userToken != serviceOwnerToken) {
+      getUser(serviceOwnerToken).then((res) => {
+        setServiceOwnerInfo(res);
+      });
+    }
+  }, [serviceOwnerToken]);
+
   return (
-    <UserTokenContext.Provider value={userToken}>
+    <UserTokenContext.Provider value={serviceOwnerInfo}>
       <div className="myprofile">
-        <SidebarProfile />
+        <SidebarProfile serviceOwnerToken={serviceOwnerInfo} />
         <main className="myprofile--pages">
           <nav className="pages--nav">
             <h1 className="section--header">

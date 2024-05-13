@@ -290,7 +290,19 @@ textarea:focus-visible {
 .right {
     right: 0
 }
-
+.rating {
+    position: absolute;
+    background: #333;
+    width: 51px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    bottom: -8px;
+    left: 0px;
+}
 @media screen and (width < 600px) {
     .container {
         padding: 0 40px

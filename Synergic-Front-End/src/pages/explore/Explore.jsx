@@ -19,9 +19,7 @@ function Explore() {
       <div className="container">
         <div className="explore--content">
           <Filtter />
-          <div className="content-items">
-            {serviceCards} {serviceCards} {serviceCards} {serviceCards}
-          </div>
+          <div className="content-items">{serviceCards}</div>
         </div>
       </div>
     </div>

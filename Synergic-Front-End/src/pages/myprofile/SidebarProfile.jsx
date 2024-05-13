@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import "../../style/myprofile-style/sidebarProfile.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import getImageUrl from "../../utils/image-util";
-function SidebarProfile() {
+import { userInfoContext } from "../../App";
+function SidebarProfile({ serviceOwnerToken }) {
+  const { userInfo } = useContext(userInfoContext);
   const [activeLink, setActiveLink] = useState("myProfile");
   function handleClick(e) {
     /*when cilcked each link will make it the clicked one
@@ -56,37 +58,41 @@ function SidebarProfile() {
             <span>Services</span>
           </Link>
         </li>
-        <li>
-          <Link
-            style={
-              activeLink == "reviews"
-                ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
-                : { backgroundColor: "#fff" }
-            }
-            className="sidebar--page"
-            onClick={handleClick}
-            to="/myprofile/reviews"
-          >
-            <i className="fa-regular fa-comment fa-fw"></i>
-            <span>Reviews</span>
-          </Link>
-        </li>
-        <li>
-          <Link
-            style={
-              activeLink == "requests"
-                ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
-                : { backgroundColor: "#fff" }
-            }
-            className="sidebar--page"
-            onClick={handleClick}
-            to="/myprofile/requests"
-          >
-            <i className="fa-regular fa-bell fa-fw"></i>
+        {!serviceOwnerToken && (
+          <li>
+            <Link
+              style={
+                activeLink == "reviews"
+                  ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                  : { backgroundColor: "#fff" }
+              }
+              className="sidebar--page"
+              onClick={handleClick}
+              to="/myprofile/reviews"
+            >
+              <i className="fa-regular fa-comment fa-fw"></i>
+              <span>Reviews</span>
+            </Link>
+          </li>
+        )}
+        {!serviceOwnerToken && (
+          <li>
+            <Link
+              style={
+                activeLink == "requests"
+                  ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                  : { backgroundColor: "#fff" }
+              }
+              className="sidebar--page"
+              onClick={handleClick}
+              to="/myprofile/requests"
+            >
+              <i className="fa-regular fa-bell fa-fw"></i>
 
-            <span>Requests</span>
-          </Link>
-        </li>
+              <span>Requests</span>
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

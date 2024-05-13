@@ -1,15 +1,33 @@
 import Review from "./myprofile-component/Review";
 import "../../style/myprofile-style/reviews.css";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { userInfoContext } from "../../App";
 function Reviews() {
+  const { userInfo } = useContext(userInfoContext);
+  const [reviews, setReviews] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `https://localhost:7200/api/Accounts/GetReview?Username=${userInfo.username}`
+      )
+      .then((res) => res.data)
+      .then((data) => setReviews(data.contents));
+  }, []);
+
+  const reviewElements = reviews.map((review, index) => (
+    <Review
+      key={index}
+      msg={review.review}
+      rating={review.rating}
+      senderUsername={review.senderUsername}
+    />
+  ));
+  console.log(reviews);
   return (
     <div className="container">
       <div className="myprofile-cards reviews-cards">
-        <Review msg="s'kaifdeaw pkfweee eeeeeee eeeeeeeeeee eee eeeeeeee eeeasdf sdfsdfsdf sdfsd e f sdf aswef e fsaf wefs fsd" />
-        <Review msg="s'kaifdea wpkfwee eeeee eeeee eeeeee eee sd ajsd lkj sfsdfsdfsd fsdfsd e f sdf aswef e fsaf wefs fsd" />
-        <Review msg="Lorem ipsum dolor, sit amet con sectetur adipisicing elit. Tempor a, dolores non. Nam, tempora doloribus. Accusantium quas qui ex. Hic nemo vero accusamus excepturi nesciunt repellat dignissimos sequi accusantium voluptate quia?" />
-        <Review msg="Lorem ipsum dolor, sit amet con sectetur adipisicing elit. Tempor a, dolores non. Nam, tempora doloribus. Accusantium quas qui ex. Hic nemo vero accusamus excepturi nesciunt repellat dignissimos sequi accusantium voluptate quia?" />
-        <Review msg="Lorem ipsum dolor, sit amet con sectetur adipisicing elit. Tempor a, dolores non. Nam, tempora doloribus. Accusantium quas qui ex. Hic nemo vero accusamus excepturi nesciunt repellat dignissimos sequi accusantium voluptate quia?" />
-        <Review msg="Lorem ipsum dolor, sit amet con sectetur adipisicing elit. Tempor a, dolores non. Nam, tempora doloribus. Accusantium quas qui ex. Hic nemo vero accusamus excepturi nesciunt repellat dignissimos sequi accusantium voluptate quia?" />
+        {reviews.length ? reviewElements : "No Reviews Yet"}
       </div>
     </div>
   );
