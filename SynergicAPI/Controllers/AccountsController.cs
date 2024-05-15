@@ -20,7 +20,7 @@ namespace SynergicAPI.Controllers
 
         [HttpGet]
         [Route("GetProfile")]
-        public ProfileResponse GetProfile(string UserToken)
+        public ProfileResponse GetProfile(string Username)
         {
             ProfileResponse response = new ProfileResponse();
 
@@ -28,11 +28,11 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                string query = $"SELECT * FROM UserAccount WHERE UserToken = @UserToken";
+                string query = $"SELECT * FROM UserAccount WHERE Username = @Username";
 
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
-                    command.Parameters.AddWithValue("@UserToken", UserToken);
+                    command.Parameters.AddWithValue("@Username", Username);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
