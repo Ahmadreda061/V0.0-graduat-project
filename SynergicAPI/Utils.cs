@@ -156,6 +156,26 @@ namespace SynergicAPI
                 }
             }
         }
+        public static bool IsLegitUserTokenWithID(SqlConnection connection, string userToken, out int userID)
+        {
+            userID = -1;
+
+            string query = "SELECT ID FROM UserAccount WHERE UserToken = @UserToken";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserToken", userToken);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        userID = (int)reader["ID"];
+                        return true;
+                    }
+                    else return false;
+                }
+            }
+        }
         public static bool UsernameToUserID(SqlConnection connection, string username, out int userID)
         {
             userID = -1;

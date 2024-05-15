@@ -135,10 +135,8 @@ namespace SynergicAPI.Controllers
 
                         for (int i = 0; i < tempList.Count; i++)
                         {
-                            // Initialize ServiceOwner
-                            tempList[i].ServiceOwner = new SynergicUser();
 
-                            string getUserCommand = $"SELECT * FROM UserAccount WHERE ID = @OwnerID";
+                            string getUserCommand = $"SELECT Username, ProfilePicture FROM UserAccount WHERE ID = @OwnerID";
                             using (SqlCommand userCommand = new SqlCommand(getUserCommand, con))
                             {
                                 userCommand.Parameters.AddWithValue("@OwnerID", OwnersIDs[i]);
@@ -147,13 +145,13 @@ namespace SynergicAPI.Controllers
                                 {
                                     if (userReader.Read())
                                     {
-                                        tempList[i].ServiceOwner.Username = (string)userReader["Username"];
-                                        tempList[i].ServiceOwner.UserToken = (string)userReader["UserToken"];
+                                        tempList[i].ServiceOwnerUsername = (string)userReader["Username"];
+                                        tempList[i].ServiceOwnerPP = (byte[])userReader["ProfilePicture"];
                                     }
                                 }
                             }
 
-                            string GetImagesCommand = $"SELECT * FROM ServicesImages WHERE ServiceID = @ServiceID";
+                            string GetImagesCommand = $"SELECT ImageData FROM ServicesImages WHERE ServiceID = @ServiceID";
                             using (SqlCommand imagesCommand = new SqlCommand(GetImagesCommand, con))
                             {
                                 imagesCommand.Parameters.AddWithValue("@ServiceID", ServicesIDs[i]);

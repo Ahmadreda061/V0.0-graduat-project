@@ -4,7 +4,8 @@ namespace SynergicAPI.Models.Responses
 {
     public class ServiceElementResponse : DefaultResponse
     {
-        public SynergicUser ServiceOwner { get; set; }
+        public string ServiceOwnerUsername { get; set; }
+        public byte[] ServiceOwnerPP { get; set; }
         public string Title { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }

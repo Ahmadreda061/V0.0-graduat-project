@@ -4,6 +4,7 @@
     {
         public string Email { get; set; }
         public string Username { get; set; }
+        public bool IsVendor { get; set; }
         public string fName { get; set; }
         public string lName { get; set; }
         public bool Gender { get; set; }

@@ -40,6 +40,7 @@ namespace SynergicAPI.Controllers
                         {
                             response.Email = (string)reader["Email"];
                             response.Username = (string)reader["Username"];
+                            response.IsVendor = (bool)reader["IsVendor"];
                             response.fName = (string)reader["fName"];
                             response.lName = (string)reader["lName"];
                             response.Gender = (bool)reader["Gender"] == true;
@@ -218,7 +219,7 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                if(!Utils.IsLegitUserWithID(con, data.sender, out int writerID))
+                if(!Utils.IsLegitUserTokenWithID(con, data.senderToken, out int writerID))
                 {
                     response.statusCode = ((int)Utils.StatusCodings.Account_Not_Found);
                     response.statusMessage = "The sender account couldn't be found!";
