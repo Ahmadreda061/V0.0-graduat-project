@@ -1,7 +1,12 @@
 ﻿namespace SynergicAPI.Models.Responses
 {
-    public class LoginResponse : DefaultResponse
+    public class UserRatingResponse : DefaultResponse
     {
-        public string UserToken { get; set; }
+        public int Rating { get; set; }
+
+        public UserRatingResponse(int rating)
+        {
+            Rating = rating;
+        }
     }
 }

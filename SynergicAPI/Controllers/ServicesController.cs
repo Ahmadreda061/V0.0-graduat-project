@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SynergicAPI.Models;
+using SynergicAPI.Models.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
+using static SynergicAPI.Utils;
 
 namespace SynergicAPI.Controllers
 {
@@ -127,6 +130,7 @@ namespace SynergicAPI.Controllers
                                 card.Price = (int)reader["ServicePrice"];
                                 card.Description = (string)reader["ServiceDescription"];
                                 card.Category = (int)reader["ServiceCategory"];
+                                card.ServiceID = (int)reader["ServiceID"];
                                 tempList.Add(card);
                                 OwnersIDs.Add((int)reader["OwnerID"]);
                                 ServicesIDs.Add((int)reader["ServiceID"]);
@@ -174,6 +178,45 @@ namespace SynergicAPI.Controllers
             return response.ToArray();
         }
 
+        [HttpDelete]
+        [Route("DeleteService")]
+        public DefaultResponse DeleteService(string userToken, string serviceID)
+        {
+            DefaultResponse response = new DefaultResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            {
+                string query = "SELECT UserToken FROM UserAccount WHERE ID = (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID)";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID", serviceID);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            response.statusCode = (int)StatusCodings.Service_Not_Found;
+                            response.statusMessage = "Service couldn't be found!";
+                            return response;
+                        }
+
+                        if (!userToken.Equals((string)reader["UserToken"]))
+                        {
+                            response.statusCode = (int)StatusCodings.Illegal_Data;
+                            response.statusMessage = "The Owner of the service doesn't match the given owner";
+                            return response;
+                        }
+                    }
+                }
+
+                query = "DELETE FROM Services WHERE ServiceID = @ServiceID";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID", serviceID);
+                    command.ExecuteNonQuery();
+                }
+            }
+            return response;
+        }
         int GetServiceID(SqlConnection connection, SynergicService service, int userID)
         {
             int serviceID = -1;
@@ -207,5 +250,72 @@ namespace SynergicAPI.Controllers
             return serviceID;
         }
 
+        [HttpGet]
+        [Route("RequestService")]
+        public DefaultResponse RequestService(string userToken, int ServiceID, string? AdditionalComment)
+        {
+            DefaultResponse response = new DefaultResponse();
+
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            {
+                con.Open();
+
+                if(!IsLegitUserTokenWithID(con, userToken, out int userID))
+                {
+                    response.statusCode = (int)StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+
+                string query = $"INSERT INTO {Utils.ServiceRequestsString} VALUES(@RequesterID, @RequestedServiceID, @AdditionalComment)";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@RequesterID", userID);
+                    command.Parameters.AddWithValue("@RequestedServiceID", ServiceID);
+                    command.Parameters.AddWithValue("@AdditionalComment", AdditionalComment);
+
+                    int count = command.ExecuteNonQuery();
+                    if (count == 0)
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                        response.statusMessage = "Error in serviceID";
+                        return response;
+                    }
+                }
+
+
+                //All succeeded so far, now send notification for the ServiceOwner
+                string senderName = UserIDToUsername(con, userID);
+                ServiceRequestNotificationContent content = new ServiceRequestNotificationContent()
+                {
+                    senderUsername = senderName,
+                    senderPP = UserIDToProfilePicture(con, userID),
+                    messageContent = $"{senderName} Is requesting the service ({ServiceIDToServiceTitle(con, ServiceID)})",
+                    sendTime = DateTime.Now,
+                };
+
+                if (AdditionalComment != null && !string.IsNullOrEmpty(AdditionalComment) && !string.IsNullOrWhiteSpace(AdditionalComment))
+                    content.messageContent += $", saying: {AdditionalComment}";
+
+                query = $"INSERT INTO {Utils.NotificationsString} VALUES(@SenderID, (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID), @NotificationCategory, @IsRead, @Content)";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@SenderID", userID);
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+                    command.Parameters.AddWithValue("@NotificationCategory", (int)NotificationCategory.ServiceRequest);
+                    command.Parameters.AddWithValue("@IsRead", false);
+                    command.Parameters.AddWithValue("@Content", JsonConvert.SerializeObject(content));
+
+                    int count = command.ExecuteNonQuery();
+                    if (count == 0)
+                    {
+                        response.statusMessage = "An unknown error happened while sending a notification";
+                        response.statusCode = (int)StatusCodings.Unknown_Error;
+                        return response;
+                    }
+                }
+            }
+            return response;
+        }
     }
 }

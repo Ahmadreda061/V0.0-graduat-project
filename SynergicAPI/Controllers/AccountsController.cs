@@ -254,14 +254,14 @@ namespace SynergicAPI.Controllers
 
         [HttpGet]
         [Route("GetReview")]
-        public UserReviewResponse GetUserReviews(string Username)
+        public UserReviewResponse GetUserReviews(string username)
         {
             UserReviewResponse response = new UserReviewResponse();
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
             {
                 con.Open();
 
-                if (!Utils.UsernameToUserID(con, Username, out int recieverID))
+                if (!Utils.UsernameToUserID(con, username, out int recieverID))
                 {
                     response.statusCode = ((int)Utils.StatusCodings.Account_Not_Found);
                     response.statusMessage = "The user couldn't be found!";
@@ -293,6 +293,32 @@ namespace SynergicAPI.Controllers
                     }).ToArray();
                 }
             }
+            return response;
+        }
+
+
+        [HttpGet]
+        [Route("GetRating")]
+        public UserRatingResponse GetUserRating(string username)
+        {
+            UserRatingResponse response = new UserRatingResponse(5);
+
+            UserReviewResponse revResponse = GetUserReviews(username);
+            if(revResponse.statusCode != (int) Utils.StatusCodings.OK)
+            {
+                response.statusCode = revResponse.statusCode;
+                response.statusMessage = revResponse.statusMessage;
+                return response;
+            }
+
+            int rating = 0;
+            foreach (var item in revResponse.contents)
+            {
+                rating += item.Rating;
+            }
+            rating /= revResponse.contents.Length;
+
+            response.Rating = rating;
             return response;
         }
     }

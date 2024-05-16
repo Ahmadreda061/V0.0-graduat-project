@@ -16,6 +16,8 @@ namespace SynergicAPI
         public static string ServicesImagesString => "ServicesImages(ServiceID, ImageData)";
         public static string PaymentAccountString => "PaymentAccount(OwnerID, CardholderName, cardNumber, expMonth, expYear, CVC)";
         public static string ReviewString => "UserReview(WriterID, TargetID, Review, Rating)";
+        public static string NotificationsString => "Notifications(SenderID, RecieverID, NotificationCategory, IsRead, Content)";
+        public static string ServiceRequestsString => "ServiceRequests(RequesterID, RequestedServiceID, AdditionalComment)";
 
 
         public static byte[] DefaultProfileImage = BitmapToByteArray(new Bitmap(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png")), ImageFormat.Png);
@@ -37,6 +39,13 @@ namespace SynergicAPI
             Small_Image = 11,//Self Explained
             Email_Used = 12,//Self Explained
             Username_Used = 13,//Self Explained
+            Service_Not_Found = 14,//The ID given doesn't correspond to any signed service
+        }
+        public enum NotificationCategory
+        {
+            System,
+            ServiceRequest,
+            Message
         }
 
         /// <summary>
@@ -216,7 +225,6 @@ namespace SynergicAPI
         }
         public static string UserIDToUsername(SqlConnection connection, int userID)
         {
-
             string query = "SELECT Username FROM UserAccount WHERE ID = @ID";
             using (SqlCommand command = new SqlCommand(query, connection))
             {
@@ -224,6 +232,33 @@ namespace SynergicAPI
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read()) return (string)reader["Username"];
+                    else return "";
+                }
+            }
+        }
+        public static byte[] UserIDToProfilePicture(SqlConnection connection, int userID)
+        {
+            string query = "SELECT ProfilePicture FROM UserAccount WHERE ID = @ID";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ID", userID);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read()) return (byte[])reader["ProfilePicture"];
+                    else return [];
+                }
+            }
+        }
+
+        public static string ServiceIDToServiceTitle(SqlConnection connection, int ServiceID)
+        {
+            string query = "SELECT ServiceTitle FROM Services WHERE ServiceID = @ServiceID";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@ServiceID", ServiceID);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read()) return (string)reader["ServiceTitle"];
                     else return "";
                 }
             }
