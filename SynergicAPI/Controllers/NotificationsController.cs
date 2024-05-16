@@ -70,7 +70,7 @@ namespace SynergicAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetNotifications")]
+        [Route("MarkNotificationAsRead")]
         public DefaultResponse MarkNotificationAsRead(string userToken, int notificationID)
         {
             DefaultResponse response = new DefaultResponse();
