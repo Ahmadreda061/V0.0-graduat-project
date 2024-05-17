@@ -6,29 +6,33 @@ import getUser from "../../utils/getUser";
 import { userInfoContext } from "../../App";
 export const UserTokenContext = createContext(null);
 function Myprofile() {
+  const [showNoitifctions, setShowNoitifctions] = useState(false);
   const { userInfo } = useContext(userInfoContext);
-  const [serviceOwnerToken, setServiceOwnerToken] = useState(null);
+  const [serviceOwnerUserName, setserviceOwnerUserName] = useState(null);
   const [serviceOwnerInfo, setServiceOwnerInfo] = useState(null);
   const location = useLocation();
   const path = location.pathname;
-
+  console.log(showNoitifctions);
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    setServiceOwnerToken(searchParams.get("UT"));
+    setserviceOwnerUserName(searchParams.get("UT"));
   }, []);
 
   useEffect(() => {
-    if (serviceOwnerToken && userInfo.userToken != serviceOwnerToken) {
-      getUser(serviceOwnerToken).then((res) => {
+    if (serviceOwnerUserName && userInfo.username != serviceOwnerUserName) {
+      getUser(serviceOwnerUserName).then((res) => {
         setServiceOwnerInfo(res);
       });
     }
-  }, [serviceOwnerToken]);
+  }, [serviceOwnerUserName]);
+  function handleNoitifctions() {
+    setShowNoitifctions((prevState) => !prevState);
+  }
 
   return (
     <UserTokenContext.Provider value={serviceOwnerInfo}>
       <div className="myprofile">
-        <SidebarProfile serviceOwnerToken={serviceOwnerInfo} />
+        <SidebarProfile serviceOwnerUserName={serviceOwnerUserName} />
         <main className="myprofile--pages">
           <nav className="pages--nav">
             <h1 className="section--header">
@@ -36,7 +40,10 @@ function Myprofile() {
                 ? "Profile"
                 : path.slice(path.lastIndexOf("/") + 1)}
             </h1>
-            <i className="fa-regular fa-bell fa-fw nav--bell"></i>
+            <i
+              className="fa-regular fa-bell fa-fw nav--bell"
+              onClick={handleNoitifctions}
+            ></i>
           </nav>
           <div className="pages--content">
             <Outlet />

@@ -1,9 +1,9 @@
 import axios from "axios";
-export default function getUser(userToken) {
+export default function getUser(username) {
     return new Promise((resolve, reject) => {
         axios
             .get(
-                `https://localhost:7200/api/Accounts/GetProfile?UserToken=${userToken}`
+                `https://localhost:7200/api/Accounts/GetProfile?Username=${username}`
             )
             .then((res) => res.data)
             .then((data) => {

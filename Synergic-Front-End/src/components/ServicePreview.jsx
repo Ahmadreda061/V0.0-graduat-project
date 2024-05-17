@@ -1,19 +1,34 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "../style/components-style/servicePreview.css";
-import Loading from "./Loding";
 import { Link } from "react-router-dom";
+import { userInfoContext } from "../App";
+import sendServiceReq from "../utils/sendServiceReq";
+import Loading from "./Loding";
+
 function ServicePreview() {
+  const { userInfo } = useContext(userInfoContext);
   const [mainImageIndex, setMainImage] = useState(0);
   const [serviceInfo, setServiceInfo] = useState({});
-  if (!serviceInfo) {
-    return <Loading />;
-  }
+  const [comment, setComment] = useState(""); // New state for comment
+
   useEffect(() => {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
       setServiceInfo(JSON.parse(serviceData));
     }
   }, []);
+
+  if (!serviceInfo) {
+    return <Loading />;
+  }
+
+  function callRequest() {
+    sendServiceReq(
+      userInfo.userToken,
+      serviceInfo.serviceID,
+      comment || "There is no Comment"
+    ).then(alert("Request Send Successfly"));
+  }
 
   const imagesContainerRef = useRef(null);
   const handleScrollLeft = () => {
@@ -33,13 +48,13 @@ function ServicePreview() {
   }
 
   function handleMainImage(index) {
-    if (index != mainImageIndex) {
+    if (index !== mainImageIndex) {
       setMainImage(index);
     }
   }
 
   let images = [];
-  if (serviceInfo["images"]) {
+  if (serviceInfo.images) {
     images = serviceInfo.images.map((image, index) => (
       <img
         key={index}
@@ -55,16 +70,21 @@ function ServicePreview() {
     ...images.slice(mainImageIndex + 1),
   ];
 
-  const serviceOwner = serviceInfo["serviceOwner"];
+  const serviceOwnerUsername = serviceInfo.serviceOwnerUsername;
+  const serviceOwnerPic = serviceInfo.serviceOwnerPP;
+
   return (
     <div className="container">
       <div className="service-preview">
         <div className="service-preview--images">
           <div className="service-preview--serviceowenr">
-            <Link
-              to={`/myprofile?UT=${serviceOwner && serviceOwner.userToken}`}
-            >
-              {serviceOwner && serviceOwner.username}
+            <Link to={`/myprofile?UT=${serviceOwnerUsername}`}>
+              <img
+                src={`data:image/png;base64,${serviceOwnerPic}`}
+                alt="service Owner Image"
+                className="service-owner-image"
+              />
+              {serviceOwnerUsername}
             </Link>
           </div>
           {mainImage}
@@ -99,23 +119,27 @@ function ServicePreview() {
           )}
         </div>
         <div className="service-preview--info">
-          <h1 className="preview--info--title title">{serviceInfo["title"]}</h1>
-          <p className="preview--info--description description ">
-            {serviceInfo["description"]}
+          <h1 className="preview--info--title title">{serviceInfo.title}</h1>
+          <p className="preview--info--description description">
+            {serviceInfo.description}
           </p>
           <form action="">
             <div className="form-element">
-              <label htmlFor="">optional comment</label>
+              <label htmlFor="comment">Optional Comment</label>
               <textarea
-                name=""
-                id=""
-                placeholder="add your comment here"
+                name="comment"
+                id="comment"
+                placeholder="Add your comment here"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               ></textarea>
             </div>
           </form>
-          <span className="preview--info--price">${serviceInfo["price"]}</span>
+          <span className="preview--info--price">${serviceInfo.price}</span>
 
-          <button className="btn preview--info--req">Request</button>
+          <button className="btn preview--info--req" onClick={callRequest}>
+            Request
+          </button>
         </div>
       </div>
     </div>

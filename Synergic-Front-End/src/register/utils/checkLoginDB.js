@@ -7,7 +7,7 @@ export default function checkLoginDB(postData, setErrors) {
             const data = res.data;
             if (data.statusCode === 0) {
                 // succussfuly Log in
-                localStorage.setItem("Key", data.userToken);
+                localStorage.setItem("Key", data.username);
                 resolve(true)
                 // setTimeout(() => handleRegisterOverlay(), 300);
                 // window.location.reload();

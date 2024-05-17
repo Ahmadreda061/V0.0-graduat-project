@@ -21,9 +21,9 @@ function Reviews() {
       msg={review.review}
       rating={review.rating}
       senderUsername={review.senderUsername}
+      senderPP={review.senderPP}
     />
   ));
-  console.log(reviews);
   return (
     <div className="container">
       <div className="myprofile-cards reviews-cards">

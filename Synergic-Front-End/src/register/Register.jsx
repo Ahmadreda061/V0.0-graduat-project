@@ -14,7 +14,6 @@ function Register({ handleRegisterOverlay }) {
     */
     setIsRegistered((prevIsReg) => !prevIsReg);
   }
-
   return (
     <div className="register">
       <div className="overlay" onClick={handleRegisterOverlay}>
@@ -45,7 +44,7 @@ function Register({ handleRegisterOverlay }) {
             )}
 
             {isRegistered ? (
-              <Login handleRegisterOverlay={handleRegisterOverlay} />
+              <Login handeleIsRegistered={handleRegisterOverlay} />
             ) : (
               <Signup handeleIsRegistered={handeleIsRegistered} />
             )}

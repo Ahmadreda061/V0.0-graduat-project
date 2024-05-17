@@ -1,9 +1,9 @@
 import getImageUrl from "../../../utils/image-util";
-function Review({ msg, rating, senderUsername }) {
+function Review({ msg, rating, senderUsername, senderPP }) {
   return (
     <div className="myprofile-card review-card ">
       <img
-        src={getImageUrl("DefaultProfileImage.png")}
+        src={`data:image/png;base64,${senderPP}`}
         alt="customer image"
         className="customer-img "
         width="200"

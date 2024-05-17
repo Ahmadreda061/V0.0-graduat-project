@@ -3,7 +3,7 @@ import validateForm from "../utils/validateForm";
 import useFormReducer from "../utils/useFormReducer";
 import checkLoginDB from "./utils/checkLoginDB";
 import createFormElements from "../components/CreateFormElements";
-function Login({ handleRegisterOverlay }) {
+function Login({ handeleIsRegistered }) {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const formFields = [
@@ -35,7 +35,7 @@ function Login({ handleRegisterOverlay }) {
     if (isValid) {
       checkLoginDB(formData, setErrors)
         .then(() => {
-          handleRegisterOverlay();
+          handeleIsRegistered();
           window.location.reload();
         })
         .catch((err) => console.log(err));

@@ -24,23 +24,22 @@ function App() {
   const [showNavbar, setShowNavbar] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
   const location = useLocation();
-  const userKey = localStorage.getItem("Key");
-
+  const userName = localStorage.getItem("Key");
   function handleRegisterOverlay() {
     setRegisterOverlay((prevRegisterOverlay) => !prevRegisterOverlay);
   }
 
   useEffect(() => {
-    setShowNavbar(!location.pathname.includes("/myprofile"));
+    setShowNavbar(!location.pathname.includes("/myprofile")); // if url have myProfile hide the navBar
   }, [location.pathname]);
 
   useEffect(() => {
-    if (userKey) {
-      getUser(userKey).then((res) => setUserInfo(res));
+    if (userName) {
+      getUser(userName).then((res) => setUserInfo(res));
     }
   }, [location.pathname]);
 
-  if (userInfo == null && userKey) {
+  if (userInfo == null && userName) {
     // if user log in and didn't get the data for any reson render loding the page
     return <Loading />;
   }

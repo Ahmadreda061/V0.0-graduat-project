@@ -7,6 +7,7 @@ import fetchUserRating from "../utils/fetchUserRating";
 
 function UserCard(props) {
   const [userRating, setUserRating] = useState(null);
+
   useEffect(() => {
     fetchUserRating(props.username)
       .then((rating) => {

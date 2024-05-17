@@ -14,14 +14,9 @@ function AddReview({ username, submit }) {
     setSubmitted(true);
     const isValid = validReview();
     if (isValid) {
-      const sender = {
-        username: userInfo.username,
-        userToken: userInfo.userToken,
-        password: "http://localhost:5173/", // passwrod will remove
-      };
       axios
         .post("https://localhost:7200/api/Accounts/PostReview", {
-          sender,
+          senderToken: userInfo.userToken,
           targetUsername: username,
           review: msg,
           rating: rating,

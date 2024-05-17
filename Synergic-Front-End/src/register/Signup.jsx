@@ -25,7 +25,6 @@ function Signup({ handeleIsRegistered }) {
   ];
 
   const initValuesObject = arrayToObj(formFields, "name");
-
   const { formData, change } = useFormReducer(
     { ...initValuesObject, gender: "true", bDate: "" },
     setErrors
@@ -36,6 +35,7 @@ function Signup({ handeleIsRegistered }) {
     change,
     submitted
   );
+
   function submit(e) {
     e.preventDefault();
     setSubmitted(true);

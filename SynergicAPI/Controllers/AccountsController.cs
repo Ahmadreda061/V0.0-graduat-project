@@ -49,7 +49,6 @@ namespace SynergicAPI.Controllers
                             response.UserToken = (string)reader["UserToken"];
                             response.ProfilePicture = (byte[])reader["ProfilePicture"];
                             response.UserBio = (string)reader["UserBio"];
-                            response.UserRating = (int)((byte)reader["UserRating"]);
                             response.SocialAccounts = (string)reader["SocialAccounts"];
                         }
                         else
@@ -317,7 +316,11 @@ namespace SynergicAPI.Controllers
             {
                 rating += item.Rating;
             }
-            rating /= revResponse.contents.Length;
+            if(revResponse.contents.Length != 0)
+            {
+                rating /= revResponse.contents.Length;
+
+            }
 
             response.Rating = rating;
             return response;

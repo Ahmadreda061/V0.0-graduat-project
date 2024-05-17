@@ -6,7 +6,19 @@
     gap: 100px;
     padding-top: 80px;
 }
+.service-preview--serviceowenr a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 3px;
+    margin-left: 5px;
+}
 
+.service-owner-image {
+    width: 42px;
+    height: 42px;
+    border-radius: 50% !important;
+}
 .service-preview--images {
     position: relative;
     height: fit-content;
@@ -35,7 +47,6 @@
     width: calc((100% - 40px) / 3);
     cursor: pointer;
     transition: .3s;
-    overflow: hidden;
 }
 .preview--images--addtional-images img:hover {
     filter: grayscale(50%) ;

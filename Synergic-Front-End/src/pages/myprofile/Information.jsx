@@ -8,13 +8,13 @@ import isAllAlphabetic from "../../utils/isAllAlphabetic";
 import isValidUsername from "../../utils/isValidUsername";
 import setProfile from "./utils/setProfile";
 import { UserTokenContext } from "./Myprofile";
-import axios from "axios";
+import getUserNotfications from "../../utils/getUserNotfications";
 
 function Information() {
   const serviceOwnerInfo = useContext(UserTokenContext);
   const { userInfo, setUserInfo } = useContext(userInfoContext);
   const [serviceOwnerToken, setServiceOwnerToken] = useState(null);
-
+  getUserNotfications();
   const [errors, setErrors] = useState({});
   const [editedFields, setEditedFields] = useState({});
   const { formData, change } = useFormReducer(
@@ -22,12 +22,10 @@ function Information() {
     setErrors,
     setEditedFields
   );
-
   function submit(e) {
     if (e) {
       e.preventDefault();
     }
-
     const isValid = editInfoValidateForm();
     if (isValid || userInfo.profilePicture !== formData.profilePicture) {
       const postData = {
@@ -79,25 +77,7 @@ function Information() {
       });
     }
   }, [serviceOwnerInfo]);
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       `https://localhost:7200/api/Accounts/GetReview?Username=${userInfo.username}`
-  //     )
-  //     .then((res) => res.data)
-  //     .then((data) => {
-  //       const sumRating = data.contents.reduce(
-  //         (acc, review) => acc + parseInt(review.rating),
-  //         0
-  //       );
-  //       const rating = sumRating / data.contents.length;
 
-  //       setUserInfo((prevState) => ({
-  //         ...prevState,
-  //         userRating: Math.round(rating),
-  //       }));
-  //     });
-  // }, []);
   return (
     <>
       <form onSubmit={submit} className="informations">
