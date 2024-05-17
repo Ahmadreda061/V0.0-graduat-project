@@ -134,7 +134,11 @@ namespace SynergicAPI.Controllers
                                 response.statusMessage = "Account is suspended";
                             }
                             else // All Good
+                            {
                                 response.UserToken = (string)reader["UserToken"];
+                                response.Username = (string)reader["Username"];
+
+                            }
                         }
                     }
                 }
