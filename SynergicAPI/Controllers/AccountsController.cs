@@ -287,6 +287,7 @@ namespace SynergicAPI.Controllers
                         {
                             senderUsername = Utils.UserIDToUsername(con, v.Item1),
                             targetUsername = Utils.UserIDToUsername(con, v.Item2),
+                            senderPP = Utils.UserIDToProfilePicture(con, v.Item1),
                             Review = v.Item3,
                             Rating = v.Item4,
                         };
