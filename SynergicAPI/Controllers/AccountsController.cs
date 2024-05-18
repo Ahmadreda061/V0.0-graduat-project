@@ -116,6 +116,7 @@ namespace SynergicAPI.Controllers
                                     string userToken = Utils.HashString((string)reader["fName"] + (string)reader["Username"] + (string)reader["lName"], "TokenHashing");
 
                                     response.newUserToken = userToken;
+                                    response.newUsername = (string)reader["Username"];
                                 }
                             }
                         }
@@ -135,6 +136,7 @@ namespace SynergicAPI.Controllers
             else
             {
                 response.newUserToken = data.UserToken;
+                response.newUsername = data.Username;
                 response.statusCode = (int)validateResult;
 
                 switch (validateResult)
