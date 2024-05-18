@@ -4,6 +4,7 @@ import "../../style/myprofile-style/myprofile.css";
 import { createContext, useContext, useEffect, useState } from "react";
 import getUser from "../../utils/getUser";
 import { userInfoContext } from "../../App";
+import Notfications from "./myprofile-component/Notfications";
 export const UserTokenContext = createContext(null);
 function Myprofile() {
   const [showNoitifctions, setShowNoitifctions] = useState(false);
@@ -40,10 +41,12 @@ function Myprofile() {
                 ? "Profile"
                 : path.slice(path.lastIndexOf("/") + 1)}
             </h1>
+
             <i
               className="fa-regular fa-bell fa-fw nav--bell"
               onClick={handleNoitifctions}
             ></i>
+            {showNoitifctions && <Notfications />}
           </nav>
           <div className="pages--content">
             <Outlet />
