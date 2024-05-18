@@ -314,12 +314,14 @@ namespace SynergicAPI.Controllers
             if (revResponse.contents.Length == 0)
                 return response;
 
+
             int rating = 0;
             foreach (var item in revResponse.contents)
             {
                 rating += item.Rating;
             }
-            
+            rating /= revResponse.contents.Length;
+
             response.Rating = rating;
             return response;
         }
