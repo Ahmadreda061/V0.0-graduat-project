@@ -90,7 +90,8 @@ namespace SynergicAPI.Controllers
                 string query = "UPDATE Notifications SET IsRead = @IsRead WHERE ID = @ID AND RecieverID = @RecieverID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@ID", true);
+                    cmd.Parameters.AddWithValue("@IsRead", true);
+                    cmd.Parameters.AddWithValue("@ID", notificationID);
                     cmd.Parameters.AddWithValue("@RecieverID", userID);
                     if(cmd.ExecuteNonQuery() == 0)
                     {
