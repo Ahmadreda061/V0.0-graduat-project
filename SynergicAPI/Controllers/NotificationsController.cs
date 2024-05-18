@@ -62,7 +62,7 @@ namespace SynergicAPI.Controllers
                                     break;
                             }
                         }
-                        response.Notifications = notifications.ToArray();
+                        response.Notifications = notifications.Select((i)=>i.Serialize()).ToArray();
                     }
                 }
             }
