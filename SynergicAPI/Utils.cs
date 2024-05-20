@@ -18,6 +18,8 @@ namespace SynergicAPI
         public static string ReviewString => "UserReview(WriterID, TargetID, Review, Rating)";
         public static string NotificationsString => "Notifications(SenderID, RecieverID, NotificationCategory, IsRead, Content)";
         public static string ServiceRequestsString => "ServiceRequests(RequesterID, RequestedServiceID, AdditionalComment)";
+        public static string ChatRoomsString => "ChatRooms(RoomName)";
+        public static string ChatRoomUsersString => "ChatRoomUsers(RoomID, UserID)";
 
 
         public static byte[] DefaultProfileImage = BitmapToByteArray(new Bitmap(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png")), ImageFormat.Png);
@@ -40,6 +42,9 @@ namespace SynergicAPI
             Email_Used = 12,//Self Explained
             Username_Used = 13,//Self Explained
             Service_Not_Found = 14,//The ID given doesn't correspond to any signed service
+            Invalid_Parameters = 15,
+            Internal_Error = 16,
+            Username_Not_Used = 17,
         }
         public enum NotificationCategory
         {
@@ -182,6 +187,20 @@ namespace SynergicAPI
                         return true;
                     }
                     else return false;
+                }
+            }
+        }
+        public static bool IsLegitUserToken(SqlConnection connection, string userToken)
+        {
+
+            string query = "SELECT ID FROM UserAccount WHERE UserToken = @UserToken";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@UserToken", userToken);
+
+                using (var reader = command.ExecuteReader())
+                {
+                        return reader.Read();
                 }
             }
         }
