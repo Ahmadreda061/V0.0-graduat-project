@@ -25,6 +25,8 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
+            //todo: prevent spam
+
             if(service.Images.Length < 0)
             {
                 response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
@@ -86,7 +88,7 @@ namespace SynergicAPI.Controllers
         public ServiceElementResponse[] GetServices(string? Username, string? Title, int? Price, int? Category, int Count, int Offset)
         {
             List<ServiceElementResponse> response = new List<ServiceElementResponse>();
-
+            //todo: add user rating filter
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
@@ -188,6 +190,8 @@ namespace SynergicAPI.Controllers
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
+                con.Open();
+
                 if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
                 {
                     response.statusMessage = "the given userToken is wrong";
@@ -209,7 +213,7 @@ namespace SynergicAPI.Controllers
                             return response;
                         }
 
-                        if (!userToken.Equals((string)reader["UserToken"]))
+                        if (!reader.Read() || !userToken.Equals((string)reader["UserToken"]))
                         {
                             response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                             response.statusMessage = "The Owner of the service doesn't match the given owner";
@@ -218,10 +222,11 @@ namespace SynergicAPI.Controllers
                     }
                 }
 
-                query = "DELETE FROM Services WHERE ServiceID = @ServiceID";
+                query = "DELETE FROM ServicesImages WHERE ServiceID = @ServiceID1; DELETE FROM Services WHERE ServiceID = @ServiceID2";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
-                    command.Parameters.AddWithValue("@ServiceID", serviceID);
+                    command.Parameters.AddWithValue("@ServiceID1", serviceID);
+                    command.Parameters.AddWithValue("@ServiceID2", serviceID);
                     command.ExecuteNonQuery();
                 }
             }

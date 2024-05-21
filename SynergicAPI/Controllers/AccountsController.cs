@@ -248,6 +248,7 @@ namespace SynergicAPI.Controllers
                         return response;
                     }
                 }
+                //todo: send notifications
             }
 
             return response;
@@ -303,7 +304,7 @@ namespace SynergicAPI.Controllers
         [Route("GetRating")]
         public UserRatingResponse GetUserRating(string username)
         {
-            UserRatingResponse response = new UserRatingResponse(5);
+            UserRatingResponse response = new UserRatingResponse(0);
 
             UserReviewResponse revResponse = GetUserReviews(username);
             if(revResponse.statusCode != (int) Utils.StatusCodings.OK)
