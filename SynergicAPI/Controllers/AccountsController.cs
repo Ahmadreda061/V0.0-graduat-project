@@ -24,7 +24,7 @@ namespace SynergicAPI.Controllers
         {
             ProfileResponse response = new ProfileResponse();
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -73,7 +73,7 @@ namespace SynergicAPI.Controllers
             if (validateResult == Utils.StatusCodings.OK)
             {
                 oldToken = data.UserToken;
-                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
                 {
                     con.Open();
                     string query = "UPDATE UserAccount SET ";
@@ -179,7 +179,7 @@ namespace SynergicAPI.Controllers
 
             if(data.Username != null || data.Email != null)
             {
-                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
                 {
                     con.Open();
 
@@ -216,7 +216,7 @@ namespace SynergicAPI.Controllers
                 return response;
             }
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -258,7 +258,7 @@ namespace SynergicAPI.Controllers
         public UserReviewResponse GetUserReviews(string username)
         {
             UserReviewResponse response = new UserReviewResponse();
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 

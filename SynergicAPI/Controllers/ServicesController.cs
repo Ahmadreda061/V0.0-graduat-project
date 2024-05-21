@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SynergicAPI.Models;
-using SynergicAPI.Models.NotificationTypes;
+using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
+using System.Data;
 using System.Data.SqlClient;
-using static SynergicAPI.Utils;
 
 namespace SynergicAPI.Controllers
 {
@@ -29,54 +29,56 @@ namespace SynergicAPI.Controllers
             {
                 response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                 response.statusMessage = "Service Error: You need one or more Images for the Service!";
+                return response;
             }
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
                 int userID;
-                if (Utils.IsLegitUserWithID(con, service.user, out userID))
-                {
-                    string InsertServiceQuery = $"INSERT INTO {Utils.ServicesString} " +
-                                                           "VALUES (@OwnerID, @ServiceTitle, @ServicePrice, @ServiceDescription, @ServiceCategory)";
-
-                    using (SqlCommand insertCommand = new SqlCommand(InsertServiceQuery, con))
-                    {
-                        insertCommand.Parameters.AddWithValue("@OwnerID", userID);
-                        insertCommand.Parameters.AddWithValue("@ServiceTitle", service.Title);
-                        insertCommand.Parameters.AddWithValue("@ServicePrice", service.Price);
-                        insertCommand.Parameters.AddWithValue("@ServiceDescription", service.Description);
-                        insertCommand.Parameters.AddWithValue("@ServiceCategory", service.Category);
-
-                        int rowsAffected = insertCommand.ExecuteNonQuery();
-
-                        if (rowsAffected <= 0)//Query failed to execute.
-                        {
-                            response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
-                            response.statusMessage = "Service Error: An unexpected error has occurred while registering the Service!";
-                        }
-                    }
-                    int ServiceID = GetServiceID(con, service, userID);
-
-                    string InsertServiceImagesQuery = $"INSERT INTO {Utils.ServicesImagesString} " +
-                   "VALUES (@ServiceID, @ImageData)";
-                    foreach (var img in service.Images)
-                    {
-                        using (SqlCommand insertImageCommand = new SqlCommand(InsertServiceImagesQuery, con))
-                        {
-                            insertImageCommand.Parameters.AddWithValue("@ServiceID", ServiceID);
-                            insertImageCommand.Parameters.AddWithValue("@ImageData", img);//converting the img base64 into byte[]
-                            insertImageCommand.ExecuteNonQuery();
-                        }
-                    }
-                }
-                else
+                if (!Utils.IsLegitUserTokenWithID(con, service.userToken, out userID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                     response.statusMessage = "The password doesn't match with the expected one for the UserToken.";
+                    return response;
                 }
+
+                string query = $"INSERT INTO {Utils.ServicesString} " +
+                                                       "VALUES (@OwnerID, @ServiceTitle, @ServicePrice, @ServiceDescription, @ServiceCategory)";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@OwnerID", userID);
+                    cmd.Parameters.AddWithValue("@ServiceTitle", service.Title);
+                    cmd.Parameters.AddWithValue("@ServicePrice", service.Price);
+                    cmd.Parameters.AddWithValue("@ServiceDescription", service.Description);
+                    cmd.Parameters.AddWithValue("@ServiceCategory", service.Category);
+
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected <= 0)//Query failed to execute.
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                        response.statusMessage = "Service Error: An unexpected error has occurred while registering the Service!";
+                        return response;
+                    }
+                }
+                int ServiceID = Utils.GetServiceID(con, service, userID);
+
+                query = $"INSERT INTO {Utils.ServicesImagesString} " +
+               "VALUES (@ServiceID, @ImageData)";
+                foreach (var img in service.Images)
+                {
+                    using (SqlCommand insertImageCommand = new SqlCommand(query, con))
+                    {
+                        insertImageCommand.Parameters.AddWithValue("@ServiceID", ServiceID);
+                        insertImageCommand.Parameters.AddWithValue("@ImageData", img);//converting the img base64 into byte[]
+                        insertImageCommand.ExecuteNonQuery();
+                    }
+                }
+                return response;
             }
-            return response;
         }
 
         [HttpGet]
@@ -85,7 +87,7 @@ namespace SynergicAPI.Controllers
         {
             List<ServiceElementResponse> response = new List<ServiceElementResponse>();
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -183,8 +185,16 @@ namespace SynergicAPI.Controllers
         public DefaultResponse DeleteService(string userToken, string serviceID)
         {
             DefaultResponse response = new DefaultResponse();
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
+                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                {
+                    response.statusMessage = "the given userToken is wrong";
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    return response;
+                }
+
                 string query = "SELECT UserToken FROM UserAccount WHERE ID = (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID)";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
@@ -194,14 +204,14 @@ namespace SynergicAPI.Controllers
                     {
                         if (!reader.HasRows)
                         {
-                            response.statusCode = (int)StatusCodings.Service_Not_Found;
+                            response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
                             response.statusMessage = "Service couldn't be found!";
                             return response;
                         }
 
                         if (!userToken.Equals((string)reader["UserToken"]))
                         {
-                            response.statusCode = (int)StatusCodings.Illegal_Data;
+                            response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                             response.statusMessage = "The Owner of the service doesn't match the given owner";
                             return response;
                         }
@@ -217,38 +227,6 @@ namespace SynergicAPI.Controllers
             }
             return response;
         }
-        int GetServiceID(SqlConnection connection, SynergicService service, int userID)
-        {
-            int serviceID = -1;
-
-            string query = @"SELECT ServiceID 
-                     FROM Services 
-                     WHERE OwnerID = @OwnerID 
-                     AND ServiceTitle = @ServiceTitle 
-                     AND ServicePrice = @ServicePrice 
-                     AND ServiceDescription = @ServiceDescription 
-                     AND ServiceCategory = @ServiceCategory";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                // Set parameters
-                command.Parameters.AddWithValue("@OwnerID", userID);
-                command.Parameters.AddWithValue("@ServiceTitle", service.Title);
-                command.Parameters.AddWithValue("@ServicePrice", service.Price);
-                command.Parameters.AddWithValue("@ServiceDescription", service.Description);
-                command.Parameters.AddWithValue("@ServiceCategory", service.Category);
-
-                // Execute the query
-                object result = command.ExecuteScalar();
-
-                if (result != null && result != DBNull.Value)
-                {
-                    serviceID = (int)result;
-                }
-            }
-
-            return serviceID;
-        }
 
         [HttpGet]
         [Route("RequestService")]
@@ -256,13 +234,13 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
-                if(!IsLegitUserTokenWithID(con, userToken, out int userID))
+                if(!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
                 {
-                    response.statusCode = (int)StatusCodings.Account_Not_Found;
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
                     response.statusMessage = "Error in userToken";
                     return response;
                 }
@@ -285,12 +263,12 @@ namespace SynergicAPI.Controllers
 
 
                 //All succeeded so far, now send notification for the ServiceOwner
-                string senderName = UserIDToUsername(con, userID);
-                ServiceRequestNotificationContent content = new ServiceRequestNotificationContent()
+                string senderName = Utils.UserIDToUsername(con, userID);
+                ServiceRequestNotification content = new ServiceRequestNotification()
                 {
                     senderUsername = senderName,
-                    senderPP = UserIDToProfilePicture(con, userID),
-                    messageContent = $"{senderName} Is requesting the service ({ServiceIDToServiceTitle(con, ServiceID)})",
+                    senderPP = Utils.UserIDToProfilePicture(con, userID),
+                    messageContent = $"{senderName} Is requesting the service ({Utils.ServiceIDToServiceTitle(con, ServiceID)})",
                     sendTime = DateTime.Now,
                 };
 
@@ -302,7 +280,7 @@ namespace SynergicAPI.Controllers
                 {
                     command.Parameters.AddWithValue("@SenderID", userID);
                     command.Parameters.AddWithValue("@ServiceID", ServiceID);
-                    command.Parameters.AddWithValue("@NotificationCategory", (int)NotificationCategory.ServiceRequest);
+                    command.Parameters.AddWithValue("@NotificationCategory", (int)Utils.NotificationCategory.ServiceRequest);
                     command.Parameters.AddWithValue("@IsRead", false);
                     command.Parameters.AddWithValue("@Content", JsonConvert.SerializeObject(content));
 
@@ -310,7 +288,7 @@ namespace SynergicAPI.Controllers
                     if (count == 0)
                     {
                         response.statusMessage = "An unknown error happened while sending a notification";
-                        response.statusCode = (int)StatusCodings.Unknown_Error;
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
                         return response;
                     }
                 }

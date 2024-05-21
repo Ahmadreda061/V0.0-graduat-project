@@ -1,11 +1,9 @@
-using Newtonsoft.Json;
-using SynergicAPI.Models.NotificationTypes;
-using System.Drawing;
+using SynergicAPI.Models.Notifications;
 
 namespace SynergicAPI.Models.Responses
 {
     public class NotificationsResponse : DefaultResponse
     {
-        public string[] Notifications { get; set; }
+        public List<SynergicNotification> Notifications { get; set; }
     }
 }

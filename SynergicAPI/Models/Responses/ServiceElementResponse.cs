@@ -1,5 +1,3 @@
-using System.Drawing;
-
 namespace SynergicAPI.Models.Responses
 {
     public class ServiceElementResponse : DefaultResponse

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using SynergicAPI.Models;
-using SynergicAPI.Models.NotificationTypes;
+using SynergicAPI.Models.Notifications;
+using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
 
@@ -17,13 +17,14 @@ namespace SynergicAPI.Controllers
         {
             configuration = _configuration;
         }
+
         [HttpGet]
         [Route("GetNotifications")]
         public NotificationsResponse GetNotifications(string userToken)
         {
             NotificationsResponse response = new NotificationsResponse();
-
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
                 if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
@@ -32,42 +33,41 @@ namespace SynergicAPI.Controllers
                     response.statusMessage = "Account couldn't be found!";
                     return response;
                 }
-                List<INotification> notifications = new List<INotification>();
-
+                response.Notifications = new List<SynergicNotification>();
                 string query = $"SELECT * FROM Notifications WHERE RecieverID = @RecieverID";
-                using(SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@RecieverID", userID);
-                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
+                            SynergicNotification notification = new SynergicNotification();
+                            notification.NotificationID = (int)reader["ID"];
+                            notification.NotificationCategory = (int)Utils.NotificationCategory.ServiceRequest;
+                            notification.IsRead = (bool)reader["IsRead"];
+
                             switch ((int)reader["NotificationCategory"])
                             {
                                 case (int)Utils.NotificationCategory.System:
                                     break;
                                 case (int)Utils.NotificationCategory.ServiceRequest:
-
-                                    ServiceRequestNotification notification = new();
-                                    notification.content = JsonConvert.DeserializeObject<ServiceRequestNotificationContent>((string)reader["Content"]);//API will re-serialize this part, but deserializing is required-esh to show the structure in the API Schemas
-                                    notification.NotificationID = (int)reader["ID"];
-                                    notification.NotificationCategory = (int)Utils.NotificationCategory.ServiceRequest;
-                                    notification.IsRead = (bool)reader["IsRead"];
-                                    notifications.Add(notification);
-
+                                    notification.content = JsonConvert.DeserializeObject<ServiceRequestNotification>((string)reader["Content"]);//API will re-serialize this part, but deserializing is required-esh to show the structure in the API Schemas
                                     break;
                                 case (int)Utils.NotificationCategory.Message:
                                     break;
                                 default:
                                     break;
                             }
+                            response.Notifications.Add(notification);
                         }
-                        response.Notifications = notifications.Select((i)=>i.Serialize()).ToArray();
                     }
                 }
             }
-            return response;
+
+            return response; // Serialize and deserialize to apply settings
         }
+
 
         [HttpGet]
         [Route("MarkNotificationAsRead")]
@@ -75,7 +75,7 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 

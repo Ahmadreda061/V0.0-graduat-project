@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SynergicAPI.Models;
-using SynergicAPI.Models.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
 
@@ -24,7 +23,7 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -97,7 +96,7 @@ namespace SynergicAPI.Controllers
         {
             AvilableRoomsResponse response = new AvilableRoomsResponse();
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -157,7 +156,7 @@ namespace SynergicAPI.Controllers
         public async Task<DefaultResponse> SendMessageAsync(string userToken, int chatID, string message)
          {
             DefaultResponse response = new DefaultResponse();
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
                 if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
@@ -209,7 +208,7 @@ namespace SynergicAPI.Controllers
         public async Task<RoomMessagesResponse> GetMessagesAsync(string userToken, int chatID, int[] aquiredMessages)
         {
             RoomMessagesResponse response = new RoomMessagesResponse();
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
                 if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))

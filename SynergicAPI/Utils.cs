@@ -282,5 +282,39 @@ namespace SynergicAPI
                 }
             }
         }
+        public static int GetServiceID(SqlConnection connection, SynergicService service, int userID)
+        {
+            string query = @"SELECT ServiceID 
+                     FROM Services 
+                     WHERE OwnerID = @OwnerID 
+                     AND ServiceTitle = @ServiceTitle 
+                     AND ServicePrice = @ServicePrice 
+                     AND ServiceDescription = @ServiceDescription 
+                     AND ServiceCategory = @ServiceCategory";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                // Set parameters
+                command.Parameters.AddWithValue("@OwnerID", userID);
+                command.Parameters.AddWithValue("@ServiceTitle", service.Title);
+                command.Parameters.AddWithValue("@ServicePrice", service.Price);
+                command.Parameters.AddWithValue("@ServiceDescription", service.Description);
+                command.Parameters.AddWithValue("@ServiceCategory", service.Category);
+
+                // Execute the query
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (!reader.HasRows)
+                        return -1;
+
+                    int lastID = -1;
+                    while (reader.Read())//loop though to get the last one because logically -in our case- the last one is the one we want "most recently added"
+                    {
+                        lastID = (int)reader["ServiceID"];
+                    }
+                    return lastID;
+                }
+            }
+        }
     }
 }

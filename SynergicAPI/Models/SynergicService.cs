@@ -4,8 +4,7 @@ namespace SynergicAPI.Models
 {
     public class SynergicService //this is used when creating a service
     {
-        public SynergicUser user { get; set; }
-
+        public string userToken { get; set; }
         public string Title { get; set; }
         public int Price { get; set; }
         public string Description { get; set; }

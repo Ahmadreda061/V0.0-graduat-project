@@ -13,8 +13,6 @@ namespace SynergicAPI.Controllers
 
         public UserAuthenticationController(IConfiguration _configuration)
         {
-            // Determine the path to the image file
-
             configuration = _configuration;
         }
 
@@ -42,7 +40,7 @@ namespace SynergicAPI.Controllers
                 response.statusMessage = "Incorrect (Username, FName, LName) form!";
                 return response;
             }
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -95,7 +93,7 @@ namespace SynergicAPI.Controllers
             LoginResponse response = new LoginResponse();
             loginInfo.Password = Utils.HashString(loginInfo.Password, "SynergicPasswordHashSalt");//Hash the password for security reasons.
 
-            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
@@ -161,7 +159,7 @@ namespace SynergicAPI.Controllers
             }
             else
             {
-                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon").ToString())) //Create connection with the database.
+                using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
                 {
                     con.Open();
                     bool added = true;
@@ -211,6 +209,7 @@ namespace SynergicAPI.Controllers
             return response;
         }
 
+        #region This Part From ChatGPT, and it is used to validate credit cards info
         private bool ValidateCardInfo(PaymentInfo info)
         {
             if (string.IsNullOrEmpty(info.CardholderName) ||
@@ -229,7 +228,6 @@ namespace SynergicAPI.Controllers
 
             return true;
         }
-
         private bool IsLuhnValid(string cardNumber)
         {
             // Remove non-digit characters
@@ -256,5 +254,6 @@ namespace SynergicAPI.Controllers
             // If the sum is a multiple of 10, then the card number is valid according to the Luhn algorithm
             return sum % 10 == 0;
         }
+        #endregion
     }
 }
