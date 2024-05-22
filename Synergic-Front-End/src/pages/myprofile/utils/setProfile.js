@@ -9,7 +9,10 @@ export default function setProfile(postData, setErrors) {
 
                 // Successfuly State 😍
                 // if the userName edit i will set the local storge wating the Back End
-                localStorage.setItem("Key", data.newUsername)
+                if (data.newUsername) {
+                    localStorage.setItem("Key", data.newUsername)
+
+                }
                 window.location.reload();
 
             }

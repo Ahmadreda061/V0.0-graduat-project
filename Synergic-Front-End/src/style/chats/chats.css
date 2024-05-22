@@ -1,0 +1,228 @@
+
+.chats {
+    margin-top: 100px;
+    background-color: var(--main-bg);
+}
+
+.username {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.chats--messenger {
+    height: calc(100vh - 100px);
+    display: flex;
+    padding: 30px;
+    text-transform: capitalize;
+
+}
+
+.chats--sidebar {
+    width: 370px;
+    background-color: var( --text);
+    color: #f5f5f5;
+    border-radius: 15px 0 0 15px;
+
+}
+
+.sidebar--header {
+    gap: 15px;
+    padding: 40px;
+    border-bottom: 2px solid #f5f5f5;
+    background-color: transparent;
+    margin-top: 0;
+}
+
+.sidebar--header-img {
+    border: 3px solid #2ecc71;
+}
+
+.sidebar--contacts, .messages--body {
+    padding: 20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: calc(100vh - 292px); 
+
+}
+
+.sidebar--contacts::-webkit-scrollbar,
+.messages--body::-webkit-scrollbar {
+    width: 12px;
+}
+
+.sidebar--contacts::-webkit-scrollbar-thumb,
+.messages--body::-webkit-scrollbar-thumb {
+    background-color: #888; 
+    border-radius: 6px; 
+}
+
+.sidebar--contacts::-webkit-scrollbar-thumb:hover,
+.messages--body::-webkit-scrollbar-thumb:hover {
+    background-color: #555; 
+}
+
+.sidebar--contacts::-webkit-scrollbar-track {
+    background-color: var(--text); 
+}
+
+.messages--body::-webkit-scrollbar-track {
+    background-color: #e6eaea;
+}
+
+.sidebar--contacts .contact {
+    display: flex;
+    gap: 10px;
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.contact-info {
+    width: 100%;
+}
+
+.contact-info--username {
+    font-size: 1rem;
+}
+
+.contact-info--text {
+    flex-grow: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 60%;
+}
+
+.contact-info--time {
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.chats--messages {
+    flex: 1;
+    background-color: #e6eaea;
+    display: flex;
+    flex-direction: column;
+    border-radius: 0 15px 15px 0;
+
+}
+
+.messages--header {
+    background-color: #fff;
+    padding: 20px;
+    gap: 10px;
+    color: var(--text);
+    border-top-right-radius: 15px;
+    margin-top: 0;
+
+}
+
+.messages--header-username {
+    color: var(--text);
+}
+
+.messages--body {
+    flex: 1;
+    padding: 20px ;
+    margin: 0;
+}
+
+.messages--body > ul {
+    display: flex;
+    flex-direction: column;
+    color: #f5f5f5;
+}
+
+.my-msg, .other-msg {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-width: 50%;
+}
+
+.other-msg {
+    align-self: flex-end;
+}
+
+.my-msg--img, .other-msg--img {
+    width: 30px;
+    height: 30px;
+}
+.other-msg--img.circle:hover, 
+.my-msg--img.circle:hover {
+    width: 30px !important;
+    height: 30px !important;
+}
+.my-msg--info, .other-msg--info {
+    background-color: var( --logo-blue);
+    padding: 10px 20px;
+    border-radius: 30px;
+}
+.other-msg--info {
+    background-color: #fff;
+    color: #000;
+}
+
+.messsages--form {
+    padding: 10px 20px;
+    position: relative;
+    gap: 10px;
+}
+
+.messsages--form--write {
+    flex: 1;
+    font-size: 1.2rem;
+}
+
+.messsages--form .attachment {
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    right: 60px;
+    top: 17px;
+}
+
+.messsages--form > .submit {
+    border: none;
+    font-size: 1rem;
+    width: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+}
+
+.messsages--form > .submit > * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (width <= 1400px) {
+    .other-msg, .my-msg {
+        max-width: 90%;
+    }
+}
+
+
+@media screen and (width <= 920px) {
+    .sidebar--header {
+        padding: 20px;
+    }
+    .sidebar--header-username {
+        display: none;
+    }
+    .chats--sidebar {
+        width: 92px;
+    }
+}
+
+@media screen and (width <= 590px) {
+    .chats--messenger {
+        padding: 0;
+    }
+    .container {
+        margin: 0;
+        padding: 0;
+    }
+    
+}

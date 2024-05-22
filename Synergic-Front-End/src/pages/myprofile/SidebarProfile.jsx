@@ -3,6 +3,7 @@ import "../../style/myprofile-style/sidebarProfile.css";
 import { useContext, useState } from "react";
 import getImageUrl from "../../utils/image-util";
 import { userInfoContext } from "../../App";
+import createRoom from "../chats/utils/createRoom";
 
 function SidebarProfile({ serviceOwnerUserName }) {
   const { userInfo } = useContext(userInfoContext);
@@ -60,6 +61,28 @@ function SidebarProfile({ serviceOwnerUserName }) {
               </Link>
             </li>
           </>
+        )}
+        {serviceOwnerUserName && (
+          <li>
+            <Link
+              style={
+                activeLink === "myprofile"
+                  ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                  : { backgroundColor: "#fff" }
+              }
+              className="sidebar--page"
+              to="/chats"
+              onClick={() =>
+                createRoom(
+                  userInfo.userToken,
+                  serviceOwnerUserName,
+                  userInfo.userName + "to" + serviceOwnerUserName
+                )
+              }
+            >
+              <button className="btn">Start Chat</button>
+            </Link>
+          </li>
         )}
         {userInfo.isVendor && (
           <>

@@ -12,6 +12,7 @@ import "./style/myprofile-style/myprofile.css";
 import getUser from "./utils/getUser";
 import getUserNotfications from "./utils/getUserNotfications";
 import Loading from "./components/Loding";
+import Chats from "./pages/chats/Chats";
 
 const Home = lazy(() => import("./home/Home"));
 const Register = lazy(() => import("./register/Register"));
@@ -98,6 +99,7 @@ function App() {
             />
             <Route path="/vendorRegistertion" element={<VendorReg />} />
             <Route path="/explore" element={<Explore />} />
+            <Route path="/chats" element={<Chats />}></Route>
             <Route path="serviceCreation" element={<ServiceCreation />}></Route>
             <Route path="/servicepreview" element={<ServicePreview />}></Route>
             <Route
