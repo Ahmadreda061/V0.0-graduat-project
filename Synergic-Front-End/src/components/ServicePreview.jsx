@@ -4,13 +4,17 @@ import { Link } from "react-router-dom";
 import { userInfoContext } from "../App";
 import sendServiceReq from "../utils/sendServiceReq";
 import Loading from "./Loding";
+import YesOrNo from "./YesOrNo";
 
 function ServicePreview() {
   const { userInfo } = useContext(userInfoContext);
   const [mainImageIndex, setMainImage] = useState(0);
   const [serviceInfo, setServiceInfo] = useState({});
   const [comment, setComment] = useState(""); // New state for comment
-
+  const [yesOrNoOverlay, setYesOrNoOverlay] = useState(false);
+  function handleYesOrNo() {
+    setYesOrNoOverlay((prevState) => !prevState);
+  }
   useEffect(() => {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
@@ -21,7 +25,7 @@ function ServicePreview() {
   if (!serviceInfo) {
     return <Loading />;
   }
-
+  console.log(serviceInfo);
   function callRequest() {
     sendServiceReq(
       userInfo.userToken,
@@ -118,30 +122,52 @@ function ServicePreview() {
             </>
           )}
         </div>
-        <div className="service-preview--info">
+        <div
+          className={`service-preview--info ${
+            serviceInfo.serviceOwnerUsername == userInfo.username && "owner"
+          }`}
+          style={{ position: "relative" }}
+        >
+          <i
+            className="fa-solid fa-xmark"
+            style={{ color: "red" }}
+            onClick={handleYesOrNo}
+          ></i>
+
           <h1 className="preview--info--title title">{serviceInfo.title}</h1>
           <p className="preview--info--description description">
             {serviceInfo.description}
           </p>
-          <form action="">
-            <div className="form-element">
-              <label htmlFor="comment">Optional Comment</label>
-              <textarea
-                name="comment"
-                id="comment"
-                placeholder="Add your comment here"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              ></textarea>
-            </div>
-          </form>
+          {serviceInfo.serviceOwnerUsername != userInfo.username && (
+            <form action="">
+              <div className="form-element">
+                <label htmlFor="comment">Optional Comment</label>
+                <textarea
+                  name="comment"
+                  id="comment"
+                  placeholder="Add your comment here"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+              </div>
+            </form>
+          )}
           <span className="preview--info--price">${serviceInfo.price}</span>
 
-          <button className="btn preview--info--req" onClick={callRequest}>
-            Request
-          </button>
+          {serviceInfo.serviceOwnerUsername != userInfo.username && (
+            <button className="btn preview--info--req" onClick={callRequest}>
+              Request
+            </button>
+          )}
         </div>
       </div>
+      {yesOrNoOverlay && (
+        <YesOrNo
+          handleYesOrNo={handleYesOrNo}
+          userToken={userInfo.userToken}
+          serviceID={serviceInfo.serviceID}
+        />
+      )}
     </div>
   );
 }

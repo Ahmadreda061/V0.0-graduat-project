@@ -13,7 +13,6 @@
     margin-bottom: 3px;
     margin-left: 5px;
 }
-
 .service-owner-image {
     width: 42px;
     height: 42px;
@@ -60,7 +59,9 @@
     flex-direction: column;
     justify-content: center;
 }
-
+.service-preview--info.owner {
+    justify-content: flex-start;
+} 
 .service-preview--info > :not(:first-child) {
     margin-top: 20px;
 }

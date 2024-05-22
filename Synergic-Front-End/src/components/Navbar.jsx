@@ -3,8 +3,14 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../style/components-style/navbar.css";
 import getImageUrl from "../utils/image-util";
+import { userInfoContext } from "../App";
+import Notfications from "../pages/myprofile/myprofile-component/Notfications";
+import { longFormatters } from "date-fns";
 
-function Navbar({ handleRegisterOverlay }) {
+function Navbar({ handleRegisterOverlay, allNotificationsRead }) {
+  const { userInfo } = useContext(userInfoContext);
+  const [showNoitifctions, setShowNoitifctions] = useState(false);
+
   const [bars, setBars] = useState(false);
   const [showPaths, setShowPaths] = useState(false);
   const [showRegisterBtn, setShowRegisterBtn] = useState(false);
@@ -33,8 +39,10 @@ function Navbar({ handleRegisterOverlay }) {
     // if the landing page register out if the view the reg in nav bar will show
     const handleScroll = () => {
       const landingRegister = document.querySelector(".landing .text-btn");
-      const navbarRegister = document.querySelector(".navbar .nav-btn");
+      const navbarRegister = document.getElementById("nav-register-btn");
+      console.log(navbarRegister);
       if (landingRegister && navbarRegister) {
+        console.log("call");
         const landingRegisterRect = landingRegister.getBoundingClientRect();
         landingRegisterRect.bottom < 0
           ? setShowRegisterBtn(true)
@@ -51,7 +59,6 @@ function Navbar({ handleRegisterOverlay }) {
   const styles = {
     right: showPaths ? 0 : "-1000px",
   };
-
   return (
     <nav className="navbar">
       <div className="container">
@@ -99,20 +106,29 @@ function Navbar({ handleRegisterOverlay }) {
                 explore
               </Link>
             </li>
-
-            <li className="nav-btn">
-              <Link
-                onClick={() => !userKey && handleRegisterOverlay()}
-                to={userKey && "/vendorRegistertion"}
-                className="line nav--paths_link"
-              >
-                <button className="btn">become vendor</button>
+            <li>
+              <Link to="/chats" className="line nav--paths_link">
+                chats
               </Link>
             </li>
 
-            {!localStorage.getItem("Key") && showRegisterBtn ? (
+            {userInfo && !userInfo.isVendor && (
+              <li className="nav-btn">
+                <Link
+                  onClick={() => !userKey && handleRegisterOverlay()}
+                  to={userKey && "/vendorRegistertion"}
+                  className="line nav--paths_link"
+                >
+                  <button className="btn">become vendor</button>
+                </Link>
+              </li>
+            )}
+
+            {!userInfo && showRegisterBtn ? (
               <li className="line nav-btn" onClick={handleRegisterOverlay}>
-                <button className="btn">Register</button>
+                <button className="btn" id="nav-register-btn">
+                  Register
+                </button>
               </li>
             ) : (
               localStorage.getItem("Key") && (
@@ -124,6 +140,16 @@ function Navbar({ handleRegisterOverlay }) {
                   </Link>
                 </li>
               )
+            )}
+            {userInfo && (
+              <li>
+                <i
+                  className="fa-regular fa-bell fa-fw nav--bell"
+                  onClick={() => setShowNoitifctions((prevState) => !prevState)}
+                ></i>
+                {!allNotificationsRead && <span className="circle-red"></span>}
+                {showNoitifctions && <Notfications />}
+              </li>
             )}
           </ul>
         </div>

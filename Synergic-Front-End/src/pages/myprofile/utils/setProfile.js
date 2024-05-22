@@ -4,11 +4,12 @@ export default function setProfile(postData, setErrors) {
         .post("https://localhost:7200/api/Accounts/SetProfile", postData)
         .then((res) => res.data)
         .then((data) => {
-            console.log(data)
             if (data.statusCode === 0) {
-                
+                console.log(data)
+
                 // Successfuly State 😍
                 // if the userName edit i will set the local storge wating the Back End
+                localStorage.setItem("Key", data.newUsername)
                 window.location.reload();
 
             }

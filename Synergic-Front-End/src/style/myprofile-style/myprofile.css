@@ -72,6 +72,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 251px;
+
 }
 
 .informations--sections .info-box {

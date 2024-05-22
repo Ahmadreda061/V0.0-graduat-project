@@ -12,12 +12,6 @@ import ConfirmPass from "../components/ConfirmPass";
 function ServiceCreation() {
   const { userInfo } = useContext(userInfoContext);
   const { userToken, username } = userInfo;
-  const [cofirmPassword, setCofirmPassword] = useState(false);
-
-  function handleConfirmPass() {
-    setCofirmPassword((prevState) => !prevState);
-    return cofirmPassword;
-  }
 
   const [images, setImages] = useState([]);
   const formFields = [
@@ -63,19 +57,15 @@ function ServiceCreation() {
     setSubmitted(true);
     const isValid = creactionValidateForm();
     if (isValid) {
-      setCofirmPassword(true);
-      if (formData.password) {
-        // if there is data in the password post it
-        axios
-          .post("https://localhost:7200/api/Services/AddService", {
-            user: { userToken, username, password: formData.password },
-            ...formData,
-          })
-          .then((res) => {
-            alert("Post has been uploded"); // create custom alert
-            window.location.pathname = "/myprofile/services";
-          });
-      }
+      axios
+        .post("https://localhost:7200/api/Services/AddService", {
+          userToken,
+          ...formData,
+        })
+        .then((res) => {
+          alert("Post has been uploded"); // create custom alert
+          window.location.pathname = "/myprofile/services";
+        });
     }
   }
   function creactionValidateForm() {
@@ -175,15 +165,6 @@ function ServiceCreation() {
               ))}
             </div>
           </div>
-          {cofirmPassword && (
-            <ConfirmPass
-              value={formData.password}
-              change={change}
-              error={errors.password}
-              cofirmPassword={cofirmPassword}
-              handleConfirmPass={handleConfirmPass}
-            />
-          )}
         </form>
       </div>
     </div>

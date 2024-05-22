@@ -3,6 +3,7 @@ import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";
 import "../style/home-style/home.css";
+import ChatComponent from "./ChatComponent";
 
 function Home({ handleRegisterOverlay }) {
   const cardsContainerRef = useRef(null);
@@ -35,6 +36,7 @@ function Home({ handleRegisterOverlay }) {
             scrollLeft={handleScrollLeft}
             scrollRight={handleScrollRight}
           />
+          {/* <ChatComponent /> */}
           <Recomendation />
         </div>
       </main>

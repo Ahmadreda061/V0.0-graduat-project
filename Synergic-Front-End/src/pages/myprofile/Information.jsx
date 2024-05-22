@@ -14,7 +14,7 @@ function Information() {
   const serviceOwnerInfo = useContext(UserTokenContext);
   const { userInfo, setUserInfo } = useContext(userInfoContext);
   const [serviceOwnerToken, setServiceOwnerToken] = useState(null);
-  getUserNotfications();
+  getUserNotfications(userInfo.userToken);
   const [errors, setErrors] = useState({});
   const [editedFields, setEditedFields] = useState({});
   const { formData, change } = useFormReducer(
@@ -33,6 +33,7 @@ function Information() {
         ...editedFields,
         profilePicture: userInfo.profilePicture,
       };
+
       setProfile(postData, setErrors);
     }
   }
@@ -42,6 +43,7 @@ function Information() {
         serviceOwnerToken,
         socialAccounts,
         userBio,
+        isVendor,
         userRating,
         ...ReqData
       } = formData;
@@ -61,6 +63,7 @@ function Information() {
       }
 
       setErrors(newErrors);
+
       return Object.keys(newErrors).length === 0;
     }
     return false;

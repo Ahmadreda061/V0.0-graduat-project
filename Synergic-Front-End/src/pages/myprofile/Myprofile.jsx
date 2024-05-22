@@ -6,14 +6,13 @@ import getUser from "../../utils/getUser";
 import { userInfoContext } from "../../App";
 import Notfications from "./myprofile-component/Notfications";
 export const UserTokenContext = createContext(null);
-function Myprofile() {
+function Myprofile({ allNotificationsRead }) {
   const [showNoitifctions, setShowNoitifctions] = useState(false);
   const { userInfo } = useContext(userInfoContext);
   const [serviceOwnerUserName, setserviceOwnerUserName] = useState(null);
   const [serviceOwnerInfo, setServiceOwnerInfo] = useState(null);
   const location = useLocation();
   const path = location.pathname;
-  console.log(showNoitifctions);
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     setserviceOwnerUserName(searchParams.get("UT"));
@@ -41,11 +40,20 @@ function Myprofile() {
                 ? "Profile"
                 : path.slice(path.lastIndexOf("/") + 1)}
             </h1>
+            <div>
+              {!allNotificationsRead && (
+                <span
+                  style={{ top: "initial", right: "35px" }}
+                  className="circle-red"
+                ></span>
+              )}
 
-            <i
-              className="fa-regular fa-bell fa-fw nav--bell"
-              onClick={handleNoitifctions}
-            ></i>
+              <i
+                className="fa-regular fa-bell fa-fw nav--bell"
+                onClick={handleNoitifctions}
+              ></i>
+            </div>
+
             {showNoitifctions && <Notfications />}
           </nav>
           <div className="pages--content">

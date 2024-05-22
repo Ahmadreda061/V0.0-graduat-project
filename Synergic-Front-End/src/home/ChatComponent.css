@@ -1,0 +1,10 @@
+.scrollarea {
+    min-height: 500px;
+    overflow-x: auto;
+  }
+  
+  .parent {
+    width: 30%;
+    box-shadow: 3px 3px 3px;
+    margin-left: 100px;
+  }
