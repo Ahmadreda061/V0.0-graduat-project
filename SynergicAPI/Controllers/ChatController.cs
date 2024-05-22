@@ -153,7 +153,7 @@ namespace SynergicAPI.Controllers
         
         [HttpPost]
         [Route("SendMessageAsync")]
-        public async Task<DefaultResponse> SendMessageAsync(string userToken, int chatID, string message)
+        public async Task<DefaultResponse> SendMessageAsync(string userToken, int roomID, string message)
          {
             DefaultResponse response = new DefaultResponse();
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
@@ -169,7 +169,7 @@ namespace SynergicAPI.Controllers
                 string query = "SELECT * FROM ChatRoomUsers WHERE RoomID = @RoomID AND UserID = @UserID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@RoomID", chatID);
+                    cmd.Parameters.AddWithValue("@RoomID", roomID);
                     cmd.Parameters.AddWithValue("@UserID", userID);
                     if((int)cmd.ExecuteScalar() == 0)
                     {
@@ -183,7 +183,7 @@ namespace SynergicAPI.Controllers
                 query = "SELECT RoomName FROM ChatRooms WHERE ID = @ID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@ID", chatID);
+                    cmd.Parameters.AddWithValue("@ID", roomID);
                     roomName = (string)cmd.ExecuteScalar();
                 }
 
@@ -191,7 +191,7 @@ namespace SynergicAPI.Controllers
 
                 string filePath = Path.Combine(Environment.CurrentDirectory, "ChatLogs", roomName + ".clog");
 
-                await System.IO.File.AppendAllTextAsync(filePath, $"{DateTime.Now}*lineSplitter_SynergicRoom:{chatID}*{username}*lineSplitter_SynergicRoom:{chatID}*{message}*lineEnd_SynergicRoom:{chatID}*\n");
+                await System.IO.File.AppendAllTextAsync(filePath, $"{DateTime.Now}*lineSplitter_SynergicRoom:{roomID}*{username}*lineSplitter_SynergicRoom:{roomID}*{message}*lineEnd_SynergicRoom:{roomID}*\n");
             }
             return response;
         }
@@ -200,12 +200,12 @@ namespace SynergicAPI.Controllers
         /// Gets the "Unread" messages in the chat
         /// </summary>
         /// <param name="userToken"></param>
-        /// <param name="chatID"></param>
+        /// <param name="roomID"></param>
         /// <param name="aquiredMessages">the array of the messages ids that the user already has, it's required to make sure not to send data that the user already have -to save performance and bandwidth- يعني علشان ما تخلص الحزمة بخمس ثواني </param>
         /// <returns></returns>
         [HttpPost]
         [Route("GetMessagesAsync")]
-        public async Task<RoomMessagesResponse> GetMessagesAsync(string userToken, int chatID, int[] aquiredMessages)
+        public async Task<RoomMessagesResponse> GetMessagesAsync(string userToken, int roomID, int[] aquiredMessages)
         {
             RoomMessagesResponse response = new RoomMessagesResponse();
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
@@ -221,7 +221,7 @@ namespace SynergicAPI.Controllers
                 string query = "SELECT * FROM ChatRoomUsers WHERE RoomID = @RoomID AND UserID = @UserID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@RoomID", chatID);
+                    cmd.Parameters.AddWithValue("@RoomID", roomID);
                     cmd.Parameters.AddWithValue("@UserID", userID);
                     if ((int)cmd.ExecuteScalar() == 0)
                     {
@@ -235,7 +235,7 @@ namespace SynergicAPI.Controllers
                 query = "SELECT RoomName FROM ChatRooms WHERE ID = @ID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@ID", chatID);
+                    cmd.Parameters.AddWithValue("@ID", roomID);
                     roomName = (string)cmd.ExecuteScalar();
                 }
 
@@ -243,7 +243,7 @@ namespace SynergicAPI.Controllers
 
                 string content = await System.IO.File.ReadAllTextAsync(filePath);
 
-                string[] lines = content.Split($"*lineEnd_SynergicRoom:{chatID}*");
+                string[] lines = content.Split($"*lineEnd_SynergicRoom:{roomID}*");
                 if(lines.Length == aquiredMessages.Length)
                 {
                     response.statusMessage = "User is already up to date";
@@ -253,7 +253,7 @@ namespace SynergicAPI.Controllers
                 {
                     if (aquiredMessages.Contains(i)) continue;
 
-                    string[] lineFrags = lines[i].Split($"*lineSplitter_SynergicRoom:{chatID}*");
+                    string[] lineFrags = lines[i].Split($"*lineSplitter_SynergicRoom:{roomID}*");
                     if(lineFrags.Length != 3) continue;
                     RoomMessageData roomMessageData = new RoomMessageData()
                     {
@@ -267,7 +267,47 @@ namespace SynergicAPI.Controllers
             }
             return response;
         }
-    
-        //TODO: Add get room users "uname, pp"
+
+        /// <summary>
+        /// Gets the "Unread" messages in the chat
+        /// </summary>
+        /// <param name="userToken"></param>
+        /// <param name="chatID"></param>
+        /// <param name="aquiredMessages">the array of the messages ids that the user already has, it's required to make sure not to send data that the user already have -to save performance and bandwidth- يعني علشان ما تخلص الحزمة بخمس ثواني </param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("GetRoomUsersAsync")]
+        public async Task<RoomUsersResponse> GetRoomUsersAsync(int roomID)
+        {
+            RoomUsersResponse response = new RoomUsersResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                string query = "SELECT UserID FROM ChatRoomUsers WHERE RoomID = @RoomID";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@RoomID", roomID);
+                    List<int> ids = new List<int>();
+
+                    using (var reader =  cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ids.Add((int)reader["UserID"]);
+                        }
+                    }
+                    foreach (int id in ids)
+                    {
+                        response.users.Add(new RoomUserData()
+                        {
+                            Username = Utils.UserIDToUsername(con, id),
+                            UserPP = Utils.UserIDToProfilePicture(con, id),
+                        });
+                    }
+                }
+            }
+            return response;
+        }
     }
 }
