@@ -45,6 +45,7 @@ namespace SynergicAPI
             Invalid_Parameters = 15,
             Internal_Error = 16,
             Username_Not_Used = 17,
+            Service_Already_Requested = 18,
         }
         public enum NotificationCategory
         {

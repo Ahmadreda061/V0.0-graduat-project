@@ -257,6 +257,7 @@ namespace SynergicAPI.Controllers
                     if(lineFrags.Length != 3) continue;
                     RoomMessageData roomMessageData = new RoomMessageData()
                     {
+                        MessageID = i,
                         SenderName = lineFrags[1],
                         SendTime = DateTime.Parse(lineFrags[0]),
                         Message = lineFrags[2],
@@ -266,5 +267,7 @@ namespace SynergicAPI.Controllers
             }
             return response;
         }
+    
+        //TODO: Add get room users "uname, pp"
     }
 }

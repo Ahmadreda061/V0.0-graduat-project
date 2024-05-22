@@ -11,6 +11,7 @@
     }
     public class RoomMessageData
     {
+        public int MessageID { get; set; }
         public string SenderName { get; set; }
         public DateTime SendTime { get; set; }
         public string Message { get; set; }

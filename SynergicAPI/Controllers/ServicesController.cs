@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using SynergicAPI.Models;
 using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
-using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 
 namespace SynergicAPI.Controllers
 {
@@ -25,7 +25,6 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
-            //todo: prevent spam
 
             if(service.Images.Length < 0)
             {
@@ -38,8 +37,8 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                int userID;
-                if (!Utils.IsLegitUserTokenWithID(con, service.userToken, out userID))
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, service.userToken, out int userID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                     response.statusMessage = "The password doesn't match with the expected one for the UserToken.";
@@ -49,6 +48,7 @@ namespace SynergicAPI.Controllers
                 string query = $"INSERT INTO {Utils.ServicesString} " +
                                                        "VALUES (@OwnerID, @ServiceTitle, @ServicePrice, @ServiceDescription, @ServiceCategory)";
 
+                //inserts the service into the DB
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@OwnerID", userID);
@@ -66,8 +66,10 @@ namespace SynergicAPI.Controllers
                         return response;
                     }
                 }
+                //Gets the ID of the Service so we can add a record -that requires the ServiceID as a foreign key- into ServicesImages for each provided image
                 int ServiceID = Utils.GetServiceID(con, service, userID);
 
+                //Insert each image into the DB
                 query = $"INSERT INTO {Utils.ServicesImagesString} " +
                "VALUES (@ServiceID, @ImageData)";
                 foreach (var img in service.Images)
@@ -88,27 +90,46 @@ namespace SynergicAPI.Controllers
         public ServiceElementResponse[] GetServices(string? Username, string? Title, int? Price, int? Category, int Count, int Offset)
         {
             List<ServiceElementResponse> response = new List<ServiceElementResponse>();
-            //todo: add user rating filter
+
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
                 if (Count > 0)
                 {
-                    string query = $"SELECT * FROM Services ";
-                    if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Username) || Price > 0 || Category > -1) query += "WHERE ";
+                    //builds the query depending on the given filters, each filter is 'AND'ed with others
+                    var queryBuilder = new StringBuilder("SELECT * FROM Services ");
 
-                    if (!string.IsNullOrEmpty(Title)) query += "(ServiceTitle LIKE @ServiceTitle OR ServiceDescription LIKE @ServiceDescription) AND ";
-                    if (!string.IsNullOrEmpty(Username)) query += "OwnerID IN (SELECT ID FROM UserAccount WHERE Username LIKE @Username) AND ";
-                    if (Price > 0) query += "ServicePrice <= @ServicePrice AND ";
-                    if (Category > -1) query += "ServiceCategory = @ServiceCategory";
+                    if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Username) || Price > 0 || Category > -1)
+                    {
+                        queryBuilder.Append("WHERE ");
 
-                    // Remove trailing "AND" if it exists
-                    query = query.TrimEnd(' ', 'A', 'N', 'D');
+                        if (!string.IsNullOrEmpty(Title))
+                        {
+                            queryBuilder.Append("(ServiceTitle LIKE @ServiceTitle OR ServiceDescription LIKE @ServiceDescription) AND ");
+                        }
+                        if (!string.IsNullOrEmpty(Username))
+                        {
+                            queryBuilder.Append("OwnerID IN (SELECT ID FROM UserAccount WHERE Username LIKE @Username) AND ");
+                        }
+                        if (Price > 0)
+                        {
+                            queryBuilder.Append("ServicePrice <= @ServicePrice AND ");
+                        }
+                        if (Category > -1)
+                        {
+                            queryBuilder.Append("ServiceCategory = @ServiceCategory AND ");
+                        }
 
-                    query += " ORDER BY (SELECT NULL) OFFSET @Offset ROWS FETCH NEXT @Count ROWS ONLY";
+                        // Remove trailing "AND" if it exists
+                        queryBuilder.Replace("AND ", "", queryBuilder.Length - 5, 5);
+                    }
 
-                    using (SqlCommand command = new SqlCommand(query, con))
+                    queryBuilder.Append("ORDER BY (SELECT NULL) OFFSET @Offset ROWS FETCH NEXT @Count ROWS ONLY");
+
+
+                    //gets the services with the given filters
+                    using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), con))
                     {
                         if (!string.IsNullOrEmpty(Title))
                         {
@@ -121,10 +142,11 @@ namespace SynergicAPI.Controllers
                         command.Parameters.AddWithValue("@Offset", Offset);
                         command.Parameters.AddWithValue("@Count", Count);
 
-                        // Load data into a temporary list
+                        // Load data into a temporary lists
                         List<ServiceElementResponse> tempList = new List<ServiceElementResponse>();
                         List<int> OwnersIDs = new List<int>();
                         List<int> ServicesIDs = new List<int>();
+
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -141,9 +163,9 @@ namespace SynergicAPI.Controllers
                             }
                         }
 
+                        //collect the required data from the different tables
                         for (int i = 0; i < tempList.Count; i++)
                         {
-
                             string getUserCommand = $"SELECT Username, ProfilePicture FROM UserAccount WHERE ID = @OwnerID";
                             using (SqlCommand userCommand = new SqlCommand(getUserCommand, con))
                             {
@@ -192,6 +214,7 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
+                //Validate the user
                 if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
                 {
                     response.statusMessage = "the given userToken is wrong";
@@ -199,6 +222,7 @@ namespace SynergicAPI.Controllers
                     return response;
                 }
 
+                //Validate the service existance, and checks if the give user is the owner of this service
                 string query = "SELECT UserToken FROM UserAccount WHERE ID = (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID)";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
@@ -222,6 +246,7 @@ namespace SynergicAPI.Controllers
                     }
                 }
 
+                //Deletes the service from the DB
                 query = "DELETE FROM ServicesImages WHERE ServiceID = @ServiceID1; DELETE FROM Services WHERE ServiceID = @ServiceID2";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
@@ -238,11 +263,13 @@ namespace SynergicAPI.Controllers
         public DefaultResponse RequestService(string userToken, int ServiceID, string? AdditionalComment)
         {
             DefaultResponse response = new DefaultResponse();
+            //todo: prevent spam
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
+                //Validate the user
                 if(!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
@@ -250,7 +277,43 @@ namespace SynergicAPI.Controllers
                     return response;
                 }
 
-                string query = $"INSERT INTO {Utils.ServiceRequestsString} VALUES(@RequesterID, @RequestedServiceID, @AdditionalComment)";
+                //Checks if there is a service with this id
+                string query = $"SELECT ServiceID From Services WHERE ServiceID = @ServiceID";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                            response.statusMessage = "Error in serviceID, Service where not found";
+                            return response;
+                        }
+                    }
+                }
+                
+                //Checks if the user already has an active request for this service
+                query = $"SELECT RequestedServiceID From ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @RequestedServiceID";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@RequesterID", userID);
+                    command.Parameters.AddWithValue("@RequestedServiceID", ServiceID);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Service_Already_Requested;
+                            response.statusMessage = "Service already requested";
+                            return response;
+                        }
+                    }
+                }
+
+                //Adds the service request
+                query = $"INSERT INTO {Utils.ServiceRequestsString} VALUES(@RequesterID, @RequestedServiceID, @AdditionalComment)";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@RequesterID", userID);
@@ -258,10 +321,10 @@ namespace SynergicAPI.Controllers
                     command.Parameters.AddWithValue("@AdditionalComment", AdditionalComment);
 
                     int count = command.ExecuteNonQuery();
-                    if (count == 0)
+                    if (count == 0)//this shouldn't be reachable, but just in case i will leave it
                     {
                         response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
-                        response.statusMessage = "Error in serviceID";
+                        response.statusMessage = "Error in serviceID, Service where not found";
                         return response;
                     }
                 }
