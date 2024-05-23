@@ -40,9 +40,7 @@ function Navbar({ handleRegisterOverlay, allNotificationsRead }) {
     const handleScroll = () => {
       const landingRegister = document.querySelector(".landing .text-btn");
       const navbarRegister = document.getElementById("nav-register-btn");
-      console.log(navbarRegister);
       if (landingRegister && navbarRegister) {
-        console.log("call");
         const landingRegisterRect = landingRegister.getBoundingClientRect();
         landingRegisterRect.bottom < 0
           ? setShowRegisterBtn(true)

@@ -6,7 +6,10 @@
     position: fixed;
     top: 0;
     z-index: 999;
+    margin-top: 0;
 }
+
+
 
 .navbar--nav {
     height: 100px;
@@ -64,4 +67,26 @@
 
 .active .nav-btn .btn {
     width: 100%;
+}
+
+.navbar.explore {
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.navbar.explore.stopTrans {
+    background-color: var(--main-bg);
+    box-shadow: 1px 1px 10px 1px #cccecc;
+}
+
+.navbar.explore.stopTrans a {
+    color:var(--text)
+}
+
+.navbar.explore a {
+    color: #fff 
+}
+
+.navbar.explore a:hover {
+    color: black
 }

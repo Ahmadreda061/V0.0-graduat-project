@@ -38,8 +38,7 @@
 }
 
 .sidebar--contacts, .messages--body {
-    padding: 20px;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     max-height: calc(100vh - 292px); 
 
@@ -70,10 +69,21 @@
 }
 
 .sidebar--contacts .contact {
+    padding: 20px;
     display: flex;
     gap: 10px;
     font-size: 1rem;
-    margin-bottom: 30px;
+    cursor: pointer;
+    transition: .2s ease-in;
+    -webkit-transition: .2s ease-in;
+    -moz-transition: .2s ease-in;
+    -ms-transition: .2s ease-in;
+    -o-transition: .2s ease-in;
+}
+
+.sidebar--contacts .contact:hover {
+    background-color: #eee;
+    color: #000;
 }
 
 .contact-info {
@@ -147,16 +157,35 @@
     width: 30px;
     height: 30px;
 }
+
 .other-msg--img.circle:hover, 
 .my-msg--img.circle:hover {
     width: 30px !important;
     height: 30px !important;
 }
+
 .my-msg--info, .other-msg--info {
     background-color: var( --logo-blue);
     padding: 10px 20px;
     border-radius: 30px;
+    position: relative;
 }
+.my-msg--info > span, .other-msg--info > span {
+    background-color: #ffffffbf;
+    padding: 5px 10px;
+    font-size: .9rem;
+    color: black;
+    position: absolute;
+    top: -10px;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.my-msg--info:hover > span ,
+.other-msg--info:hover > span {
+    opacity:  1 !important;
+}
+
 .other-msg--info {
     background-color: #fff;
     color: #000;

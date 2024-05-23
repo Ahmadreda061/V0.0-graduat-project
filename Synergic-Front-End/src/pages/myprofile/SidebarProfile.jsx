@@ -76,7 +76,7 @@ function SidebarProfile({ serviceOwnerUserName }) {
                 createRoom(
                   userInfo.userToken,
                   serviceOwnerUserName,
-                  userInfo.userName + "to" + serviceOwnerUserName
+                  userInfo.username + "to" + serviceOwnerUserName
                 )
               }
             >
@@ -84,7 +84,7 @@ function SidebarProfile({ serviceOwnerUserName }) {
             </Link>
           </li>
         )}
-        {userInfo.isVendor && (
+        {userInfo.isVendor && !serviceOwnerUserName && (
           <>
             <li>
               <Link

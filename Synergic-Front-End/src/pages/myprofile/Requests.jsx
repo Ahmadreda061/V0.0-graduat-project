@@ -13,7 +13,6 @@ function Requests() {
   }, []);
 
   const requestElements = requests.map((request, index) => {
-    request = JSON.parse(request);
     const content = request.content;
     return (
       <Request

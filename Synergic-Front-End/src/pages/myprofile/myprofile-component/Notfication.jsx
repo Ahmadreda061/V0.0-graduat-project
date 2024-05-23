@@ -10,7 +10,7 @@ function Notfication(props) {
   const sendTimeDate = new Date(props.sendTime);
 
   const relativeTime = formatDistanceToNow(sendTimeDate);
-
+  console.log(props.NotificationID);
   return (
     <Link
       to="/myprofile/requests"
