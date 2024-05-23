@@ -9,13 +9,12 @@ function Notfications() {
   const notificationElements = notifications
     .reverse()
     .map((notfication, index) => {
-      notfication = JSON.parse(notfication);
-      console.log(notfication.NotificationID);
       const content = notfication.content;
+      // console.log(content);
       return (
         <Notfication
           key={index}
-          NotificationID={notfication.NotificationID}
+          NotificationID={notfication.notificationID}
           {...content}
         />
       );

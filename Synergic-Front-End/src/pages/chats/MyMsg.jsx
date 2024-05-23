@@ -1,16 +1,19 @@
 import React from "react";
-import getImageUrl from "../../utils/image-util";
+import giveTime from "../../utils/giveTime";
 
-function MyMsg() {
+function MyMsg(props) {
+  const time = giveTime(props.time);
   return (
     <li className="my-msg ">
       <img
-        src={getImageUrl("DefaultProfileImage.png")}
+        src={`data:image/png;base64,${props.img}`}
         alt="my profile image"
         className="my-msg--img circle"
       />
+
       <p className="my-msg--info">
-        Lorem ipsum, dolor sit amet consectetur adipisicing.
+        {props.msg}
+        <span style={{ opacity: "0", left: "-40px" }}>{time}</span>
       </p>
     </li>
   );

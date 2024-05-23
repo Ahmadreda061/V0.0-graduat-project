@@ -37,7 +37,6 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const location = useLocation();
   const userName = localStorage.getItem("Key");
-
   // WebSocket state
 
   function handleRegisterOverlay() {
@@ -65,8 +64,7 @@ function App() {
 
   useEffect(() => {
     const unreadNotifications = notifications.some((notification) => {
-      const parsedNotification = JSON.parse(notification);
-      return !parsedNotification.IsRead;
+      return !notification.isRead;
     });
     setAllNotificationsRead(!unreadNotifications);
   }, [notifications]);
