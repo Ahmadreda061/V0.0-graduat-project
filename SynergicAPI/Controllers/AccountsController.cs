@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SynergicAPI.Models;
+using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
 
@@ -248,7 +250,34 @@ namespace SynergicAPI.Controllers
                         return response;
                     }
                 }
-                //todo: send notifications
+
+                string senderName = Utils.UserIDToUsername(con, writerID);
+
+
+                //All succeeded so far, now send notification for the Reciever
+                SystemNotification content = new SystemNotification()
+                {
+                    messageContent = $"{senderName} Wrote a review about you, Go check it out!)",
+                    messageTime = DateTime.Now,
+                };
+
+                query = $"INSERT INTO {Utils.NotificationsString} VALUES(@SenderID, @RecieverID, @NotificationCategory, @IsRead, @Content)";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@SenderID", writerID);
+                    command.Parameters.AddWithValue("@SenderID", recieverID);
+                    command.Parameters.AddWithValue("@NotificationCategory", (int)Utils.NotificationCategory.System);
+                    command.Parameters.AddWithValue("@IsRead", false);
+                    command.Parameters.AddWithValue("@Content", JsonConvert.SerializeObject(content));
+
+                    int count = command.ExecuteNonQuery();
+                    if (count == 0)
+                    {
+                        response.statusMessage = "An unknown error happened while sending a notification";
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                        return response;
+                    }
+                }
             }
 
             return response;

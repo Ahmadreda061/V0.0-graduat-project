@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using SynergicAPI.Models;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
 

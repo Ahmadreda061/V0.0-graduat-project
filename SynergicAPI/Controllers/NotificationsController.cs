@@ -50,6 +50,7 @@ namespace SynergicAPI.Controllers
                             switch ((int)reader["NotificationCategory"])
                             {
                                 case (int)Utils.NotificationCategory.System:
+                                    notification.content = JsonConvert.DeserializeObject<SystemNotification>((string)reader["Content"]);//API will re-serialize this part, but deserializing is required-esh to show the structure in the API Schemas
                                     break;
                                 case (int)Utils.NotificationCategory.ServiceRequest:
                                     notification.content = JsonConvert.DeserializeObject<ServiceRequestNotification>((string)reader["Content"]);//API will re-serialize this part, but deserializing is required-esh to show the structure in the API Schemas
