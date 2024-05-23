@@ -37,6 +37,7 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const location = useLocation();
   const userName = localStorage.getItem("Key");
+  const style = null;
   // WebSocket state
 
   function handleRegisterOverlay() {
@@ -45,6 +46,10 @@ function App() {
 
   useEffect(() => {
     setShowNavbar(!location.pathname.includes("/myprofile"));
+    if (!location.pathname.includes("/explore")) {
+      const navBar = document.querySelector(".navbar");
+      if (navBar) navBar.classList.remove("explore");
+    }
   }, [location.pathname]);
 
   useEffect(() => {
