@@ -53,7 +53,7 @@ function Login({ handeleIsRegistered }) {
       <input type="hidden" name="hidden" />
       {FormElements}
 
-      <button className="btn">Log In</button>
+      <button className="btn">Login</button>
     </form>
   );
 }
