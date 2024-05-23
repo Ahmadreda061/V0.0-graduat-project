@@ -247,11 +247,12 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Deletes the service from the DB
-                query = "DELETE FROM ServicesImages WHERE ServiceID = @ServiceID1; DELETE FROM Services WHERE ServiceID = @ServiceID2";
+                query = "DELETE FROM ServicesImages WHERE ServiceID = @ServiceID1; DELETE FROM ServiceRequests WHERE RequestedServiceID = @ServiceID2; DELETE FROM Services WHERE ServiceID = @ServiceID3";
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@ServiceID1", serviceID);
                     command.Parameters.AddWithValue("@ServiceID2", serviceID);
+                    command.Parameters.AddWithValue("@ServiceID3", serviceID);
                     command.ExecuteNonQuery();
                 }
             }

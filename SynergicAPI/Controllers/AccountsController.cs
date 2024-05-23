@@ -265,7 +265,7 @@ namespace SynergicAPI.Controllers
                 using (SqlCommand command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@SenderID", writerID);
-                    command.Parameters.AddWithValue("@SenderID", recieverID);
+                    command.Parameters.AddWithValue("@RecieverID", recieverID);
                     command.Parameters.AddWithValue("@NotificationCategory", (int)Utils.NotificationCategory.System);
                     command.Parameters.AddWithValue("@IsRead", false);
                     command.Parameters.AddWithValue("@Content", JsonConvert.SerializeObject(content));
@@ -347,13 +347,13 @@ namespace SynergicAPI.Controllers
                 return response;
 
 
-            int rating = 0;
+            float rating = 0;
             foreach (var item in revResponse.contents)
             {
                 rating += item.Rating;
             }
-            rating /= revResponse.contents.Length;
-
+            rating /= (float)revResponse.contents.Length;
+            rating = (float)Math.Round(rating * 10) / 10f;
             response.Rating = rating;
             return response;
         }
