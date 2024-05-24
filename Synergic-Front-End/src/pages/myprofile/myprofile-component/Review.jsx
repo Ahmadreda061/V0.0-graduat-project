@@ -1,4 +1,3 @@
-import getImageUrl from "../../../utils/image-util";
 function Review({ msg, rating, senderUsername, senderPP }) {
   return (
     <div className="myprofile-card review-card ">
@@ -8,6 +7,7 @@ function Review({ msg, rating, senderUsername, senderPP }) {
         className="customer-img "
         width="200"
       />
+
       <h3 className="review--fullname">
         <span className="fname">{senderUsername} </span>
       </h3>

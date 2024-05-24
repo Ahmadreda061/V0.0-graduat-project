@@ -6,6 +6,7 @@ import getUser from "../../utils/getUser";
 import { userInfoContext } from "../../App";
 import Notfications from "./myprofile-component/Notfications";
 export const UserTokenContext = createContext(null);
+
 function Myprofile({ allNotificationsRead }) {
   const [showNoitifctions, setShowNoitifctions] = useState(false);
   const { userInfo } = useContext(userInfoContext);
@@ -15,6 +16,7 @@ function Myprofile({ allNotificationsRead }) {
   const path = location.pathname;
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
+    console.log(searchParams);
     setserviceOwnerUserName(searchParams.get("UT"));
   }, []);
 

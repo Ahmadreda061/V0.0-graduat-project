@@ -25,7 +25,6 @@ function ServicePreview() {
   if (!serviceInfo) {
     return <Loading />;
   }
-  console.log(serviceInfo);
   function callRequest() {
     sendServiceReq(
       userInfo.userToken,
@@ -81,23 +80,31 @@ function ServicePreview() {
     <div className="container">
       <div className="service-preview">
         <div className="service-preview--images">
-          <div className="service-preview--serviceowenr">
-            <Link to={`/myprofile?UT=${serviceOwnerUsername}`}>
-              <img
-                src={`data:image/png;base64,${serviceOwnerPic}`}
-                alt="service Owner Image"
-                className="service-owner-image"
-              />
-              {serviceOwnerUsername}
-            </Link>
-          </div>
+          {serviceOwnerPic && (
+            <div className="service-preview--serviceowenr">
+              <Link to={`/myprofile?UT=${serviceOwnerUsername}`}>
+                <img
+                  src={`data:image/png;base64,${serviceOwnerPic}`}
+                  alt="service Owner Image"
+                  className="service-owner-image"
+                />
+                {serviceOwnerUsername}
+              </Link>
+            </div>
+          )}
+
           {mainImage}
-          <div
-            className="preview--images--addtional-images"
-            ref={imagesContainerRef}
-          >
-            {subImages}
-          </div>
+          {subImages.length ? (
+            <div
+              className="preview--images--addtional-images"
+              ref={imagesContainerRef}
+            >
+              {subImages}
+            </div>
+          ) : (
+            ""
+          )}
+
           {images.length > 4 && (
             <>
               <button

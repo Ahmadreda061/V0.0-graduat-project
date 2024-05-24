@@ -37,7 +37,6 @@ function App() {
   const [userInfo, setUserInfo] = useState(null);
   const location = useLocation();
   const userName = localStorage.getItem("Key");
-  const style = null;
   // WebSocket state
 
   function handleRegisterOverlay() {
@@ -60,9 +59,9 @@ function App() {
           return res.userToken;
         })
         .then((userToken) =>
-          getUserNotfications(userToken).then((notifications) =>
-            setNotifications(notifications)
-          )
+          getUserNotfications(userToken).then((notifications) => {
+            setNotifications(notifications);
+          })
         );
     }
   }, [location.pathname, userName]);

@@ -169,16 +169,19 @@ function Chats() {
           </aside>
           <div className="chats--messages">
             <header className="messages--header align-center">
-              <img
-                src={
-                  roomUsers[activeRoom] &&
-                  `data:image/png;base64,${
-                    roomUsers[activeRoom][roomUsers[activeRoom][2]].userPP // roomUsers[activeRoom] = array users and in index 2 in users there is the index of other user
-                  }`
-                }
-                alt="current chat other profile image"
-                className="messages--header-img circle"
-              />
+              {roomUsers[activeRoom] && (
+                <img
+                  src={
+                    roomUsers[activeRoom] &&
+                    `data:image/png;base64,${
+                      roomUsers[activeRoom][roomUsers[activeRoom][2]].userPP // roomUsers[activeRoom] = array users and in index 2 in users there is the index of other user
+                    }`
+                  }
+                  alt="current chat other profile image"
+                  className="messages--header-img circle"
+                />
+              )}
+
               <p className="messages--header-username username">
                 {roomUsers[activeRoom] &&
                   roomUsers[activeRoom][roomUsers[activeRoom][2]].username}

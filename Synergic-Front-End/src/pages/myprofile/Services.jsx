@@ -8,7 +8,6 @@ import { UserTokenContext } from "./Myprofile";
 
 function Services() {
   const serviceOwnerInfo = useContext(UserTokenContext);
-
   const [userSerivces, setUserSerivces] = useState([]);
   const { userInfo } = useContext(userInfoContext);
   let { username } = userInfo;
@@ -19,7 +18,7 @@ function Services() {
       .get(
         `https://localhost:7200/api/Services/GetServices?Username=${username}&Count=${100000}` // the 6 will change to all to get the num dynmaic
       )
-      .then((res) => setUserSerivces(res.data));
+      .then((res) => setUserSerivces(res.data.elements));
   }, []);
   const serviceCards = userSerivces.map((service, index) => (
     <ServiceCard {...service} key={index} />

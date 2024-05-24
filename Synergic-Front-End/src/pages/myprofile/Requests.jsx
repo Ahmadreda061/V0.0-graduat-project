@@ -6,12 +6,15 @@ import getUserNotfications from "../../utils/getUserNotfications";
 function Requests() {
   const { userInfo } = useContext(userInfoContext);
   const [requests, setRequests] = useState([]);
+  console.log(requests);
   useEffect(() => {
-    getUserNotfications(userInfo.userToken).then((requests) =>
-      setRequests(requests)
-    );
+    getUserNotfications(userInfo.userToken).then((notfications) => {
+      const newRequests = notfications.filter(
+        (notfication) => notfication.notificationCategory == 1
+      );
+      setRequests(newRequests);
+    });
   }, []);
-
   const requestElements = requests.map((request, index) => {
     const content = request.content;
     return (

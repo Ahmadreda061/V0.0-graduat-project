@@ -97,6 +97,9 @@ function Signup({ handeleIsRegistered }) {
           field="INPUT"
         />
       </div>
+      {errors.public && submitted && (
+        <span className="required">{errors.public}</span>
+      )}
       <button className="btn">Sign Up</button>
     </form>
   );

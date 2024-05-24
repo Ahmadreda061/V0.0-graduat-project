@@ -5,12 +5,11 @@ import { userInfoContext } from "../../../App";
 
 function Notfications() {
   const { notifications } = useContext(userInfoContext);
-
   const notificationElements = notifications
     .reverse()
     .map((notfication, index) => {
       const content = notfication.content;
-      // console.log(content);
+      console.log(notfication);
       return (
         <Notfication
           key={index}

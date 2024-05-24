@@ -6,7 +6,8 @@ export default function postUserToDB(postData, setErrors) {
           "https://localhost:7200/api/UserAuthentication/Register",
           postData
         )
-        .then((res) => {
+          .then((res) => {
+          console.log(res)
           const data = res.data;
           if (data.statusCode === 0) {
               // succussfuly registered
@@ -29,6 +30,15 @@ export default function postUserToDB(postData, setErrors) {
             }));
             reject(data.statusMessage);
 
+          } else if (data.statusCode === 7) {
+            // Incorect username form
+            setErrors((prevErrors) => ({
+              ...prevErrors,
+              public: data.statusMessage,
+
+            }));
+            reject(data.statusMessage);
+            
           }
         })
         .catch((err) => {

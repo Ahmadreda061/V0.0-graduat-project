@@ -6,11 +6,11 @@ import { userInfoContext } from "../../../App";
 import setNotficationRead from "../../../utils/setNotficationRead";
 
 function Notfication(props) {
+  // console.log(props);
   const { userInfo } = useContext(userInfoContext);
-  const sendTimeDate = new Date(props.sendTime);
+  // const sendTimeDate = new Date(props.messageTime);
 
-  const relativeTime = formatDistanceToNow(sendTimeDate);
-  console.log(props.NotificationID);
+  // const relativeTime = formatDistanceToNow(sendTimeDate);
   return (
     <Link
       to="/myprofile/requests"
@@ -28,9 +28,7 @@ function Notfication(props) {
             {props.messageContent}
           </p>
         </div>
-        {relativeTime && (
-          <span className="notfication--time">{relativeTime}</span>
-        )}
+        {/* {relativeTime && <span className="notfication--time">2</span>} */}
       </div>
     </Link>
   );
