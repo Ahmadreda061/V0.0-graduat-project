@@ -9,7 +9,6 @@ function Notfications() {
     .reverse()
     .map((notfication, index) => {
       const content = notfication.content;
-      console.log(notfication);
       return (
         <Notfication
           key={index}

@@ -53,6 +53,10 @@
 .content-items .service-card {
     width: calc((100% / 3) - 60px) !important;
 }
+.fa-bars, .fa-bell {
+    color: #fff;
+}
+
 
 
 @media  screen and (width <= 1345px) {
@@ -67,9 +71,7 @@
         grid-template-columns: 100%;
         gap: 20px;
     }
-    .content-filter {
-        flex-direction: row;
-    }
+    
     .content-items {
         justify-content: center;
     }
