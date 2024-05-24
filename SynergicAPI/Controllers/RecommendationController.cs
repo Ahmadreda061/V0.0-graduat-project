@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SynergicAPI.Controllers
 {
