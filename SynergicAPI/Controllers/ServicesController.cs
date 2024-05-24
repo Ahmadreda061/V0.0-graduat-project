@@ -87,9 +87,9 @@ namespace SynergicAPI.Controllers
 
         [HttpGet]
         [Route("GetServices")]
-        public ServiceElementResponse[] GetServices(string? Username, string? Title, int? Price, int? Category, int Count, int Offset)
+        public ServiceElementsResponse GetServices(string? Username, string? Title, int? Price, int? Category, int Count, int Offset)
         {
-            List<ServiceElementResponse> response = new List<ServiceElementResponse>();
+            ServiceElementsResponse response = new ServiceElementsResponse();
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
@@ -196,12 +196,12 @@ namespace SynergicAPI.Controllers
                                     tempList[i].Images = images.ToArray();
                                 }
                             }
-                            response.Add(tempList[i]);
+                            response.elements.Add(tempList[i]);
                         }
                     }
                 }
             }
-            return response.ToArray();
+            return response;
         }
 
         [HttpDelete]

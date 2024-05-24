@@ -17,4 +17,14 @@
     <Folder Include="ChatLogs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Resources\DefaultProfileImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="if not exist &quot;$(TargetDir)ChatLogs&quot; mkdir &quot;$(TargetDir)ChatLogs&quot;&#xD;&#xA;if not exist &quot;$(TargetDir)RecommendationData&quot; mkdir &quot;$(TargetDir)RecommendationData&quot;" />
+  </Target>
+
 </Project>

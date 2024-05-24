@@ -39,9 +39,17 @@ namespace SynergicAPI.Controllers
                 }
 
                 string uniqueRoomName = $"{roomName}_{Guid.NewGuid()}";
-                string filePath = Path.Combine(Environment.CurrentDirectory, "ChatLogs", uniqueRoomName + ".clog");//this makes sure that the room name is unique
-                System.IO.File.Create(filePath).Close();
-
+                try
+                {
+                    string filePath = Path.Combine(Environment.CurrentDirectory, "ChatLogs", uniqueRoomName + ".clog");//this makes sure that the room name is unique
+                    System.IO.File.Create(filePath).Close();
+                }
+                catch (Exception ex)
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Internal_Error;
+                    response.statusMessage = "Couldn't create Chat Log folder, \nstack trace: " + ex;
+                    return response;
+                }
 
                 string query = $"INSERT INTO {Utils.ChatRoomsString} VALUES(@RoomName)";
                 using (SqlCommand cmd = new SqlCommand(query, con))
@@ -266,13 +274,6 @@ namespace SynergicAPI.Controllers
             return response;
         }
 
-        /// <summary>
-        /// Gets the "Unread" messages in the chat
-        /// </summary>
-        /// <param name="userToken"></param>
-        /// <param name="chatID"></param>
-        /// <param name="aquiredMessages">the array of the messages ids that the user already has, it's required to make sure not to send data that the user already have -to save performance and bandwidth- يعني علشان ما تخلص الحزمة بخمس ثواني </param>
-        /// <returns></returns>
         [HttpPost]
         [Route("GetRoomUsersAsync")]
         public async Task<RoomUsersResponse> GetRoomUsersAsync(int roomID)

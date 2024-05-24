@@ -51,11 +51,24 @@ namespace SynergicAPI.Controllers
                     return response;
                 }
 
+                string userGUID = Guid.NewGuid().ToString().Replace("-", "");
+                try
+                {
+                    string filePath = Path.Combine(Environment.CurrentDirectory, "RecommendationData", "User - " + userGUID + ".recfile");
+                    System.IO.File.Create(filePath).Close();
+                    System.IO.File.WriteAllText(filePath, "{}");
+                }
+                catch (Exception ex)
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Internal_Error;
+                    response.statusMessage = "Couldn't create Recommendation Data folder, \nstack trace: " + ex;
+                    return response;
+                }
+
                 string query = $"INSERT INTO {Utils.UserAccountString} " +
-                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, '', '',  @ProfilePicture, @UserToken)";
+                                       "VALUES (@Email, @Username, @Password, @IsActive, @IsVendor, @FirstName, @LastName, @Gender, @BirthDate, @PhoneNumber, '', '',  @ProfilePicture, @UserToken, @RecommendationProfile)";
 
                 string userToken = Utils.HashString(registration.fName + registration.Username + registration.lName, "TokenHashing");
-
                 using (SqlCommand insertCommand = new SqlCommand(query, con))
                 {
                     insertCommand.Parameters.AddWithValue("@Email", registration.Email);
@@ -70,6 +83,7 @@ namespace SynergicAPI.Controllers
                     insertCommand.Parameters.AddWithValue("@PhoneNumber", registration.PhoneNumber);
                     insertCommand.Parameters.AddWithValue("@ProfilePicture", Utils.DefaultProfileImage);
                     insertCommand.Parameters.AddWithValue("@UserToken", userToken);
+                    insertCommand.Parameters.AddWithValue("@RecommendationProfile", userGUID);
 
                     int rowsAffected = insertCommand.ExecuteNonQuery();
 
@@ -77,10 +91,12 @@ namespace SynergicAPI.Controllers
                     {
                         response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
                         response.statusMessage = "Registration Error: An unexpected error has occurred while registering!";
+                        return response;
                     }
                 }
-            }
+                
 
+            }
             return response;
         }
 

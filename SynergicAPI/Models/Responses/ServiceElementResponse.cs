@@ -1,6 +1,15 @@
 namespace SynergicAPI.Models.Responses
 {
-    public class ServiceElementResponse : DefaultResponse
+    public class ServiceElementsResponse : DefaultResponse
+    {
+        public List<ServiceElementResponse> elements { get; set; }
+
+        public ServiceElementsResponse()
+        {
+            this.elements = new List<ServiceElementResponse>();
+        }
+    }
+    public class ServiceElementResponse
     {
         public string ServiceOwnerUsername { get; set; }
         public byte[] ServiceOwnerPP { get; set; }
