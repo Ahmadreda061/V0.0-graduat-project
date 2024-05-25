@@ -24,7 +24,7 @@ function Navbar({ handleRegisterOverlay, allNotificationsRead }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setBars(window.innerWidth < 920);
+      setBars(window.innerWidth < 1000);
     };
 
     handleResize();

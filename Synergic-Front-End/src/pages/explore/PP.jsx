@@ -7,9 +7,7 @@ export default function PP() {
     await loadSlim(engine);
   }, []);
 
-  const particlesLoaded = useCallback((container) => {
-    console.log(container);
-  }, []);
+  const particlesLoaded = useCallback((container) => {}, []);
 
   return (
     <div className="particles-container">

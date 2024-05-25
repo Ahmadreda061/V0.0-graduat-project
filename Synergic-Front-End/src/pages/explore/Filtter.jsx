@@ -1,18 +1,17 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import "../../style/explore/filtter.css";
 
-function Filtter({ onFilterChange }) {
+function Filtter({ setCategories, category, setCount }) {
   const [showCates, setShowCates] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const checkboxesRef = useRef([]);
-
   function handleShowCates() {
     setShowCates((prevState) => !prevState);
   }
 
   function handleCategoryChange(event) {
+    setCount(10000);
     const { value, checked } = event.target;
-    setSelectedCategories((prevSelected) => {
+    setCategories((prevSelected) => {
       if (checked) {
         return [...prevSelected, value];
       } else {
@@ -21,12 +20,8 @@ function Filtter({ onFilterChange }) {
     });
   }
 
-  useEffect(() => {
-    onFilterChange(selectedCategories);
-  }, [selectedCategories, onFilterChange]);
-
   function handleClearFilter() {
-    setSelectedCategories([]);
+    setCategories([]);
     checkboxesRef.current.forEach((checkbox) => {
       checkbox.checked = false;
     });
@@ -56,7 +51,7 @@ function Filtter({ onFilterChange }) {
                   value={value}
                   onChange={handleCategoryChange}
                   ref={(el) => (checkboxesRef.current[index] = el)}
-                  checked={selectedCategories.includes(value)}
+                  checked={category.includes(value)}
                 />
                 <label htmlFor={label.toLowerCase()}>{label}</label>
               </div>

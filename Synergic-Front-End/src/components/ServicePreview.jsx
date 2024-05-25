@@ -135,12 +135,13 @@ function ServicePreview() {
           }`}
           style={{ position: "relative" }}
         >
-          <i
-            className="fa-solid fa-xmark"
-            style={{ color: "red" }}
-            onClick={handleYesOrNo}
-          ></i>
-
+          {serviceInfo.serviceOwnerUsername == userInfo.username && (
+            <i
+              className="fa-solid fa-xmark"
+              style={{ color: "red" }}
+              onClick={handleYesOrNo}
+            ></i>
+          )}
           <h1 className="preview--info--title title">{serviceInfo.title}</h1>
           <p className="preview--info--description description">
             {serviceInfo.description}

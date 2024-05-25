@@ -74,8 +74,8 @@ a:focus{
     /*transform-origin: bottom right;
     */transform: scaleX(0);
     transition: transform 0.3s ease-out;
-
 }
+
 .scroll-top {
     position: fixed;
     bottom: 10px;
@@ -116,6 +116,13 @@ a:focus{
     color: var(--logo-blue);
     cursor: pointer
 }
+
+.nav--bell {
+    font-size: 1.4rem;
+    color: var(--logo-blue) !important;
+    cursor: pointer;
+}
+
 .fa-arrow-left,
 .fa-arrow-right {
     font-size: 1.3rem;

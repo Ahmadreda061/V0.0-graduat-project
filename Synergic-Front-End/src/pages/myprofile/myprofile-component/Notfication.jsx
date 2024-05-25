@@ -6,14 +6,20 @@ import { userInfoContext } from "../../../App";
 import setNotficationRead from "../../../utils/setNotficationRead";
 
 function Notfication(props) {
-  // console.log(props);
+  console.log(props);
   const { userInfo } = useContext(userInfoContext);
-  // const sendTimeDate = new Date(props.messageTime);
+  const sendTimeDate = new Date(props.sendTime);
 
-  // const relativeTime = formatDistanceToNow(sendTimeDate);
+  const relativeTime = formatDistanceToNow(sendTimeDate);
   return (
     <Link
-      to="/myprofile/requests"
+      to={`/myprofile/${
+        props.notificationCategory == 1
+          ? "requests"
+          : props.notificationCategory == 2
+          ? "reviews"
+          : ""
+      }`}
       style={{ color: "black" }}
       onClick={() =>
         setNotficationRead(userInfo.userToken, props.NotificationID)
@@ -28,7 +34,9 @@ function Notfication(props) {
             {props.messageContent}
           </p>
         </div>
-        {/* {relativeTime && <span className="notfication--time">2</span>} */}
+        {relativeTime && (
+          <span className="notfication--time">{relativeTime}</span>
+        )}
       </div>
     </Link>
   );

@@ -13,6 +13,7 @@ function Notfications() {
         <Notfication
           key={index}
           NotificationID={notfication.notificationID}
+          notificationCategory={notfication.notificationCategory}
           {...content}
         />
       );

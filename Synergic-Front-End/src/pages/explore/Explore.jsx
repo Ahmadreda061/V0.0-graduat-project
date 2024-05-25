@@ -1,32 +1,30 @@
+// In your Explore component
 import React, { useEffect, useState } from "react";
 import "../../style/explore/explore.css";
 import Filtter from "./Filtter";
 import ServiceCard from "../../components/ServiceCard";
 import axios from "axios";
 import PP from "./PP.jsx";
+import Loading from "../../components/Loding.jsx";
 
 function Explore() {
   const [allServices, setAllServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]);
+  const [count, setCount] = useState(3);
+  const [category, setCategories] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const fetchServices = (offset) => {
+  const fetchServices = (newOffset = 0, reset = false) => {
     setLoading(true);
     axios
       .get(
-        `https://localhost:7200/api/Services/GetServices?&Count=32&Offset=${offset}`
+        `https://localhost:7200/api/Services/GetServices?Count=${count}&Offset=${newOffset}&Category=${category}`
       )
       .then((res) => {
-        setAllServices((prevServices) => [
-          ...prevServices,
-          ...res.data.elements,
-        ]);
-        setFilteredServices((prevServices) => [
-          ...prevServices,
-          ...res.data.elements,
-        ]);
+        setAllServices((prevServices) =>
+          reset ? res.data.elements : [...prevServices, ...res.data.elements]
+        );
         setLoading(false);
       })
       .catch((err) => {
@@ -36,26 +34,25 @@ function Explore() {
   };
 
   useEffect(() => {
-    fetchServices(offset);
-  }, [offset]);
+    fetchServices(0, true);
+  }, [category]);
 
   useEffect(() => {
-    const navBar = document.querySelector(".navbar");
-    navBar.classList.add("explore");
-
     const handleScroll = () => {
       if (window.scrollY >= window.innerHeight * 0.63) {
-        navBar.classList.add("stopTrans");
         setShowScrollTop(true);
       } else {
-        navBar.classList.remove("stopTrans");
         setShowScrollTop(false);
       }
       const content = document.querySelector(".explore--content");
       if (content) {
         const contentBottom = content.getBoundingClientRect().bottom;
-        if (contentBottom <= window.innerHeight && !loading) {
-          setOffset((prevOffset) => prevOffset + 32);
+        if (contentBottom <= window.innerHeight + 100 && !loading) {
+          setOffset((prevOffset) => {
+            const newOffset = prevOffset + count;
+            fetchServices(newOffset);
+            return newOffset;
+          });
         }
       }
     };
@@ -64,46 +61,40 @@ function Explore() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [loading]);
-
-  const handleFilterChange = (selectedCategories) => {
-    if (selectedCategories.length === 0) {
-      setFilteredServices(allServices);
-    } else {
-      setFilteredServices(
-        allServices.filter((service) =>
-          selectedCategories.includes(service.category.toString())
-        )
-      );
-    }
-  };
+  }, [loading, count]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const serviceCards = filteredServices.map((service, index) => (
+  const serviceCards = allServices.map((service, index) => (
     <ServiceCard {...service} key={index} />
   ));
 
   return (
     <div className="explore">
       <div className="explore--header">
+        <PP />
         <p>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis aut
           quod sapiente mollitia, debitis quidem odit nostrum alias consectetur
           hic sunt tempore velit voluptatibus eius quaerat necessitatibus
           recusandae ipsa. Laborum!
         </p>
-        <PP />
       </div>
       <div className="container">
         <div className="explore--content" id="explore--content">
-          <Filtter onFilterChange={handleFilterChange} />
-          <div className="content-items">
-            {serviceCards}
-            {loading && <div>Loading...</div>}
-          </div>
+          <Filtter
+            setCategories={(categories) => {
+              setCategories(categories);
+              setOffset(0);
+            }}
+            category={category}
+            setCount={setCount}
+          />
+          <div className="content-items">{serviceCards}</div>
+
+          {loading && <Loading />}
         </div>
       </div>
       {showScrollTop && (

@@ -36,7 +36,7 @@
     display: grid;
     grid-template-columns: 27% 70%;
     /* gap: 3%; */
-    height: 100vh;  
+    height: 80vh;  
     padding: 50px 0
 }
 
@@ -50,11 +50,24 @@
 .content-items .serivce--info--price {
     bottom: -46px;
 }
+
 .content-items .service-card {
     width: calc((100% / 3) - 60px) !important;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
-.fa-bars, .fa-bell {
-    color: #fff;
+
+.content-items .service-card.fade-in {
+    opacity: 1 ;
+  }
+.navbar.explore .fa-bars,
+.navbar.explore .fa-bell {
+    color: #fff !important;
+}
+
+.navbar.stopTrans .fa-bars,
+.navbar.stopTrans .fa-bell {
+    color: var(--logo-blue) !important;
 }
 
 

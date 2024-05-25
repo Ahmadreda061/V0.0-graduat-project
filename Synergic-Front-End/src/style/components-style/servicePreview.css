@@ -81,7 +81,7 @@
     -o-transition: max-height .5s ease;
 }
 
-.preview--info--description::after {
+/* .preview--info--description::after {
     content: '...';
     position: absolute;
     bottom: -5px;
@@ -90,15 +90,15 @@
     font-size: 2.2rem;
     opacity: 1;
     transition: opacity .3 ease;
-}
+} */
 
 .preview--info--description:hover {
     max-height: 1000px;
 }
-
+/* 
 .preview--info--description:hover::after {
     opacity:0;
-}
+} */
 
 .preview--info--price {
     color: var(--text-header);

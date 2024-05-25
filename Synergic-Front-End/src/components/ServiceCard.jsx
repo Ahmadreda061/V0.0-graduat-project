@@ -4,7 +4,7 @@ function ServiceCard(props) {
     window.location.href = `/servicepreview`;
   }
   return (
-    <div className="service-card myprofile-card " onClick={handleClick}>
+    <div className="service-card fade-in myprofile-card " onClick={handleClick}>
       <div className="serivce--main-image">
         <img
           src={`data:image/png;base64,${props.images[0]}`}

@@ -11,7 +11,7 @@ function UserCard(props) {
   useEffect(() => {
     fetchUserRating(props.username)
       .then((rating) => {
-        setUserRating(rating);
+        setUserRating(Math.floor(rating));
       })
       .catch((error) => {
         console.error("Error fetching user rating:", error);

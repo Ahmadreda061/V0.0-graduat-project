@@ -249,7 +249,7 @@
     .chats--messenger {
         padding: 0;
     }
-    .container {
+    .chats .container {
         margin: 0;
         padding: 0;
     }
