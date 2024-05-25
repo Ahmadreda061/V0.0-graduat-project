@@ -335,8 +335,6 @@ namespace SynergicAPI.Controllers
                 string senderName = Utils.UserIDToUsername(con, userID);
                 ServiceRequestNotification content = new ServiceRequestNotification()
                 {
-                    senderUsername = senderName,
-                    senderPP = Utils.UserIDToProfilePicture(con, userID),
                     messageContent = $"{senderName} Is requesting the service ({Utils.ServiceIDToServiceTitle(con, ServiceID)})",
                     sendTime = DateTime.Now,
                 };

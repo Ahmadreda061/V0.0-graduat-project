@@ -6,5 +6,7 @@
         public int NotificationID { get; set; }
         public int NotificationCategory { get; set; }
         public bool IsRead { get; set; }
+        public string senderName { get; set; }
+
     }
 }

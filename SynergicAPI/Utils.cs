@@ -51,6 +51,7 @@ namespace SynergicAPI
         {
             System,
             ServiceRequest,
+            Review,
             Message
         }
 

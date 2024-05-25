@@ -4,6 +4,7 @@ using SynergicAPI.Models.Notifications;
 using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace SynergicAPI.Controllers
 {
@@ -44,24 +45,52 @@ namespace SynergicAPI.Controllers
                         {
                             SynergicNotification notification = new SynergicNotification();
                             notification.NotificationID = (int)reader["ID"];
-                            notification.NotificationCategory = (int)Utils.NotificationCategory.ServiceRequest;
+                            notification.NotificationCategory = (int)reader["NotificationCategory"];
                             notification.IsRead = (bool)reader["IsRead"];
 
                             switch ((int)reader["NotificationCategory"])
                             {
                                 case (int)Utils.NotificationCategory.System:
-                                    notification.content = JsonConvert.DeserializeObject<SystemNotification>((string)reader["Content"]);//API will re-serialize this part, but deserializing is required-esh to show the structure in the API Schemas
+                                    notification.senderName = "System";
+
                                     break;
                                 case (int)Utils.NotificationCategory.ServiceRequest:
-                                    notification.content = JsonConvert.DeserializeObject<ServiceRequestNotification>((string)reader["Content"]);//API will re-serialize this part, but deserializing is required-esh to show the structure in the API Schemas
+                                    notification.senderName = ((int)reader["SenderID"]).ToString();
+                                    notification.content = JsonConvert.DeserializeObject<ServiceRequestNotification>((string)reader["Content"]);
                                     break;
+
+
                                 case (int)Utils.NotificationCategory.Message:
                                     break;
+
+
+                                case (int)Utils.NotificationCategory.Review:
+                                    notification.senderName = ((int)reader["SenderID"]).ToString();
+                                    notification.content = JsonConvert.DeserializeObject<ReviewNotification>((string)reader["Content"]);
+                                    break;//TODO: RETURN WRITER PP WITH THE NOTIFICATION
+
+
                                 default:
                                     break;
                             }
                             response.Notifications.Add(notification);
                         }
+                    }
+                }
+                for (int i = 0; i < response.Notifications.Count; i++)
+                {
+                    if (int.TryParse(response.Notifications[i].senderName, out int sID) && Utils.UserIDToUsername(con, sID, out string name))
+                    {
+                        response.Notifications[i].senderName = name;
+                    }
+
+                    if (response.Notifications[i].content.GetType() == typeof(ReviewNotification))
+                    {
+                        ((ReviewNotification)response.Notifications[i].content).senderPP = Utils.UserIDToProfilePicture(con, sID);
+                    }
+                    else if (response.Notifications[i].content.GetType() == typeof(ServiceRequestNotification))
+                    {
+                        ((ServiceRequestNotification)response.Notifications[i].content).senderPP = Utils.UserIDToProfilePicture(con, sID);
                     }
                 }
             }

@@ -255,10 +255,10 @@ namespace SynergicAPI.Controllers
 
 
                 //All succeeded so far, now send notification for the Reciever
-                SystemNotification content = new SystemNotification()
+                ReviewNotification content = new ReviewNotification()
                 {
                     messageContent = $"{senderName} Wrote a review about you, Go check it out!)",
-                    messageTime = DateTime.Now,
+                    sendTime = DateTime.Now,
                 };
 
                 query = $"INSERT INTO {Utils.NotificationsString} VALUES(@SenderID, @RecieverID, @NotificationCategory, @IsRead, @Content)";
@@ -266,7 +266,7 @@ namespace SynergicAPI.Controllers
                 {
                     command.Parameters.AddWithValue("@SenderID", writerID);
                     command.Parameters.AddWithValue("@RecieverID", recieverID);
-                    command.Parameters.AddWithValue("@NotificationCategory", (int)Utils.NotificationCategory.System);
+                    command.Parameters.AddWithValue("@NotificationCategory", (int)Utils.NotificationCategory.Review);
                     command.Parameters.AddWithValue("@IsRead", false);
                     command.Parameters.AddWithValue("@Content", JsonConvert.SerializeObject(content));
 

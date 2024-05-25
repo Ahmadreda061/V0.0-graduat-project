@@ -19,5 +19,6 @@ namespace SynergicAPI.Models.Responses
         public int Category { get; set; }
         public byte[][] Images { get; set; } //In base 64 form
         public int ServiceID { get; set; }
+        public float ServiceOwnerRating { get; set; }
     }
 }
