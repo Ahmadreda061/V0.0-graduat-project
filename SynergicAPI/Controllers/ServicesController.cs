@@ -87,9 +87,10 @@ namespace SynergicAPI.Controllers
 
         [HttpGet]
         [Route("GetServices")]
-        public ServiceElementsResponse GetServices(string? Username, string? Title, int? Price, int? Category, int Count, int Offset)
+        public ServiceElementsResponse GetServices(string? Username, string? Title, string? SearchBar, int? Price, string? Category, int? UserRating, int Count, int Offset)
         {
             ServiceElementsResponse response = new ServiceElementsResponse();
+
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
@@ -99,8 +100,9 @@ namespace SynergicAPI.Controllers
                 {
                     //builds the query depending on the given filters, each filter is 'AND'ed with others
                     var queryBuilder = new StringBuilder("SELECT * FROM Services ");
+                    int[] Categories = null;
 
-                    if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Username) || Price > 0 || Category > -1)
+                    if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Username)|| !string.IsNullOrEmpty(SearchBar) || Price > 0 || Category != null)
                     {
                         queryBuilder.Append("WHERE ");
 
@@ -112,13 +114,27 @@ namespace SynergicAPI.Controllers
                         {
                             queryBuilder.Append("OwnerID IN (SELECT ID FROM UserAccount WHERE Username LIKE @Username) AND ");
                         }
+                        if (!string.IsNullOrEmpty(SearchBar))
+                        {
+                            queryBuilder.Append("(OwnerID IN (SELECT ID FROM UserAccount WHERE Username LIKE @SearchBar1) OR (ServiceTitle LIKE @SearchBar1 OR ServiceDescription LIKE @SearchBar2)) AND ");
+                        }
                         if (Price > 0)
                         {
                             queryBuilder.Append("ServicePrice <= @ServicePrice AND ");
                         }
-                        if (Category > -1)
+                        if (Category != null)
                         {
-                            queryBuilder.Append("ServiceCategory = @ServiceCategory AND ");
+                            Categories = Category.Split(',').Select((e) => int.Parse(e)).ToArray();
+                            string cats = "";
+                            for (int i = 0; i < Categories.Length; i++)
+                            {
+                                cats += $"@Category{i}";
+                                if (i < Categories.Length - 1)
+                                {
+                                    cats += ", ";
+                                }
+                            }
+                            queryBuilder.Append($"ServiceCategory IN ({cats}) AND ");
                         }
 
                         // Remove trailing "AND" if it exists
@@ -127,7 +143,7 @@ namespace SynergicAPI.Controllers
 
                     queryBuilder.Append("ORDER BY (SELECT NULL) OFFSET @Offset ROWS FETCH NEXT @Count ROWS ONLY");
 
-
+                    List<ServiceElementData> responseElements = new List<ServiceElementData>();
                     //gets the services with the given filters
                     using (SqlCommand command = new SqlCommand(queryBuilder.ToString(), con))
                     {
@@ -136,14 +152,27 @@ namespace SynergicAPI.Controllers
                             command.Parameters.AddWithValue("@ServiceTitle", $"%{Title}%");
                             command.Parameters.AddWithValue("@ServiceDescription", $"%{Title}%");
                         }
-                        if (Price > 0) command.Parameters.AddWithValue("@ServicePrice", Price);
-                        if (Category > -1) command.Parameters.AddWithValue("@ServiceCategory", Category);
                         if (!string.IsNullOrEmpty(Username)) command.Parameters.AddWithValue("@Username", Username);
+
+                        if (!string.IsNullOrEmpty(SearchBar))
+                        {
+                            command.Parameters.AddWithValue("@SearchBar1", SearchBar);
+                            command.Parameters.AddWithValue("@SearchBar2", SearchBar);
+                            command.Parameters.AddWithValue("@SearchBar3", SearchBar);
+                        }
+
+                        if (Price > 0) command.Parameters.AddWithValue("@ServicePrice", Price);
+                        if (Categories != null)
+                        {
+                            for (int i = 0; i < Categories.Length; i++)
+                            {
+                                command.Parameters.AddWithValue($"@Category{i}", Categories[i]);
+                            }
+                        }
                         command.Parameters.AddWithValue("@Offset", Offset);
                         command.Parameters.AddWithValue("@Count", Count);
 
                         // Load data into a temporary lists
-                        List<ServiceElementResponse> tempList = new List<ServiceElementResponse>();
                         List<int> OwnersIDs = new List<int>();
                         List<int> ServicesIDs = new List<int>();
 
@@ -151,20 +180,20 @@ namespace SynergicAPI.Controllers
                         {
                             while (reader.Read())
                             {
-                                ServiceElementResponse card = new ServiceElementResponse();
+                                ServiceElementData card = new ServiceElementData();
                                 card.Title = (string)reader["ServiceTitle"];
                                 card.Price = (int)reader["ServicePrice"];
                                 card.Description = (string)reader["ServiceDescription"];
                                 card.Category = (int)reader["ServiceCategory"];
                                 card.ServiceID = (int)reader["ServiceID"];
-                                tempList.Add(card);
+                                responseElements.Add(card);
                                 OwnersIDs.Add((int)reader["OwnerID"]);
                                 ServicesIDs.Add((int)reader["ServiceID"]);
                             }
                         }
 
                         //collect the required data from the different tables
-                        for (int i = 0; i < tempList.Count; i++)
+                        for (int i = 0; i < responseElements.Count; i++)
                         {
                             string getUserCommand = $"SELECT Username, ProfilePicture FROM UserAccount WHERE ID = @OwnerID";
                             using (SqlCommand userCommand = new SqlCommand(getUserCommand, con))
@@ -175,8 +204,8 @@ namespace SynergicAPI.Controllers
                                 {
                                     if (userReader.Read())
                                     {
-                                        tempList[i].ServiceOwnerUsername = (string)userReader["Username"];
-                                        tempList[i].ServiceOwnerPP = (byte[])userReader["ProfilePicture"];
+                                        responseElements[i].ServiceOwnerUsername = (string)userReader["Username"];
+                                        responseElements[i].ServiceOwnerPP = (byte[])userReader["ProfilePicture"];
                                     }
                                 }
                             }
@@ -193,10 +222,26 @@ namespace SynergicAPI.Controllers
                                     {
                                         images.Add((byte[])imageReader["ImageData"]);
                                     }
-                                    tempList[i].Images = images.ToArray();
+                                    responseElements[i].Images = images.ToArray();
                                 }
                             }
-                            response.elements.Add(tempList[i]);
+                            responseElements.Add(responseElements[i]);
+                        }
+
+                        if (UserRating != null)
+                        {
+                            AccountsController ac = new AccountsController(configuration);
+                            for (int i = 0; i < response.elements.Count; i++)
+                            {
+                                if (MathF.Floor(ac.GetUserRating(response.elements[i].ServiceOwnerUsername).Rating) == UserRating)
+                                {
+                                    response.elements.Add(responseElements[i]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            response.elements = responseElements;
                         }
                     }
                 }
@@ -264,7 +309,6 @@ namespace SynergicAPI.Controllers
         public DefaultResponse RequestService(string userToken, int ServiceID, string? AdditionalComment)
         {
             DefaultResponse response = new DefaultResponse();
-            //todo: prevent spam
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {

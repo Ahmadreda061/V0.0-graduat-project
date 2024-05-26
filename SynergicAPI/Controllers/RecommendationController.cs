@@ -108,7 +108,7 @@ namespace SynergicAPI.Controllers
                     command.Parameters.AddWithValue("@ServiceCategory", mostVisited);
                     command.Parameters.AddWithValue("@Count", recommendationCount);
 
-                    List<ServiceElementResponse> tempList = new List<ServiceElementResponse>();
+                    List<ServiceElementData> tempList = new List<ServiceElementData>();
                     List<int> OwnersIDs = new List<int>();
                     List<int> ServicesIDs = new List<int>();
 
@@ -116,7 +116,7 @@ namespace SynergicAPI.Controllers
                     {
                         while (reader.Read())
                         {
-                            ServiceElementResponse card = new ServiceElementResponse();
+                            ServiceElementData card = new ServiceElementData();
                             card.Title = (string)reader["ServiceTitle"];
                             card.Price = (int)reader["ServicePrice"];
                             card.Description = (string)reader["ServiceDescription"];
