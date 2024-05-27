@@ -20,6 +20,7 @@ namespace SynergicAPI
         public static string ServiceRequestsString => "ServiceRequests(RequesterID, RequestedServiceID, AdditionalComment)";
         public static string ChatRoomsString => "ChatRooms(RoomName)";
         public static string ChatRoomUsersString => "ChatRoomUsers(RoomID, UserID)";
+        public static string ActiveServicesString => "ActiveServices(ServiceID, CutomerID, ActiveStatus, PaymentPrice)";
 
 
         public static byte[] DefaultProfileImage = BitmapToByteArray(new Bitmap(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png")), ImageFormat.Png);
@@ -47,6 +48,7 @@ namespace SynergicAPI
             Username_Not_Used = 17,
             Service_Already_Requested = 18,
             Service_Request_Not_Found = 19,
+            Active_Service_Not_Found = 20,
         }
         public enum NotificationCategory
         {
@@ -228,7 +230,7 @@ namespace SynergicAPI
         }
         public static bool IsServiceOwner(SqlConnection connection, int ServiceID, string UserToken)
         {
-
+            //to implement...
 
             return true;
         }

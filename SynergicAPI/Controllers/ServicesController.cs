@@ -4,6 +4,7 @@ using SynergicAPI.Models;
 using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Text;
 
 namespace SynergicAPI.Controllers
@@ -332,7 +333,7 @@ namespace SynergicAPI.Controllers
                         if (!reader.Read())
                         {
                             response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
-                            response.statusMessage = "Error in serviceID, Service where not found";
+                            response.statusMessage = "Error in serviceID, Service not found";
                             return response;
                         }
                     }
@@ -436,7 +437,7 @@ namespace SynergicAPI.Controllers
                         if (!reader.HasRows)
                         {
                             response.statusCode = (int)Utils.StatusCodings.Service_Request_Not_Found;
-                            response.statusMessage = "Service request was not found";
+                            response.statusMessage = "Service request not found";
                             return response;
                         }
                     }
@@ -463,27 +464,112 @@ namespace SynergicAPI.Controllers
 
         [HttpPost]
         [Route("AcceptServiceRequest")]
-        public DefaultResponse AcceptServiceRequest(string userToken, string serviceID, string RequesterName)
+        public AcceptServiceResponse AcceptServiceRequest(string UserToken, int ServiceID, string RequesterName)
         {
-            DefaultResponse response = new DefaultResponse();
+            AcceptServiceResponse response = new AcceptServiceResponse();
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
                 con.Open();
 
-                //Validate the user
-                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                //Validate the userToken
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
                     response.statusMessage = "Error in userToken";
                     return response;
+                }
+
+                //Validate the RequesterName
+                if (!Utils.UsernameToUserID(con, RequesterName, out int RequesterID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in RequesterName";
+                    return response;
+                }
+
+                //Checks if there is a service with this id
+                using (SqlCommand command = new SqlCommand($"SELECT ServiceID From Services WHERE ServiceID = @ServiceID", con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                            response.statusMessage = "Error in serviceID, Service not found";
+                            return response;
+                        }
+                    }
+                }
+
+                //Checks if the provided user is the correct owner of the service
+                if (!Utils.IsServiceOwner(con, ServiceID, UserToken))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                    response.statusMessage = "The provided user from UserToken isn't the owner of the provided service";
+                    return response;
+                }
+
+                //The customer get's charged with the price of the service, and the money is sent to the website account to prevent fraud and to pay the vendor later after completing the service successfully with their cut of the payment.
+
+                //Delete the service request from the database as it is no longer needed
+                using (SqlCommand command = new SqlCommand("DELETE FROM ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @ServiceID", con))
+                {
+                    command.Parameters.AddWithValue("@RequesterID", RequesterID);
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+
+                    int ra = command.ExecuteNonQuery();
+                    if (ra == 0)//Shouldn't happen in any case
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                        response.statusMessage = "An unknown error happened while trying to delete the service";
+                    }
+                }
+
+                //Create a record for the newly accepted service request
+                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.ActiveServicesString} VALUES(@ServiceID1, @CutomerID, @ActiveStatus, (SELECT ServicePrice FROM Services WHERE @ServiceID = ServiceID2))", con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID1", ServiceID);
+                    command.Parameters.AddWithValue("@CutomerID", RequesterID);
+                    command.Parameters.AddWithValue("@ActiveStatus", true);
+                    command.Parameters.AddWithValue("@ServiceID2", ServiceID);
+
+                    int ra = command.ExecuteNonQuery();
+                    if (ra == 0)//Shouldn't happen in any case
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                        response.statusMessage = "An unknown error happened while trying to activate the service";
+                    }
+                }
+
+                //Get the id of the created active service
+                using (SqlCommand command = new SqlCommand("SELECT ID FROM ActiveServices WHERE ServiceID = @ServiceID AND CutomerID = @CutomerID)", con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+                    command.Parameters.AddWithValue("@CutomerID", RequesterID);
+
+                    using(SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if(!reader.HasRows)//Shouldn't be reachable
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                            response.statusMessage = "An unknown error happened while trying to get the id of the active service";
+                        }
+
+                        while (reader.Read())//this will make sure that we have the latest activated service
+                        {
+                            response.ActiveServiceID = (int)reader["ID"];
+                        }
+                    }
                 }
             }
             return response;
         }
+        
         [HttpPost]
         [Route("RejectServiceRequest")]
-        public DefaultResponse RejectServiceRequest(string userToken, string serviceID, string RequesterName)
+        public DefaultResponse RejectServiceRequest(string UserToken, int ServiceID, string RequesterName)
         {
             DefaultResponse response = new DefaultResponse();
 
@@ -491,39 +577,113 @@ namespace SynergicAPI.Controllers
             {
                 con.Open();
 
-                //Validate the user
-                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                //Validate the userToken
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
                     response.statusMessage = "Error in userToken";
                     return response;
                 }
+               
+                //Validate the RequesterName
                 if (!Utils.UsernameToUserID(con, RequesterName, out int RequesterID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
-                    response.statusMessage = "Error in userToken";
+                    response.statusMessage = "Error in RequesterName";
+                    return response;
+                }
+                
+                //Checks if there is a service with this id
+                using (SqlCommand command = new SqlCommand($"SELECT ServiceID From Services WHERE ServiceID = @ServiceID", con))
+                {
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (!reader.Read())
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                            response.statusMessage = "Error in serviceID, Service not found";
+                            return response;
+                        }
+                    }
+                }
+                
+                //Checks if the provided user is the correct owner of the service
+                if (!Utils.IsServiceOwner(con, ServiceID, UserToken))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                    response.statusMessage = "The provided user from UserToken isn't the owner of the provided service";
                     return response;
                 }
 
-                string query = "DELETE FROM ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @serviceID";
+                //Delete the service request from the database as it was rejected
+                using (SqlCommand command = new SqlCommand("DELETE FROM ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @ServiceID", con))
+                {
+                    command.Parameters.AddWithValue("@RequesterID", RequesterID);
+                    command.Parameters.AddWithValue("@ServiceID", ServiceID);
+
+                    int ra = command.ExecuteNonQuery();
+                    if(ra == 0)//Shouldn't happen in any case
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                        response.statusMessage = "An unknown error happened while trying to delete the service";
+                    }
+                }
             }
             return response;
         }
 
         [HttpPost]
         [Route("CancleActiveService")]
-        public DefaultResponse CancleActiveService()//temp
+        public DefaultResponse CancleActiveService(string UserToken, int ActiveServiceID)
         {
-            DefaultResponse response = new DefaultResponse();
+            DefaultResponse response = DisableActiveService(UserToken, ActiveServiceID);
 
+            //Start payment countdown so when the cooldown time is over, the customer gets their money back
             return response;
         }
         [HttpPost]
-        [Route("AcceptActiveService")]
-        public DefaultResponse AcceptActiveService()//temp
+        [Route("FinishActiveService")]
+        public DefaultResponse FinishActiveService(string UserToken, int ActiveServiceID)//temp
+        {
+            DefaultResponse response = CancleActiveService(UserToken, ActiveServiceID);//Disable the Active Service so the customer still have a chance to review with the vendor or the moderators
+
+            //Start payment countdown so when the review time is over, the vendor gets their cut of the payment
+
+            return response;
+        }
+
+
+        DefaultResponse DisableActiveService(string UserToken, int ActiveServiceID)
         {
             DefaultResponse response = new DefaultResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+                //Validate the userToken
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
 
+                using (SqlCommand command = new SqlCommand("UPDATE ActiveServices SET ActiveStatus = @ActiveStatus WHERE ID = @ActiveServiceID AND (CustomerID = @CustomerID OR EXISTS (SELECT 1 FROM Services WHERE ServiceID = ActiveServices.ServiceID AND OwnerID = @OwnerID))", con))
+                {
+                    command.Parameters.AddWithValue("@ActiveStatus", false);
+                    command.Parameters.AddWithValue("@ActiveServiceID", ActiveServiceID);
+                    command.Parameters.AddWithValue("@CustomerID", userID);
+                    command.Parameters.AddWithValue("@OwnerID", userID);
+
+                    int ra = command.ExecuteNonQuery();
+                    if (ra == 0)
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Active_Service_Not_Found;
+                        response.statusMessage = "Active Service Not Found";
+                        return response;
+                    }
+                }
+            }
             return response;
         }
     }
