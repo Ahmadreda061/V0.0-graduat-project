@@ -118,6 +118,23 @@ function SidebarProfile({ serviceOwnerUserName }) {
             </li>
           </>
         )}
+        {!serviceOwnerUserName && (
+          <li>
+            <Link
+              style={
+                activeLink === "actives"
+                  ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                  : { backgroundColor: "#fff" }
+              }
+              className="sidebar--page"
+              onClick={handleClick}
+              to="/myprofile/actives"
+            >
+              <i className="fa-solid fa-spinner"></i>
+              <span>Actives</span>
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

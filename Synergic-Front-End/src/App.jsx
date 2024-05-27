@@ -15,6 +15,7 @@ import Loading from "./components/Loding";
 import Chats from "./pages/chats/Chats";
 import setNotficationRead from "./utils/setNotficationRead";
 import makeAllRead from "./utils/makeAllRead";
+import Actives from "./pages/myprofile/Actives";
 
 const Home = lazy(() => import("./home/Home"));
 const Register = lazy(() => import("./register/Register"));
@@ -139,6 +140,7 @@ function App() {
                   <Route path="services" element={<Services />}></Route>
                   <Route path="reviews" element={<Reviews />}></Route>
                   <Route path="requests" element={<Requests />}></Route>
+                  <Route path="actives" element={<Actives />}></Route>
                 </Route>
               </>
             )}

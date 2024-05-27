@@ -3,6 +3,7 @@ import "../style/components-style/requestOverlay.css";
 import fetchUserRating from "../utils/fetchUserRating";
 import { userInfoContext } from "../App";
 import createRoom from "../pages/chats/utils/createRoom";
+import axios from "axios";
 function RequestOverlay(props) {
   const { userInfo } = useContext(userInfoContext);
 
@@ -24,12 +25,13 @@ function RequestOverlay(props) {
 
   function handleRejectRequest() {
     props.setShowDetails(false);
+    // axios.post(`https://localhost:7200/api/Services/RejectServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${}&RequesterName=${}`)
     // call API to delete req (and will send notification to sender to know)
   }
 
   function handleAcceptRequest() {
     props.setShowDetails(false);
-    // call API to Create Room With sender req and call API to delete req
+    // axios.post(`https://localhost:7200/api/Services/AcceptServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${}&RequesterName=${}`)
     createRoom(
       userInfo.userToken,
       props.senderUsername,
