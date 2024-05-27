@@ -20,7 +20,7 @@ function Requests() {
     return (
       <Request
         key={index}
-        senderUsername={content.senderUsername}
+        senderUsername={request.senderName}
         senderPP={content.senderPP}
         messageContent={content.messageContent}
       />

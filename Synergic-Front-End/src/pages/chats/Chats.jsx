@@ -21,7 +21,7 @@ function Chats() {
   const fileRef = useRef(null);
   const messagesEndRef = useRef(null);
   const prevMessagesCountRef = useRef(0); // to handle scrolling when there is a new message
-  console.log("ds");
+
   useEffect(() => {
     if (rooms.length > 0 && !activeRoom) setActiveRoom(rooms[0]?.roomID); // the first time u open the chats declare the active room to the first room
   }, [rooms]);
@@ -87,7 +87,7 @@ function Chats() {
     prevMessagesCountRef.current = messages.length;
   }, [messages]);
 
-  const roomElements = rooms.map((room, index) => {
+  const contactElements = rooms.map((room, index) => {
     const users = roomUsers[room.roomID];
 
     if (!users) return null;
@@ -165,7 +165,7 @@ function Chats() {
                 {userInfo.username}
               </p>
             </header>
-            <div className="sidebar--contacts">{roomElements}</div>
+            <div className="sidebar--contacts">{contactElements}</div>
           </aside>
           <div className="chats--messages">
             <header className="messages--header align-center">
