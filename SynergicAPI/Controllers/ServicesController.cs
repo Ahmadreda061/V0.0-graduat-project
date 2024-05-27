@@ -530,10 +530,10 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Create a record for the newly accepted service request
-                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.ActiveServicesString} VALUES(@ServiceID1, @CutomerID, @ActiveStatus, (SELECT ServicePrice FROM Services WHERE @ServiceID = ServiceID2))", con))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.ActiveServicesString} VALUES(@ServiceID1, @CustomerID, @ActiveStatus, (SELECT ServicePrice FROM Services WHERE ServiceID = @ServiceID2))", con))
                 {
                     command.Parameters.AddWithValue("@ServiceID1", ServiceID);
-                    command.Parameters.AddWithValue("@CutomerID", RequesterID);
+                    command.Parameters.AddWithValue("@CustomerID", RequesterID);
                     command.Parameters.AddWithValue("@ActiveStatus", true);
                     command.Parameters.AddWithValue("@ServiceID2", ServiceID);
 
