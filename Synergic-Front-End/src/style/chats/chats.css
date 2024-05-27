@@ -18,11 +18,16 @@
 }
 
 .chats--sidebar {
-    width: 370px;
+    width: 370px ;
     background-color: var( --text);
     color: #f5f5f5;
     border-radius: 15px 0 0 15px;
-
+    position: relative;
+    transition: .3s ease;
+    -webkit-transition: .3s ease;
+    -moz-transition: .3s ease;
+    -ms-transition: .3s ease;
+    -o-transition: .3s ease;
 }
 
 .sidebar--header {
@@ -249,9 +254,10 @@
     .chats--messenger {
         padding: 0;
     }
-    .container {
+    .chats .container {
         margin: 0;
         padding: 0;
     }
     
 }
+

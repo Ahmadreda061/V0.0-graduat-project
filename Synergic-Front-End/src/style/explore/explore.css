@@ -1,8 +1,4 @@
 
-
-/* .explore {
-    margin-top: 100px;
-} */
 .explore--header {
     width: 100%;
     height: 66vh;
@@ -13,7 +9,7 @@
     position: absolute;
     top: 20%;
     background-color: rgb(88 117 255 / 56%);
-    font-size: 1.2rem;
+    font-size: clamp(.8rem, 1.2vw, 1.5vw);    
     padding: 10px;
     font-weight: 700;
     color: white;
@@ -53,11 +49,14 @@
 .content-items .service-card {
     width: calc((100% / 3) - 60px) !important;
 }
-.fa-bars, .fa-bell {
+
+.explore .fa-bars, .explore .fa-bell {
     color: #fff;
 }
 
-
+.explore.stopTrans .fa-bars, .explore.stopTrans .fa-bell {
+    color: var(--text);
+}
 
 @media  screen and (width <= 1345px) {
     .content-items .service-card {
@@ -77,6 +76,15 @@
     }
     .content-items .service-card {
         width: calc((100% / 1) - 60px) !important;
+    }
 
+    .explore--header p  {
+        width: 40%;
+    }
+}
+
+@media  screen and (width <= 500px) {
+    .explore--header p  {
+        width: 60%;
     }
 }

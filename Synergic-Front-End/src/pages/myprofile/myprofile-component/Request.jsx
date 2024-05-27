@@ -26,6 +26,7 @@ function Request({ senderUsername, senderPP, messageContent, comment }) {
           senderPP={senderPP}
           messageContent={messageContent}
           handleReguestOverlay={handleReguestOverlay}
+          setShowDetails={setShowDetails}
         />
       )}
     </div>

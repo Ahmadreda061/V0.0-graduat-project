@@ -1,11 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../style/components-style/requestOverlay.css";
 import fetchUserRating from "../utils/fetchUserRating";
+import { userInfoContext } from "../App";
+import createRoom from "../pages/chats/utils/createRoom";
 function RequestOverlay(props) {
+  const { userInfo } = useContext(userInfoContext);
+
   const [rating, setRating] = useState(0);
   const comment = props.messageContent
     .substring(props.messageContent.indexOf("saying:") + 7)
     .trim();
+
   const title = props.messageContent.substring(
     props.messageContent.indexOf("(") + 1,
     props.messageContent.indexOf(")")
@@ -16,6 +21,21 @@ function RequestOverlay(props) {
       setRating(data);
     });
   }, []);
+
+  function handleRejectRequest() {
+    props.setShowDetails(false);
+    // call API to delete req
+  }
+
+  function handleAcceptRequest() {
+    props.setShowDetails(false);
+    // call API to Create Room With sender req and call API to delete req
+    createRoom(
+      userInfo.userToken,
+      props.senderUsername,
+      userInfo.username + "to" + props.senderUsername
+    ).then((location) => (window.location = location));
+  }
   return (
     <div
       className="request-overlay overlay"
@@ -55,8 +75,12 @@ function RequestOverlay(props) {
             {comment}
           </p>
           <div className="card-down--btns">
-            <button className="btn green">Accept</button>
-            <button className="btn red">Reject</button>
+            <button className="btn green" onClick={handleAcceptRequest}>
+              Accept
+            </button>
+            <button className="btn red" onClick={handleRejectRequest}>
+              Reject
+            </button>
           </div>
         </div>
       </div>
