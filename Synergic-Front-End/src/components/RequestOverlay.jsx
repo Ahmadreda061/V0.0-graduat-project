@@ -24,7 +24,7 @@ function RequestOverlay(props) {
 
   function handleRejectRequest() {
     props.setShowDetails(false);
-    // call API to delete req
+    // call API to delete req (and will send notification to sender to know)
   }
 
   function handleAcceptRequest() {
