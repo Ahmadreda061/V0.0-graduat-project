@@ -226,6 +226,12 @@ namespace SynergicAPI
                 }
             }
         }
+        public static bool IsServiceOwner(SqlConnection connection, int ServiceID, string UserToken)
+        {
+
+
+            return true;
+        }
         public static bool UserIDToUsername(SqlConnection connection, int userID, out string username)
         {
             username = "";

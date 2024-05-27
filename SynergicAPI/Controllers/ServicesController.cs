@@ -230,9 +230,9 @@ namespace SynergicAPI.Controllers
                         if (UserRating != null)
                         {
                             AccountsController ac = new AccountsController(configuration);
-                            for (int i = 0; i < response.elements.Count; i++)
+                            for (int i = 0; i < responseElements.Count; i++)
                             {
-                                if (MathF.Floor(ac.GetUserRating(response.elements[i].ServiceOwnerUsername).Rating) == UserRating)
+                                if (MathF.Floor(ac.GetUserRating(responseElements[i].ServiceOwnerUsername).Rating) == UserRating)
                                 {
                                     response.elements.Add(responseElements[i]);
                                 }
@@ -467,11 +467,60 @@ namespace SynergicAPI.Controllers
         {
             DefaultResponse response = new DefaultResponse();
 
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+            }
             return response;
         }
         [HttpPost]
         [Route("RejectServiceRequest")]
         public DefaultResponse RejectServiceRequest(string userToken, string serviceID, string RequesterName)
+        {
+            DefaultResponse response = new DefaultResponse();
+
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+                if (!Utils.UsernameToUserID(con, RequesterName, out int RequesterID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+
+                string query = "DELETE FROM ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @serviceID";
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("CancleActiveService")]
+        public DefaultResponse CancleActiveService()//temp
+        {
+            DefaultResponse response = new DefaultResponse();
+
+            return response;
+        }
+        [HttpPost]
+        [Route("AcceptActiveService")]
+        public DefaultResponse AcceptActiveService()//temp
         {
             DefaultResponse response = new DefaultResponse();
 
