@@ -117,7 +117,9 @@ namespace SynergicAPI.Controllers
                         }
                         if (!string.IsNullOrEmpty(SearchBar))
                         {
-                            queryBuilder.Append("(OwnerID IN (SELECT ID FROM UserAccount WHERE Username LIKE '%'@SearchBar1'%') OR (ServiceTitle LIKE '%'@SearchBar2'%' OR ServiceDescription LIKE '%'@SearchBar3'%')) AND ");
+                            queryBuilder.Append("(OwnerID IN (SELECT ID FROM UserAccount WHERE Username LIKE '%' + @SearchBar1 + '%') " +
+                                                "OR (ServiceTitle LIKE '%' + @SearchBar2 + '%' " +
+                                                "OR ServiceDescription LIKE '%' + @SearchBar3 + '%')) AND ");
                         }
                         if (Price > 0)
                         {
