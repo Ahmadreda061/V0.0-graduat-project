@@ -26,7 +26,7 @@ namespace SynergicAPI.Controllers
             DefaultResponse response = new DefaultResponse();
 
 
-            if(service.Images.Length < 0)
+            if (service.Images.Length < 0)
             {
                 response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                 response.statusMessage = "Service Error: You need one or more Images for the Service!";
@@ -102,7 +102,7 @@ namespace SynergicAPI.Controllers
                     var queryBuilder = new StringBuilder("SELECT * FROM Services ");
                     int[] Categories = null;
 
-                    if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Username)|| !string.IsNullOrEmpty(SearchBar) || Price > 0 || Category != null)
+                    if (!string.IsNullOrEmpty(Title) || !string.IsNullOrEmpty(Username) || !string.IsNullOrEmpty(SearchBar) || Price > 0 || Category != null)
                     {
                         queryBuilder.Append("WHERE ");
 
@@ -314,7 +314,7 @@ namespace SynergicAPI.Controllers
                 con.Open();
 
                 //Validate the user
-                if(!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
                 {
                     response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
                     response.statusMessage = "Error in userToken";
@@ -337,7 +337,7 @@ namespace SynergicAPI.Controllers
                         }
                     }
                 }
-                
+
                 //Checks if the user already has an active request for this service
                 query = $"SELECT RequestedServiceID From ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @RequestedServiceID";
                 using (SqlCommand command = new SqlCommand(query, con))
@@ -403,6 +403,78 @@ namespace SynergicAPI.Controllers
                     }
                 }
             }
+            return response;
+        }
+
+        [HttpDelete]
+        [Route("DeleteServiceRequest")]
+        public DefaultResponse DeleteServiceRequest(string userToken, int ServiceID)
+        {
+            DefaultResponse response = new DefaultResponse();
+
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, userToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+
+                //Checks if the user already has an active request for this service
+                string query = $"SELECT RequestedServiceID From ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @RequestedServiceID";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@RequesterID", userID);
+                    command.Parameters.AddWithValue("@RequestedServiceID", ServiceID);
+
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (!reader.HasRows)
+                        {
+                            response.statusCode = (int)Utils.StatusCodings.Service_Request_Not_Found;
+                            response.statusMessage = "Service request was not found";
+                            return response;
+                        }
+                    }
+                }
+
+                //Delete the service request
+                query = $"DELETE From ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @RequestedServiceID";
+                using (SqlCommand command = new SqlCommand(query, con))
+                {
+                    command.Parameters.AddWithValue("@RequesterID", userID);
+                    command.Parameters.AddWithValue("@RequestedServiceID", ServiceID);
+
+                    int count = command.ExecuteNonQuery();
+                    if (count == 0)//this shouldn't be reachable, but just in case i will leave it
+                    {
+                        response.statusCode = (int)Utils.StatusCodings.Unknown_Error;
+                        response.statusMessage = "This Should never be possible!";
+                        return response;
+                    }
+                }
+            }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("AcceptServiceRequest")]
+        public DefaultResponse AcceptServiceRequest(string userToken, string serviceID, string RequesterName)
+        {
+            DefaultResponse response = new DefaultResponse();
+
+            return response;
+        }
+        [HttpPost]
+        [Route("RejectServiceRequest")]
+        public DefaultResponse RejectServiceRequest(string userToken, string serviceID, string RequesterName)
+        {
+            DefaultResponse response = new DefaultResponse();
+
             return response;
         }
     }
