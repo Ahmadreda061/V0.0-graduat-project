@@ -3,7 +3,6 @@ import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";
 import "../style/home-style/home.css";
-import ChatComponent from "./ChatComponent";
 
 function Home({ handleRegisterOverlay }) {
   const cardsContainerRef = useRef(null);
@@ -11,6 +10,7 @@ function Home({ handleRegisterOverlay }) {
     const container = cardsContainerRef.current;
     container.scrollBy({
       left: -320,
+
       behavior: "smooth",
     });
   };
@@ -19,6 +19,7 @@ function Home({ handleRegisterOverlay }) {
     const container = cardsContainerRef.current;
     container.scrollBy({
       left: 320,
+      left: container.clientWidth / 3,
       behavior: "smooth",
     });
   };

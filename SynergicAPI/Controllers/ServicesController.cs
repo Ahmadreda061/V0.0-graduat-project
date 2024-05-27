@@ -546,10 +546,10 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Get the id of the created active service
-                using (SqlCommand command = new SqlCommand("SELECT ID FROM ActiveServices WHERE ServiceID = @ServiceID AND CutomerID = @CutomerID)", con))
+                using (SqlCommand command = new SqlCommand("SELECT ID FROM ActiveServices WHERE ServiceID = @ServiceID AND CustomerID = @CustomerID", con))
                 {
                     command.Parameters.AddWithValue("@ServiceID", ServiceID);
-                    command.Parameters.AddWithValue("@CutomerID", RequesterID);
+                    command.Parameters.AddWithValue("@CustomerID", RequesterID);
 
                     using(SqlDataReader reader = command.ExecuteReader())
                     {

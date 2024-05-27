@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "../../style/chats/chats.css";
 import getImageUrl from "../../utils/image-util";
 import Contact from "./Contact";
@@ -98,8 +98,9 @@ function Chats() {
         name={users[userIndex]?.username} // username of other user
         img={users[userIndex]?.userPP} // profile pic of other user
         roomID={room.roomID}
-        setActiveRoom={setActiveRoom}
+        setActiveRoom={setActiveRoom} // Updated to handle active contact
         lastMsg={room.lastMsg}
+        isActive={activeRoom === room.roomID}
       />
     );
   });
@@ -167,64 +168,78 @@ function Chats() {
             </header>
             <div className="sidebar--contacts">{contactElements}</div>
           </aside>
-          <div className="chats--messages">
-            <header className="messages--header align-center">
-              {roomUsers[activeRoom] && (
-                <img
-                  src={
-                    roomUsers[activeRoom] &&
-                    `data:image/png;base64,${
-                      roomUsers[activeRoom][roomUsers[activeRoom][2]].userPP // roomUsers[activeRoom] = array users and in index 2 in users there is the index of other user
-                    }`
-                  }
-                  alt="current chat other profile image"
-                  className="messages--header-img circle"
-                />
-              )}
 
-              <p className="messages--header-username username">
-                {roomUsers[activeRoom] &&
-                  roomUsers[activeRoom][roomUsers[activeRoom][2]].username}
-              </p>
-            </header>
-            <section className="messages--body">
-              <ul>
-                {msgElements}
-                <div ref={messagesEndRef} />
-              </ul>
-            </section>
-            <form
-              className="messsages--form align-center"
-              onSubmit={handleSubmit}
-            >
-              <input
-                type="text"
-                className="messsages--form--write"
-                placeholder="Write your message... "
-                name=""
-                id=""
-                value={selectedFile ? selectedFile.name : msg}
-                onChange={(e) => setMsg(e.target.value)}
-                disabled={!!selectedFile} // Disable input if file is selected
-              />
-              <i
-                className="fa fa-paperclip attachment"
-                onClick={handleUploadAttachment}
-              >
-                <input
-                  type="file"
-                  ref={fileRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
-              </i>
-              <button type="submit" className="submit">
+          <div className="chats--messages">
+            {rooms.length == 0 ? (
+              <div className="no-msg">
                 <img
-                  src={getImageUrl("noun-paper-plane-120421.svg")}
-                  alt="submit"
+                  src={getImageUrl("logo.png")}
+                  alt=""
+                  style={{ width: "200px" }}
                 />
-              </button>
-            </form>
+                <p>you don't have any messages yet.</p>
+              </div>
+            ) : (
+              <>
+                <header className="messages--header align-center">
+                  {roomUsers[activeRoom] && (
+                    <img
+                      src={
+                        roomUsers[activeRoom] &&
+                        `data:image/png;base64,${
+                          roomUsers[activeRoom][roomUsers[activeRoom][2]].userPP // roomUsers[activeRoom] = array users and in index 2 in users there is the index of other user
+                        }`
+                      }
+                      alt="current chat other profile image"
+                      className="messages--header-img circle"
+                    />
+                  )}
+
+                  <p className="messages--header-username username">
+                    {roomUsers[activeRoom] &&
+                      roomUsers[activeRoom][roomUsers[activeRoom][2]].username}
+                  </p>
+                </header>
+                <section className="messages--body">
+                  <ul>
+                    {msgElements}
+                    <div ref={messagesEndRef} />
+                  </ul>
+                </section>
+                <form
+                  className="messsages--form align-center"
+                  onSubmit={handleSubmit}
+                >
+                  <input
+                    type="text"
+                    className="messsages--form--write"
+                    placeholder="Write your message... "
+                    name=""
+                    id=""
+                    value={selectedFile ? selectedFile.name : msg}
+                    onChange={(e) => setMsg(e.target.value)}
+                    disabled={!!selectedFile} // Disable input if file is selected
+                  />
+                  <i
+                    className="fa fa-paperclip attachment"
+                    onClick={handleUploadAttachment}
+                  >
+                    <input
+                      type="file"
+                      ref={fileRef}
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                  </i>
+                  <button type="submit" className="submit">
+                    <img
+                      src={getImageUrl("noun-paper-plane-120421.svg")}
+                      alt="submit"
+                    />
+                  </button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       </div>

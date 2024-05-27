@@ -20,7 +20,7 @@
     flex-direction: column;
     color: #eee ;
     padding: 10px 20px 0;
-    width: fit-content;
+    min-width: 200px;
     border-radius: 12px;
     height: 50px;
     overflow: hidden;
@@ -49,6 +49,21 @@
 .filter-categories label {
     color: #eee;
 }
+
+.search-bar {
+    width: 90%;
+    position: relative;;
+}
+
+.search-bar input {
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+.search-bar i {
+    position: absolute;
+    right: 10px;
+    top: 28%;}
 @media  screen and (width <= 1000px) {
     .content-filter {
         flex-direction: row;

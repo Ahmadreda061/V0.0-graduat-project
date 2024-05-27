@@ -1,13 +1,8 @@
 import { Link } from "react-router-dom";
 import "../../../style/myprofile-style/notfications.css";
 import { formatDistanceToNow } from "date-fns";
-import { useContext } from "react";
-import { userInfoContext } from "../../../App";
-import setNotficationRead from "../../../utils/setNotficationRead";
 
 function Notfication(props) {
-  console.log(props);
-  const { userInfo } = useContext(userInfoContext);
   const sendTimeDate = new Date(props.sendTime);
 
   const relativeTime = formatDistanceToNow(sendTimeDate);
@@ -21,9 +16,6 @@ function Notfication(props) {
           : ""
       }`}
       style={{ color: "black" }}
-      onClick={() =>
-        setNotficationRead(userInfo.userToken, props.NotificationID)
-      }
     >
       <hr />
       <div className="notfication">

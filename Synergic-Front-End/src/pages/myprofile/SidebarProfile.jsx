@@ -84,7 +84,7 @@ function SidebarProfile({ serviceOwnerUserName }) {
             </Link>
           </li>
         )}
-        {userInfo.isVendor && !serviceOwnerUserName && (
+        {userInfo.isVendor && (
           <>
             <li>
               <Link

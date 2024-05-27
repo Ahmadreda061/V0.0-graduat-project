@@ -3,8 +3,6 @@ import "../style/home-style/categories.css";
 import { Link } from "react-router-dom";
 import CardCategory from "../components/CardCategory";
 function Categories(props) {
-  const [mostRecentCate, setMostRecentCate] = useState([]); // When get the the Most Caregories create function to update the state
-
   return (
     <section className="categories">
       <h2 className="section--header">
@@ -20,14 +18,14 @@ function Categories(props) {
         >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
+        <CardCategory name="ahmad" />
+        <CardCategory name="ahmad" />
+        <CardCategory name="ahmad" />
+        <CardCategory name="ahmad" />
+        <CardCategory name="ahmad" />
+        <CardCategory name="ahmad" />
+        <CardCategory name="ahmad" />
+
         <button
           aria-label="scroll"
           className="scroll-button right circle"

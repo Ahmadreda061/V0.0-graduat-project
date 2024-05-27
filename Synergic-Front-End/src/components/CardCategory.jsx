@@ -1,7 +1,7 @@
 import "../style/components-style/cardcategory.css";
 import getImageUrl from "../utils/image-util";
 
-function CardCategory() {
+function CardCategory({ name }) {
   return (
     <div className="card--category">
       <div className="image">
@@ -9,7 +9,7 @@ function CardCategory() {
       </div>
       <div className="card--text">
         <p className="text--description">Lorem ipsum dolor sit.</p>
-        <h3 className="text--title">Lorem.</h3>
+        <h3 className="text--title">{name}.</h3>
       </div>
     </div>
   );

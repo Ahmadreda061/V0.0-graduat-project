@@ -117,11 +117,6 @@ a:focus{
     cursor: pointer
 }
 
-.nav--bell {
-    font-size: 1.4rem;
-    color: var(--logo-blue) !important;
-    cursor: pointer;
-}
 
 .fa-arrow-left,
 .fa-arrow-right {

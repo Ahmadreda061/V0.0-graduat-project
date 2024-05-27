@@ -5,6 +5,7 @@
     background: rgb(123,71,148);
     background: linear-gradient(73deg, rgba(123,71,148,1) 0%, rgba(88,117,255,1) 100%);
 }
+
 .explore--header p {
     position: absolute;
     top: 20%;
@@ -32,7 +33,7 @@
     display: grid;
     grid-template-columns: 27% 70%;
     /* gap: 3%; */
-    height: 100vh;  
+    /* height: 100vh;   */
     padding: 50px 0
 }
 
@@ -48,6 +49,11 @@
 }
 .content-items .service-card {
     width: calc((100% / 3) - 60px) !important;
+    /* transition: 3s;
+    -webkit-transition: 3s;
+    -moz-transition: 3s;
+    -ms-transition: 3s;
+    -o-transition: 3s; */
 }
 
 .explore .fa-bars, .explore .fa-bell {
@@ -55,8 +61,10 @@
 }
 
 .explore.stopTrans .fa-bars, .explore.stopTrans .fa-bell {
-    color: var(--text);
+    color: var(--logo-blue);
 }
+
+
 
 @media  screen and (width <= 1345px) {
     .content-items .service-card {
@@ -65,7 +73,7 @@
     }
 }
 
-@media  screen and (width <= 1000px) {
+@media  screen and (width <= 1119px) {
     .explore--content {
         grid-template-columns: 100%;
         gap: 20px;

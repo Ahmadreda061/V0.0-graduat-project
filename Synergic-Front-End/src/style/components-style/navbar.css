@@ -92,7 +92,7 @@
 }
 @media screen and (width <= 920px) {
     .navbar.explore a, .fa-bell {
-        color: var(--text) !important
+        color: var(--logo-blue) !important
     }
      
 }

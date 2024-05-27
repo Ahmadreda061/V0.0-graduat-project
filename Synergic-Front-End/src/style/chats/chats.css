@@ -86,7 +86,7 @@
     -o-transition: .2s ease-in;
 }
 
-.sidebar--contacts .contact:hover {
+.sidebar--contacts .contact:hover,.sidebar--contacts .contact.active {
     background-color: #eee;
     color: #000;
 }
@@ -231,6 +231,21 @@
     transform: translate(-50%, -50%);
 }
 
+.no-msg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+    max-width: 300px;
+}
+
+.no-msg p {
+    position: relative;
+    color: var(--text);
+    font-weight: bold;
+    top: -27px;
+}
 @media screen and (width <= 1400px) {
     .other-msg, .my-msg {
         max-width: 90%;

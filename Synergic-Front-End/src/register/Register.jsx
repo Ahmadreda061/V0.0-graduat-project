@@ -6,7 +6,7 @@ import Signup from "./Signup";
 import { useState } from "react";
 
 function Register({ handleRegisterOverlay }) {
-  const [isRegistered, setIsRegistered] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(true);
   function handeleIsRegistered() {
     /*
      if click in log in link make isReg to true and go to log in view else if click in sign up link so registerd and go to sign up view 

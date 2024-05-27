@@ -4,7 +4,7 @@ function Contact(props) {
   const time = giveTime(props.lastMsg?.sendTime);
   return (
     <div
-      className="contact align-center"
+      className={`contact align-center ${props.isActive ? "active" : ""}`}
       onClick={() => props.setActiveRoom(props.roomID)}
     >
       <img

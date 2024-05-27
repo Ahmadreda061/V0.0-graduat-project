@@ -1,25 +1,27 @@
-// In your Explore component
 import React, { useEffect, useState } from "react";
 import "../../style/explore/explore.css";
 import Filtter from "./Filtter";
 import ServiceCard from "../../components/ServiceCard";
 import axios from "axios";
 import PP from "./PP.jsx";
-import Loading from "../../components/Loding.jsx";
 
 function Explore() {
   const [allServices, setAllServices] = useState([]);
+
   const [count, setCount] = useState(3);
   const [category, setCategories] = useState([]);
+  const [rating, setRating] = useState("");
+  const [searchBar, setSearchBar] = useState("");
+
   const [offset, setOffset] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  console.log(offset + "---" + count);
   const fetchServices = (newOffset = 0, reset = false) => {
     setLoading(true);
     axios
       .get(
-        `https://localhost:7200/api/Services/GetServices?Count=${count}&Offset=${newOffset}&Category=${category}`
+        `https://localhost:7200/api/Services/GetServices?Count=${count}&Offset=${newOffset}&Category=${category}&UserRating=${rating}&SearchBar=${searchBar}`
       )
       .then((res) => {
         setAllServices((prevServices) =>
@@ -35,24 +37,32 @@ function Explore() {
 
   useEffect(() => {
     fetchServices(0, true);
-  }, [category]);
+  }, [category, rating, searchBar]);
 
   useEffect(() => {
+    const navBar = document.querySelector(".navbar");
+    navBar.classList.add("explore");
     const handleScroll = () => {
-      if (window.scrollY >= window.innerHeight * 0.63) {
+      if (window.scrollY >= window.innerHeight * 0.6) {
+        navBar.classList.add("stopTrans");
         setShowScrollTop(true);
       } else {
+        navBar.classList.remove("stopTrans");
         setShowScrollTop(false);
       }
       const content = document.querySelector(".explore--content");
       if (content) {
-        const contentBottom = content.getBoundingClientRect().bottom;
-        if (contentBottom <= window.innerHeight + 100 && !loading) {
-          setOffset((prevOffset) => {
-            const newOffset = prevOffset + count;
-            fetchServices(newOffset);
-            return newOffset;
-          });
+        // const contentBottom = content.getBoundingClientRect().bottom;
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+          setTimeout(
+            () =>
+              setOffset((prevOffset) => {
+                const newOffset = prevOffset + count;
+                fetchServices(newOffset);
+                return newOffset;
+              }),
+            300
+          );
         }
       }
     };
@@ -61,7 +71,7 @@ function Explore() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [loading, count]);
+  }, [loading]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -91,10 +101,20 @@ function Explore() {
             }}
             category={category}
             setCount={setCount}
+            setRating={(rating) => {
+              setRating(rating);
+              setOffset(0);
+            }}
+            rating={rating}
+            searchBar={searchBar}
+            setSearchBar={(value) => {
+              setSearchBar(value);
+              setOffset(0);
+            }}
+            offset={offset}
           />
           <div className="content-items">{serviceCards}</div>
-
-          {loading && <Loading />}
+          {/* {loading && <Loding />} */}
         </div>
       </div>
       {showScrollTop && (

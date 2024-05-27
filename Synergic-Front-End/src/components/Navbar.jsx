@@ -5,9 +5,9 @@ import "../style/components-style/navbar.css";
 import getImageUrl from "../utils/image-util";
 import { userInfoContext } from "../App";
 import Notfications from "../pages/myprofile/myprofile-component/Notfications";
-import { longFormatters } from "date-fns";
+import makeAllRead from "../utils/makeAllRead";
 
-function Navbar({ handleRegisterOverlay, allNotificationsRead }) {
+function Navbar({ handleRegisterOverlay, allNotificationsRead, makeAllRead }) {
   const { userInfo } = useContext(userInfoContext);
   const [showNoitifctions, setShowNoitifctions] = useState(false);
 
@@ -92,24 +92,26 @@ function Navbar({ handleRegisterOverlay, allNotificationsRead }) {
                 home
               </Link>
             </li>
-            {userKey && (
-              <li>
-                <Link to="/myprofile" className="line nav--paths_link">
-                  my profile
-                </Link>
-              </li>
-            )}
             <li>
               <Link to="/explore" className="line nav--paths_link">
                 explore
               </Link>
             </li>
-            <li>
-              <Link to="/chats" className="line nav--paths_link">
-                chats
-              </Link>
-            </li>
+            {userKey && (
+              <>
+                <li>
+                  <Link to="/myprofile" className="line nav--paths_link">
+                    my profile
+                  </Link>
+                </li>
 
+                <li>
+                  <Link to="/chats" className="line nav--paths_link">
+                    chats
+                  </Link>
+                </li>
+              </>
+            )}
             {userInfo && !userInfo.isVendor && (
               <li className="nav-btn">
                 <Link
@@ -143,7 +145,10 @@ function Navbar({ handleRegisterOverlay, allNotificationsRead }) {
               <li>
                 <i
                   className="fa-regular fa-bell fa-fw nav--bell"
-                  onClick={() => setShowNoitifctions((prevState) => !prevState)}
+                  onClick={() => (
+                    setShowNoitifctions((prevState) => !prevState),
+                    makeAllRead()
+                  )}
                 ></i>
                 {!allNotificationsRead && <span className="circle-red"></span>}
                 {showNoitifctions && <Notfications />}

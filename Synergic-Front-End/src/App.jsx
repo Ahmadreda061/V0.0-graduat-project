@@ -5,7 +5,7 @@ import React, {
   lazy,
   Suspense,
 } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import "./style/App.css";
 import "./style/myprofile-style/services.css";
 import "./style/myprofile-style/myprofile.css";
@@ -13,6 +13,8 @@ import getUser from "./utils/getUser";
 import getUserNotfications from "./utils/getUserNotfications";
 import Loading from "./components/Loding";
 import Chats from "./pages/chats/Chats";
+import setNotficationRead from "./utils/setNotficationRead";
+import makeAllRead from "./utils/makeAllRead";
 
 const Home = lazy(() => import("./home/Home"));
 const Register = lazy(() => import("./register/Register"));
@@ -92,29 +94,54 @@ function App() {
             <Navbar
               handleRegisterOverlay={handleRegisterOverlay}
               allNotificationsRead={allNotificationsRead}
+              makeAllRead={() => makeAllRead(userInfo.userToken, notifications)}
             />
           )}
           <Routes>
-            <Route
-              path="/"
-              element={<Home handleRegisterOverlay={handleRegisterOverlay} />}
-            />
-            <Route path="/vendorRegistertion" element={<VendorReg />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/chats" element={<Chats />}></Route>
-            <Route path="serviceCreation" element={<ServiceCreation />}></Route>
-            <Route path="/servicepreview" element={<ServicePreview />}></Route>
-            <Route
-              path="/myprofile"
-              element={
-                <Myprofile allNotificationsRead={allNotificationsRead} />
-              }
-            >
-              <Route index element={<Information />}></Route>
-              <Route path="services" element={<Services />}></Route>
-              <Route path="reviews" element={<Reviews />}></Route>
-              <Route path="requests" element={<Requests />}></Route>
-            </Route>
+            {!userInfo ? (
+              <>
+                <Route
+                  path="/"
+                  element={
+                    <Home handleRegisterOverlay={handleRegisterOverlay} />
+                  }
+                />
+                <Route path="/explore" element={<Explore />} />
+
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </>
+            ) : (
+              <>
+                <Route
+                  path="/"
+                  element={
+                    <Home handleRegisterOverlay={handleRegisterOverlay} />
+                  }
+                />
+                <Route path="/vendorRegistertion" element={<VendorReg />} />
+                <Route path="/explore" element={<Explore />} />
+                <Route path="/chats" element={<Chats />}></Route>
+                <Route
+                  path="serviceCreation"
+                  element={<ServiceCreation />}
+                ></Route>
+                <Route
+                  path="/servicepreview"
+                  element={<ServicePreview />}
+                ></Route>
+                <Route
+                  path="/myprofile"
+                  element={
+                    <Myprofile allNotificationsRead={allNotificationsRead} />
+                  }
+                >
+                  <Route index element={<Information />}></Route>
+                  <Route path="services" element={<Services />}></Route>
+                  <Route path="reviews" element={<Reviews />}></Route>
+                  <Route path="requests" element={<Requests />}></Route>
+                </Route>
+              </>
+            )}
           </Routes>
         </userInfoContext.Provider>
 

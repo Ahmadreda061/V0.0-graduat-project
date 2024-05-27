@@ -4,12 +4,13 @@ import "../../style/myprofile-style/myprofile.css";
 import { createContext, useContext, useEffect, useState } from "react";
 import getUser from "../../utils/getUser";
 import { userInfoContext } from "../../App";
+import makeAllRead from "../../utils/makeAllRead";
 import Notfications from "./myprofile-component/Notfications";
 export const UserTokenContext = createContext(null);
 
 function Myprofile({ allNotificationsRead }) {
   const [showNoitifctions, setShowNoitifctions] = useState(false);
-  const { userInfo } = useContext(userInfoContext);
+  const { userInfo, notifications } = useContext(userInfoContext);
   const [serviceOwnerUserName, setserviceOwnerUserName] = useState(null);
   const [serviceOwnerInfo, setServiceOwnerInfo] = useState(null);
   const location = useLocation();
@@ -27,6 +28,7 @@ function Myprofile({ allNotificationsRead }) {
       });
     }
   }, [serviceOwnerUserName]);
+
   function handleNoitifctions() {
     setShowNoitifctions((prevState) => !prevState);
   }
@@ -52,7 +54,10 @@ function Myprofile({ allNotificationsRead }) {
 
               <i
                 className="fa-regular fa-bell fa-fw nav--bell"
-                onClick={handleNoitifctions}
+                onClick={() => (
+                  handleNoitifctions(),
+                  makeAllRead(userInfo.userToken, notifications)
+                )}
               ></i>
             </div>
 

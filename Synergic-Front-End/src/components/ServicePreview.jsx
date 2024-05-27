@@ -82,7 +82,13 @@ function ServicePreview() {
         <div className="service-preview--images">
           {serviceOwnerPic && (
             <div className="service-preview--serviceowenr">
-              <Link to={`/myprofile?UT=${serviceOwnerUsername}`}>
+              <Link
+                to={
+                  serviceOwnerUsername != userInfo.username
+                    ? `/myprofile?UT=${serviceOwnerUsername}`
+                    : `/myprofile`
+                }
+              >
                 <img
                   src={`data:image/png;base64,${serviceOwnerPic}`}
                   alt="service Owner Image"
