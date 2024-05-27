@@ -225,7 +225,6 @@ namespace SynergicAPI.Controllers
                                     responseElements[i].Images = images.ToArray();
                                 }
                             }
-                            responseElements.Add(responseElements[i]);
                         }
 
                         if (UserRating != null)
