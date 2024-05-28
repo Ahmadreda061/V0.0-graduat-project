@@ -46,7 +46,7 @@ function RequestOverlay(props) {
         );
       })
       .then(() => {
-        window.location = "/chats";
+        setTimeout(() => (window.location = "/chats"), 500);
       });
   }
   return (

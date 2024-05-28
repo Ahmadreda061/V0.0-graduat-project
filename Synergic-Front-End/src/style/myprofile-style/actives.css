@@ -29,4 +29,24 @@
 .active--buttons > * {
     flex:1;
 }
+.stats-circle {
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    /* background-color: green; */
+    border-radius: 50%;
 
+    top: -13px;
+    left: -14px;
+}
+
+.active--buttons .grey {
+    background: #777;
+    border: #777;
+    cursor: default;
+}
+
+.active--buttons .grey:hover {
+    color: #fff;
+}
