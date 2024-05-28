@@ -84,40 +84,42 @@ function SidebarProfile({ serviceOwnerUserName }) {
             </Link>
           </li>
         )}
-        {userInfo.isVendor && (
-          <>
-            <li>
-              <Link
-                style={
-                  activeLink === "reviews"
-                    ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
-                    : { backgroundColor: "#fff" }
-                }
-                className="sidebar--page"
-                onClick={handleClick}
-                to="/myprofile/reviews"
-              >
-                <i className="fa-regular fa-comment fa-fw"></i>
-                <span>Reviews</span>
-              </Link>
-            </li>
-            <li>
-              <Link
-                style={
-                  activeLink === "requests"
-                    ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
-                    : { backgroundColor: "#fff" }
-                }
-                className="sidebar--page"
-                onClick={handleClick}
-                to="/myprofile/requests"
-              >
-                <i className="fa-regular fa-bell fa-fw"></i>
-                <span>Requests</span>
-              </Link>
-            </li>
-          </>
-        )}
+        {userInfo.isVendor &&
+          (userInfo.username == serviceOwnerUserName ||
+            !serviceOwnerUserName) && (
+            <>
+              <li>
+                <Link
+                  style={
+                    activeLink === "reviews"
+                      ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                      : { backgroundColor: "#fff" }
+                  }
+                  className="sidebar--page"
+                  onClick={handleClick}
+                  to="/myprofile/reviews"
+                >
+                  <i className="fa-regular fa-comment fa-fw"></i>
+                  <span>Reviews</span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  style={
+                    activeLink === "requests"
+                      ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                      : { backgroundColor: "#fff" }
+                  }
+                  className="sidebar--page"
+                  onClick={handleClick}
+                  to="/myprofile/requests"
+                >
+                  <i className="fa-regular fa-bell fa-fw"></i>
+                  <span>Requests</span>
+                </Link>
+              </li>
+            </>
+          )}
         {!serviceOwnerUserName && (
           <li>
             <Link

@@ -4,18 +4,11 @@ import fetchUserRating from "../utils/fetchUserRating";
 import { userInfoContext } from "../App";
 import createRoom from "../pages/chats/utils/createRoom";
 import axios from "axios";
+import getImageUrl from "../utils/image-util";
 function RequestOverlay(props) {
   const { userInfo } = useContext(userInfoContext);
 
   const [rating, setRating] = useState(0);
-  const comment = props.messageContent
-    .substring(props.messageContent.indexOf("saying:") + 7)
-    .trim();
-
-  const title = props.messageContent.substring(
-    props.messageContent.indexOf("(") + 1,
-    props.messageContent.indexOf(")")
-  );
 
   useEffect(() => {
     fetchUserRating(props.senderUsername).then((data) => {
@@ -25,18 +18,36 @@ function RequestOverlay(props) {
 
   function handleRejectRequest() {
     props.setShowDetails(false);
-    // axios.post(`https://localhost:7200/api/Services/RejectServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${}&RequesterName=${}`)
-    // call API to delete req (and will send notification to sender to know)
+    axios
+      .post(
+        `https://localhost:7200/api/Services/RejectServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${props.serviceID}&RequesterName=${props.senderUsername}`
+      )
+      .then(() => {
+        props.setRequests((prevReq) =>
+          prevReq.filter((req) => req.serviceID != props.serviceID)
+        );
+      });
   }
 
   function handleAcceptRequest() {
-    props.setShowDetails(false);
-    // axios.post(`https://localhost:7200/api/Services/AcceptServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${}&RequesterName=${}`)
     createRoom(
       userInfo.userToken,
       props.senderUsername,
-      userInfo.username + "to" + props.senderUsername
-    ).then((location) => (window.location = location));
+      `${userInfo.username}to${props.senderUsername}`
+    )
+      .then((chatId) => {
+        return axios.post(
+          `https://localhost:7200/api/Services/AcceptServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${props.serviceID}&RequesterName=${props.senderUsername}&ChatID=${chatId}`
+        );
+      })
+      .then(() => {
+        props.setRequests((prevReq) =>
+          prevReq.filter((req) => req.serviceID != props.serviceID)
+        );
+      })
+      .then(() => {
+        window.location = "/chats";
+      });
   }
   return (
     <div
@@ -54,7 +65,8 @@ function RequestOverlay(props) {
         <div className="overlay--card-top">
           <div className="card-top--customer-info">
             <img
-              src={`data:image/png;base64,${props.senderPP}`}
+              // src={`data:image/png;base64,${props.senderPP}`}
+              src={getImageUrl("DefaultProfileImage.png")}
               alt="customer img"
             />
             <div>
@@ -67,14 +79,14 @@ function RequestOverlay(props) {
             </div>
           </div>
           <div className="card-top--request-info">
-            <h2 className="request-info--service-name">{title}</h2>
+            <h2 className="request-info--service-name">{props.title}</h2>
             <span className="request-info--service-price">24$</span>
           </div>
         </div>
         <div className="overlay--card-down">
           <p className="card-down--comment">
             <span>Comment</span>
-            {comment}
+            {props.comment}
           </p>
           <div className="card-down--btns">
             <button className="btn green" onClick={handleAcceptRequest}>
