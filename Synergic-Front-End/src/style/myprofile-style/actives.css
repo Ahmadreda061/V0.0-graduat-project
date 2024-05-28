@@ -1,0 +1,32 @@
+/* .actives-cards {
+} */
+
+.active-card {
+    padding: 20px;
+
+    height: 200px !important;
+
+}
+
+.active--info {
+    flex: 1;
+    display: flex;
+}
+
+.active--info p {
+    margin: auto;
+    width: fit-content;
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text);
+    font-weight: 700;
+}
+.active--buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.active--buttons > * {
+    flex:1;
+}
+

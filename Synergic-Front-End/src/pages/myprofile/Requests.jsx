@@ -14,7 +14,6 @@ function Requests() {
       setRequests(newRequests);
     });
   }, []);
-
   const requestElements = requests.map((request, index) => {
     const content = request.content;
     return (
