@@ -278,6 +278,19 @@ namespace SynergicAPI
                     else return [];
                 }
             }
+        } 
+        public static byte[] UsernameToProfilePicture(SqlConnection connection, string username)
+        {
+            string query = "SELECT ProfilePicture FROM UserAccount WHERE Username = @Username";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@Username", username);
+                using (var reader = command.ExecuteReader())
+                {
+                    if (reader.Read()) return (byte[])reader["ProfilePicture"];
+                    else return [];
+                }
+            }
         }
 
         public static string ServiceIDToServiceTitle(SqlConnection connection, int ServiceID)
