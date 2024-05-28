@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "../style/components-style/servicePreview.css";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { userInfoContext } from "../App";
 import sendServiceReq from "../utils/sendServiceReq";
 import Loading from "./Loding";
@@ -16,7 +16,6 @@ function ServicePreview() {
   const [yesOrNoOverlay, setYesOrNoOverlay] = useState(false);
   const [requested, setReqested] = useState(false);
 
-  console.log(requested);
   function handleYesOrNo() {
     setYesOrNoOverlay((prevState) => !prevState);
   }
@@ -24,10 +23,12 @@ function ServicePreview() {
   useEffect(() => {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
-      setServiceInfo(JSON.parse(serviceData));
-      if (serviceData.serviceOwnerUsername != userInfo.username) {
+      const pasredServiceData = JSON.parse(serviceData)
+      setServiceInfo(pasredServiceData );
+      if (pasredServiceData.serviceOwnerUsername != userInfo.username) {
         // if I have this service will not mark as visted
-        markVisit(userInfo.userToken, serviceData.category);
+        // console.log(serviceData)
+        markVisit(userInfo.userToken, pasredServiceData.category);
       }
     }
   }, []);
@@ -36,7 +37,6 @@ function ServicePreview() {
     // get Requests
     getSentRequests(userInfo.userToken).then((requests) => {
       requests.map((request) => {
-        console.log(serviceInfo.serviceID);
         if (request.serviceID == serviceInfo.serviceID) {
           setReqested(true);
         }

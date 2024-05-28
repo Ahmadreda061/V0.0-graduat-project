@@ -36,11 +36,14 @@ function RequestOverlay(props) {
       `${userInfo.username}to${props.senderUsername}`
     )
       .then((chatId) => {
+        console.log(chatId)
+
         return axios.post(
           `https://localhost:7200/api/Services/AcceptServiceRequest?UserToken=${userInfo.userToken}&ServiceID=${props.serviceID}&RequesterName=${props.senderUsername}&ChatID=${chatId}`
         );
       })
-      .then(() => {
+      .then((res) => {
+        console.log(res)
         props.setRequests((prevReq) =>
           prevReq.filter((req) => req.serviceID != props.serviceID)
         );

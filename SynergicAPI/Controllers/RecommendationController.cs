@@ -98,7 +98,7 @@ namespace SynergicAPI.Controllers
                         return response;
                     }
                 }
-                data = data.OrderBy((e) => e.Value).ToDictionary();
+                data = data.OrderBy((e) => -e.Value).ToDictionary();
 
                 int mostVisited = data.Keys.Take(1).ToArray()[0];
 

@@ -79,7 +79,7 @@ function ServiceCreation() {
         "*The Description Length Must Be More Than 200 Characters";
     }
 
-    if (formData.title.split(" ").length > 3) {
+    if (formData.title.split(" ").length > 6) {
       newErrors["title"] = "*Title Too Long";
     }
 
@@ -104,11 +104,12 @@ function ServiceCreation() {
                   id="category"
                   onChange={(e) => change(e, "SELECT")}
                 >
-                  <option value="1">dummy1</option>
-                  <option value="2">dummy2</option>
-                  <option value="3">dummy3</option>
-                  <option value="4">dummy4</option>
-                  <option value="5">dummy5</option>
+                  <option value="0">Web Devlopment</option>
+                  <option value="1">Games Devlopment</option>
+                  <option value="2">Mobile Apps</option>
+                  <option value="3">Widows Apps</option>
+                  <option value="4">3D Modeling</option>
+                  <option value="5">UI/UX</option>
                 </select>
               </div>
             </div>
@@ -144,7 +145,7 @@ function ServiceCreation() {
                   type="file"
                   id="images"
                   name="images"
-                  multiple
+                  
                   onChange={addImage}
                 />
               </label>
