@@ -17,9 +17,9 @@ namespace SynergicAPI.Controllers
 
         [HttpPost]
         [Route("CreateRoom")]
-        public DefaultResponse CreateRoom(string userToken, string otherUsername, string roomName)
+        public CreateRoomResponse CreateRoom(string userToken, string otherUsername, string roomName)
         {
-            DefaultResponse response = new DefaultResponse();
+            CreateRoomResponse response = new CreateRoomResponse();
 
             using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
             {
@@ -58,7 +58,6 @@ namespace SynergicAPI.Controllers
                     cmd.ExecuteNonQuery();
                 }
 
-                int roomID = -1;
                 query = $"SELECT ID FROM ChatRooms WHERE RoomName=@RoomName";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
@@ -67,7 +66,7 @@ namespace SynergicAPI.Controllers
                     {
                         if (reader.Read())
                         {
-                            roomID = (int)reader["ID"];
+                            response.RoomID = (int)reader["ID"];
                         }
                         else
                         {
@@ -82,8 +81,8 @@ namespace SynergicAPI.Controllers
                     $"(@RoomID2, (SELECT ID FROM UserAccount WHERE Username = @Username))";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@RoomID1", roomID);
-                    cmd.Parameters.AddWithValue("@RoomID2", roomID);
+                    cmd.Parameters.AddWithValue("@RoomID1", response.RoomID);
+                    cmd.Parameters.AddWithValue("@RoomID2", response.RoomID);
 
                     cmd.Parameters.AddWithValue("@UserToken", userToken);
                     cmd.Parameters.AddWithValue("@Username", otherUsername);
