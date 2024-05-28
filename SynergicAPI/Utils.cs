@@ -230,9 +230,16 @@ namespace SynergicAPI
         }
         public static bool IsServiceOwner(SqlConnection connection, int ServiceID, string UserToken)
         {
-            //to implement...
+            if(!IsLegitUserTokenWithID(connection, UserToken, out int userID))
+                return false;
 
-            return true;
+            using (SqlCommand command = new SqlCommand("SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID", connection))
+            {
+                command.Parameters.AddWithValue("@ServiceID", ServiceID);
+
+                int foundID = (int)command.ExecuteScalar();
+                return foundID == userID;
+            }
         }
         public static bool UserIDToUsername(SqlConnection connection, int userID, out string username)
         {
