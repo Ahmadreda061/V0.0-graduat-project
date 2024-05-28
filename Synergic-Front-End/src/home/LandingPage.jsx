@@ -14,7 +14,7 @@ function LandingPage({ handleRegisterOverlay }) {
         </p>
         {!localStorage.getItem("Key") ? (
           <button className="text-btn btn" onClick={handleRegisterOverlay}>
-            Log In
+            Sign Up
           </button>
         ) : (
           <button className="text-btn btn">Show More</button>

@@ -141,7 +141,7 @@ function Navbar({ handleRegisterOverlay, allNotificationsRead, makeAllRead }) {
                 </li>
               )
             )}
-            {userInfo && (
+            {userKey && (
               <li>
                 <i
                   className="fa-regular fa-bell fa-fw nav--bell"

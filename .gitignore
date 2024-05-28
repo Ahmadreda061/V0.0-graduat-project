@@ -6,3 +6,8 @@ SynergicAPI/appsettings.json
 /SynergicAPI/appsettings.json
 /SynergicAPI/ChatLogs/*.clog
 *.recfile
+/SynergicAPI/RecommendationData/User - 14affc22295b41eb8124219ed567e373.recfile
+/SynergicAPI/RecommendationData/User - 58ab54c69e9c4eddadb2f34201441d72.recfile
+/SynergicAPI/RecommendationData/User - 699bf44505d14f078b34b869981e238b.recfile
+/SynergicAPI/RecommendationData/User - 937688e686a84890ad2ba886248fcbcc.recfile
+/SynergicAPI/RecommendationData/User - 9a53165f83884859be65f01e4889075a.recfile

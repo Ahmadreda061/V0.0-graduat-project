@@ -7,6 +7,7 @@ import Loading from "./Loding";
 import YesOrNo from "./YesOrNo";
 import getSentRequests from "../utils/getSentRequests";
 import deleteServiceReq from "../utils/deleteServiceReq";
+import markVisit from "../utils/markVisit";
 function ServicePreview() {
   const { userInfo } = useContext(userInfoContext);
   const [mainImageIndex, setMainImage] = useState(0);
@@ -24,10 +25,15 @@ function ServicePreview() {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
       setServiceInfo(JSON.parse(serviceData));
+      if (serviceData.serviceOwnerUsername != userInfo.username) {
+        // if I have this service will not mark as visted
+        markVisit(userInfo.userToken, serviceData.category);
+      }
     }
   }, []);
 
   useEffect(() => {
+    // get Requests
     getSentRequests(userInfo.userToken).then((requests) => {
       requests.map((request) => {
         console.log(serviceInfo.serviceID);

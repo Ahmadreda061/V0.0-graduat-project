@@ -9,6 +9,7 @@ import getRooms from "./utils/getRooms";
 import getRoomUsers from "./utils/getRoomUsers";
 import sendMsg from "./utils/sendMsg";
 import getMsgs from "./utils/getMsgs";
+import { Link } from "react-router-dom";
 
 function Chats() {
   const { userInfo } = useContext(userInfoContext);
@@ -156,16 +157,22 @@ function Chats() {
       <div className="container">
         <div className="chats--messenger">
           <aside className="chats--sidebar">
-            <header className="sidebar--header align-center">
-              <img
-                src={`data:image/png;base64,${userInfo.profilePicture}`}
-                alt="my profile image"
-                className="sidebar--header-img circle"
-              />
-              <p className="sidebar--header-username username">
-                {userInfo.username}
-              </p>
-            </header>
+            <Link to="/myprofile">
+              <header className="sidebar--header align-center">
+                <img
+                  src={`data:image/png;base64,${userInfo.profilePicture}`}
+                  alt="my profile image"
+                  className="sidebar--header-img circle"
+                />
+                <p
+                  className="sidebar--header-username username"
+                  style={{ color: "#fff" }}
+                >
+                  {userInfo.username}
+                </p>
+              </header>
+            </Link>
+
             <div className="sidebar--contacts">{contactElements}</div>
           </aside>
 
@@ -183,22 +190,29 @@ function Chats() {
               <>
                 <header className="messages--header align-center">
                   {roomUsers[activeRoom] && (
-                    <img
-                      src={
-                        roomUsers[activeRoom] &&
-                        `data:image/png;base64,${
+                    <Link
+                      to={`/myprofile?UT=${
+                        roomUsers[activeRoom][roomUsers[activeRoom][2]].username
+                      }`}
+                      className="align-center"
+                      style={{ gap: "9px" }}
+                    >
+                      <img
+                        src={`data:image/png;base64,${
                           roomUsers[activeRoom][roomUsers[activeRoom][2]].userPP // roomUsers[activeRoom] = array users and in index 2 in users there is the index of other user
-                        }`
-                      }
-                      alt="current chat other profile image"
-                      className="messages--header-img circle"
-                    />
-                  )}
+                        }`}
+                        alt="current chat other profile image"
+                        className="messages--header-img circle"
+                      />
 
-                  <p className="messages--header-username username">
-                    {roomUsers[activeRoom] &&
-                      roomUsers[activeRoom][roomUsers[activeRoom][2]].username}
-                  </p>
+                      <p className="messages--header-username username">
+                        {
+                          roomUsers[activeRoom][roomUsers[activeRoom][2]]
+                            .username
+                        }
+                      </p>
+                    </Link>
+                  )}
                 </header>
                 <section className="messages--body">
                   <ul>

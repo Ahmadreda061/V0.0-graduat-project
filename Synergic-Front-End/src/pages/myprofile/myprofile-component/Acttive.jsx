@@ -40,7 +40,10 @@ function Acttive(props) {
 
         <p>
           You have an Active Service
-          <span style={{ color: "blue" }}>{props.serviceName}</span> With
+          <span style={{ color: "blue", marginLeft: "5px" }}>
+            {props.serviceName}
+          </span>{" "}
+          With
           <Link
             onClick={window.location.reload}
             to={`/myprofile?UT=${props.serviceCustomerUsername}`}
