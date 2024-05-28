@@ -2,28 +2,25 @@ import { useContext, useEffect, useState } from "react";
 import "../../style/myprofile-style/request.css";
 import Request from "./myprofile-component/Request";
 import { userInfoContext } from "../../App";
-import getUserNotfications from "../../utils/getUserNotfications";
+import getRecievedRequests from "./utils/getRecievedRequests";
+
 function Requests() {
   const { userInfo } = useContext(userInfoContext);
   const [requests, setRequests] = useState([]);
+
   useEffect(() => {
-    getUserNotfications(userInfo.userToken).then((notfications) => {
-      const newRequests = notfications.filter(
-        (notfication) => notfication.notificationCategory == 1
-      );
-      setRequests(newRequests);
+    getRecievedRequests(userInfo.userToken).then((requests) => {
+      console.log(requests);
+      setRequests(requests);
     });
-  }, []);
+  }, [userInfo.userToken]);
+
+  if (requests?.length === 0) {
+    return <div>No requests found.</div>;
+  }
+
   const requestElements = requests.map((request, index) => {
-    const content = request.content;
-    return (
-      <Request
-        key={index}
-        senderUsername={request.senderName}
-        senderPP={content.senderPP}
-        messageContent={content.messageContent}
-      />
-    );
+    return <Request key={index} {...request} setRequests={setRequests} />;
   });
 
   return <div className="myprofile-cards request-cards">{requestElements}</div>;

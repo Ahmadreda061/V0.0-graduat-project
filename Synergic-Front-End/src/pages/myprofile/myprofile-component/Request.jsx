@@ -1,7 +1,10 @@
 import { useState } from "react";
 import RequestOverlay from "../../../components/RequestOverlay";
+import getImageUrl from "../../../utils/image-util";
+import { Link } from "react-router-dom";
 
-function Request({ senderUsername, senderPP, messageContent, comment }) {
+function Request(props) {
+  console.log(props.serviceID);
   const [showDetails, setShowDetails] = useState(false);
   // will get the request here or the requests will all gets in requests so add it as props
 
@@ -11,20 +14,34 @@ function Request({ senderUsername, senderPP, messageContent, comment }) {
   return (
     <div className="myprofile-card request-card ">
       <img
-        src={`data:image/png;base64,${senderPP}`}
+        // src={`data:image/png;base64,${props.senderPP}`}
+        src={getImageUrl("DefaultProfileImage.png")}
         alt="customer image"
         className="customer-img "
         width="200"
       />
-      <p className="request--msg">{messageContent}</p>
+      <p className="request--msg">
+        <Link
+          onClick={window.location.reload}
+          to={`/myprofile?UT=${props.serviceRequesterUsername}`}
+          style={{ fontSize: "1.2rem", color: "blue", marginRight: "5px" }}
+        >
+          {props.serviceRequesterUsername}
+        </Link>
+        Is Requesting The Service. {props.serviceTitle}
+      </p>
       <button className="btn" onClick={handleReguestOverlay}>
         Show Details
       </button>
       {showDetails && (
         <RequestOverlay
-          senderUsername={senderUsername}
-          senderPP={senderPP}
-          messageContent={messageContent}
+          senderUsername={props.serviceRequesterUsername}
+          title={props.serviceTitle}
+          comment={props.additionalComments}
+          serviceID={props.serviceID}
+          setRequests={props.setRequests}
+          // senderPP={props.senderPP}
+          // price={props.servicePrice}
           handleReguestOverlay={handleReguestOverlay}
           setShowDetails={setShowDetails}
         />
