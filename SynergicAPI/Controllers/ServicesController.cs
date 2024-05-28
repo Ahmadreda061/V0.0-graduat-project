@@ -818,6 +818,7 @@ namespace SynergicAPI.Controllers
                                 ServiceOwnerUsername = uName,
                                 ServiceRequesterUsername = (string)reader["Username"],
                                 ServiceRequesterPP = (byte[])reader["ProfilePicture"],
+                                ServicePrice = (int)reader["ServicePrice"],
                                 ServiceID = (int)reader["ServiceID"],
                                 ServiceTitle = (string)reader["ServiceTitle"],
                                 AdditionalComments = (string)reader["AdditionalComment"]
@@ -858,6 +859,7 @@ namespace SynergicAPI.Controllers
                                 ServiceOwnerUsername = (string)reader["Username"],
                                 ServiceRequesterUsername = uName,
                                 ServiceID = (int)reader["ServiceID"],
+                                ServicePrice = (int)reader["ServicePrice"],
                                 ServiceTitle = (string)reader["ServiceTitle"],
                                 AdditionalComments = (string)reader["AdditionalComment"]
                             };
