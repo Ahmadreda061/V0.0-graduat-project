@@ -13,7 +13,9 @@ namespace SynergicAPI.Models.Responses
     {
         public string ServiceOwnerUsername { get; set; }
         public string ServiceRequesterUsername { get; set; }
+        public byte[] ServiceRequesterPP { get; set; }
         public int ServiceID { get; set; }
+        public int ServicePrice { get; set; }
         public string ServiceTitle { get; set; }
         public string AdditionalComments { get; set; }
     }

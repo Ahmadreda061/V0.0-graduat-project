@@ -817,6 +817,7 @@ namespace SynergicAPI.Controllers
                             {
                                 ServiceOwnerUsername = uName,
                                 ServiceRequesterUsername = (string)reader["Username"],
+                                ServiceRequesterPP = (byte[])reader["ProfilePicture"],
                                 ServiceID = (int)reader["ServiceID"],
                                 ServiceTitle = (string)reader["ServiceTitle"],
                                 AdditionalComments = (string)reader["AdditionalComment"]
@@ -863,6 +864,10 @@ namespace SynergicAPI.Controllers
                             response.elements.Add(data);
                         }
                     }
+                }
+                for (int i = 0; i < response.elements.Count; i++)
+                {
+                    response.elements[i].ServiceRequesterPP = Utils.UsernameToProfilePicture(con, response.elements[i].ServiceRequesterUsername);
                 }
             }
             return response;
