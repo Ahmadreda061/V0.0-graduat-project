@@ -41,7 +41,7 @@
     left: -14px;
 }
 
-.active--buttons .grey {
+/* .active--buttons .grey {
     background: #777;
     border: #777;
     cursor: default;
@@ -49,4 +49,4 @@
 
 .active--buttons .grey:hover {
     color: #fff;
-}
+} */

@@ -5,16 +5,21 @@ import { userInfoContext } from "../App";
 import sendServiceReq from "../utils/sendServiceReq";
 import Loading from "./Loding";
 import YesOrNo from "./YesOrNo";
-
+import getSentRequests from "../utils/getSentRequests";
+import deleteServiceReq from "../utils/deleteServiceReq";
 function ServicePreview() {
   const { userInfo } = useContext(userInfoContext);
   const [mainImageIndex, setMainImage] = useState(0);
   const [serviceInfo, setServiceInfo] = useState({});
   const [comment, setComment] = useState(""); // New state for comment
   const [yesOrNoOverlay, setYesOrNoOverlay] = useState(false);
+  const [requested, setReqested] = useState(false);
+
+  console.log(requested);
   function handleYesOrNo() {
     setYesOrNoOverlay((prevState) => !prevState);
   }
+
   useEffect(() => {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
@@ -22,17 +27,34 @@ function ServicePreview() {
     }
   }, []);
 
+  useEffect(() => {
+    getSentRequests(userInfo.userToken).then((requests) => {
+      requests.map((request) => {
+        console.log(serviceInfo.serviceID);
+        if (request.serviceID == serviceInfo.serviceID) {
+          setReqested(true);
+        }
+      });
+    });
+  }, [serviceInfo]);
   if (!serviceInfo) {
     return <Loading />;
   }
+
   function callRequest() {
     sendServiceReq(
       userInfo.userToken,
       serviceInfo.serviceID,
       comment || "There is no Comment"
-    ).then(alert("Request Send Successfly"));
+    )
+      .then(alert("Request Send Successfly"))
+      .then((window.location = "/explore"));
   }
-
+  function CancleRequest() {
+    deleteServiceReq(userInfo.userToken, serviceInfo.serviceID).then(
+      (res) => setReqested(!requested) // the res == true
+    );
+  }
   const imagesContainerRef = useRef(null);
   const handleScrollLeft = () => {
     const container = imagesContainerRef.current;
@@ -169,9 +191,23 @@ function ServicePreview() {
           <span className="preview--info--price">${serviceInfo.price}</span>
 
           {serviceInfo.serviceOwnerUsername != userInfo.username && (
-            <button className="btn preview--info--req" onClick={callRequest}>
-              Request
-            </button>
+            <div className="preview--info--btns">
+              <button
+                className={`btn preview--info--req ${requested && "active"}`}
+                onClick={!requested ? callRequest : () => null}
+                style={{ flex: "1" }}
+              >
+                {requested ? "Requested" : "Request"}
+              </button>
+              {requested && (
+                <button
+                  className={`btn preview--info--req red`}
+                  onClick={CancleRequest}
+                >
+                  cancle
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>

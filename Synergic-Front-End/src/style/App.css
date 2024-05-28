@@ -42,7 +42,7 @@ a:focus{
     outline: none;
 }
 
-.btn:hover {
+.btn:hover, .btn.active {
     background: var(--main-bg);
     background: linear-gradient(302deg, #fff 100%);
     color: var(--logo-blue)
@@ -332,6 +332,10 @@ textarea:focus-visible {
     border-color: #ffeb3b;
 }
 
+.grey {
+    background: #777;
+    border: #777;
+}
 .red {
     background: #e91e63 ;
     border-color: #e91e63;
@@ -344,7 +348,9 @@ textarea:focus-visible {
 .red:hover {
     color: #e91e63;
 } 
-
+.grey:hover {
+    color: #fff;
+}
 .circle-red {
     display: block;
     position: absolute;
