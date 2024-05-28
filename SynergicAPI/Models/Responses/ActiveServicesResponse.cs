@@ -13,6 +13,7 @@ namespace SynergicAPI.Models.Responses
     {
         public string ServiceOwnerUsername { get; set; }
         public string ServiceCustomerUsername { get; set; }
+        public string ServiceName { get; set; }
         public int Price { get; set; }
         public int ServiceID { get; set; }//the service listed on the
         public int ActiveServiceID { get; set; }//the actual service that the vendor is working on for the customer
