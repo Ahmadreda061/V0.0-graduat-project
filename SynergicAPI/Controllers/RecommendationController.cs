@@ -102,7 +102,7 @@ namespace SynergicAPI.Controllers
 
                 int mostVisited = data.Keys.Take(1).ToArray()[0];
 
-                query = $"SELECT TOP {recommendationCount} * FROM Services WHERE ServiceCategory = @ServiceCategory ORDER BY NEWID()";
+                query = $"SELECT TOP (@Count) * FROM Services WHERE ServiceCategory = @ServiceCategory ORDER BY NEWID()";
                 using (var command = new SqlCommand(query, con))
                 {
                     command.Parameters.AddWithValue("@ServiceCategory", mostVisited);
@@ -153,7 +153,7 @@ namespace SynergicAPI.Controllers
                             using (SqlDataReader imageReader = imagesCommand.ExecuteReader())
                             {
                                 List<byte[]> images = new List<byte[]>();
-                                while (imageReader.Read())
+                                if (imageReader.Read())
                                 {
                                     images.Add((byte[])imageReader["ImageData"]);
                                 }

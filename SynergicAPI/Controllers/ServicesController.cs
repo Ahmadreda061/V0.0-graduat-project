@@ -4,7 +4,6 @@ using SynergicAPI.Models;
 using SynergicAPI.Models.Notifications.NotificationTypes;
 using SynergicAPI.Models.Responses;
 using System.Data.SqlClient;
-using System.Drawing;
 using System.Text;
 
 namespace SynergicAPI.Controllers
