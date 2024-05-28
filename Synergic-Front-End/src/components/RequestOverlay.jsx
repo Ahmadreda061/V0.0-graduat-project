@@ -65,8 +65,7 @@ function RequestOverlay(props) {
         <div className="overlay--card-top">
           <div className="card-top--customer-info">
             <img
-              // src={`data:image/png;base64,${props.senderPP}`}
-              src={getImageUrl("DefaultProfileImage.png")}
+              src={`data:image/png;base64,${props.senderPP}`}
               alt="customer img"
             />
             <div>
@@ -80,7 +79,7 @@ function RequestOverlay(props) {
           </div>
           <div className="card-top--request-info">
             <h2 className="request-info--service-name">{props.title}</h2>
-            <span className="request-info--service-price">24$</span>
+            <span className="request-info--service-price">{props.price}$</span>
           </div>
         </div>
         <div className="overlay--card-down">

@@ -4,7 +4,6 @@ import getImageUrl from "../../../utils/image-util";
 import { Link } from "react-router-dom";
 
 function Request(props) {
-  console.log(props.serviceID);
   const [showDetails, setShowDetails] = useState(false);
   // will get the request here or the requests will all gets in requests so add it as props
 
@@ -14,8 +13,8 @@ function Request(props) {
   return (
     <div className="myprofile-card request-card ">
       <img
-        // src={`data:image/png;base64,${props.senderPP}`}
-        src={getImageUrl("DefaultProfileImage.png")}
+        src={`data:image/png;base64,${props.serviceRequesterPP}`}
+        // src={getImageUrl("DefaultProfileImage.png")}
         alt="customer image"
         className="customer-img "
         width="200"
@@ -40,8 +39,8 @@ function Request(props) {
           comment={props.additionalComments}
           serviceID={props.serviceID}
           setRequests={props.setRequests}
-          // senderPP={props.senderPP}
-          // price={props.servicePrice}
+          senderPP={props.serviceRequesterPP}
+          price={props.servicePrice}
           handleReguestOverlay={handleReguestOverlay}
           setShowDetails={setShowDetails}
         />
