@@ -466,7 +466,7 @@ namespace SynergicAPI.Controllers
 
         [HttpPost]
         [Route("AcceptServiceRequest")]
-        public AcceptServiceResponse AcceptServiceRequest(string UserToken, int ServiceID, string RequesterName)
+        public AcceptServiceResponse AcceptServiceRequest(string UserToken, int ServiceID, string RequesterName, string ChatID)
         {
             AcceptServiceResponse response = new AcceptServiceResponse();
 
@@ -530,12 +530,13 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Create a record for the newly accepted service request
-                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.ActiveServicesString} VALUES(@ServiceID1, @CustomerID, @ActiveStatus, (SELECT ServicePrice FROM Services WHERE ServiceID = @ServiceID2))", con))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.ActiveServicesString} VALUES(@ServiceID1, @CustomerID, @ActiveStatus, (SELECT ServicePrice FROM Services WHERE ServiceID = @ServiceID2), @ChatID)", con))
                 {
                     command.Parameters.AddWithValue("@ServiceID1", ServiceID);
                     command.Parameters.AddWithValue("@CustomerID", RequesterID);
                     command.Parameters.AddWithValue("@ActiveStatus", true);
                     command.Parameters.AddWithValue("@ServiceID2", ServiceID);
+                    command.Parameters.AddWithValue("@ChatID", ChatID);
 
                     int ra = command.ExecuteNonQuery();
                     if (ra == 0)//Shouldn't happen in any case
@@ -644,17 +645,17 @@ namespace SynergicAPI.Controllers
             //Start payment countdown so when the cooldown time is over, the customer gets their money back
             return response;
         }
+
         [HttpPost]
         [Route("FinishActiveService")]
-        public DefaultResponse FinishActiveService(string UserToken, int ActiveServiceID)//temp
+        public DefaultResponse FinishActiveService(string UserToken, int ActiveServiceID)
         {
-            DefaultResponse response = CancleActiveService(UserToken, ActiveServiceID);//Disable the Active Service so the customer still have a chance to review with the vendor or the moderators
+            DefaultResponse response = DisableActiveService(UserToken, ActiveServiceID);//Disable the Active Service so the customer still have a chance to review with the vendor or the moderators
 
             //Start payment countdown so when the review time is over, the vendor gets their cut of the payment
 
             return response;
         }
-
 
         DefaultResponse DisableActiveService(string UserToken, int ActiveServiceID)
         {
@@ -683,6 +684,184 @@ namespace SynergicAPI.Controllers
                         response.statusCode = (int)Utils.StatusCodings.Active_Service_Not_Found;
                         response.statusMessage = "Active Service Not Found";
                         return response;
+                    }
+                }
+            }
+            return response;
+        }
+
+
+
+        [HttpGet]
+        [Route("VendorActiveServices")]
+        public ActiveServicesResponse VendorActiveServices(string UserToken)//the active services that the vendor is engaged with and doing
+        {
+            ActiveServicesResponse response = new ActiveServicesResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+                string uName = Utils.UserIDToUsername(con, userID);
+
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM ActiveServices JOIN Services ON ActiveServices.ServiceID = Services.ServiceID WHERE Services.OwnerID = @UserID", con))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var data = new ActiveServiceElementData()
+                            {
+                                ServiceOwnerUsername = uName,
+                                ServiceCustomerUsername = ((int)reader["CustomerID"]).ToString(),
+                                Price = (int)reader["PaymentPrice"],
+                                ServiceID = (int)reader["ServiceID"],
+                                ActiveServiceID = (int)reader["ID"],
+                                ActiveServiceChatID = (int)reader["ActiveServiceChatID"],
+                                ActiveStatus = (bool)reader["ActiveStatus"],
+                            };
+                            response.elements.Add(data);
+                        }
+                    }
+                }
+                for (int i = 0; i < response.elements.Count; i++)
+                {
+                    response.elements[i].ServiceCustomerUsername = Utils.UserIDToUsername(con, int.Parse(response.elements[i].ServiceCustomerUsername));
+                }
+            }
+            return response;
+        }
+        
+        [HttpGet]
+        [Route("CustomerActiveServices")]
+        public ActiveServicesResponse CustomerActiveServices(string UserToken)//the active services that the vendor has requested from vendors and he is waiting for them to be done
+        {
+            ActiveServicesResponse response = new ActiveServicesResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM ActiveServices JOIN Services ON ActiveServices.ServiceID = Services.ServiceID JOIN UserAccount ON ActiveServices.CustomerID = UserAccount.ID WHERE ActiveServices.CustomerID = @UserID", con))
+                {
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var data = new ActiveServiceElementData()
+                            {
+                                ServiceOwnerUsername = ((int)reader["OwnerID"]).ToString(),
+                                ServiceCustomerUsername = (string)reader["Username"],
+                                Price = (int)reader["PaymentPrice"],
+                                ServiceID = (int)reader["ServiceID"],
+                                ActiveServiceID = (int)reader["ID"],
+                                ActiveServiceChatID = (int)reader["ActiveServiceChatID"],
+                                ActiveStatus = (bool)reader["ActiveStatus"],
+                            };
+                            response.elements.Add(data);
+                        }
+                    }
+                }
+                for (int i = 0; i < response.elements.Count; i++)
+                {
+                    response.elements[i].ServiceOwnerUsername = Utils.UserIDToUsername(con, int.Parse(response.elements[i].ServiceOwnerUsername));
+                }
+            }
+            return response;
+        }
+
+
+
+        [HttpGet]
+        [Route("RecievedRequests")]
+        public RequestsElementsResponse RecievedRequests(string UserToken)
+        {
+            RequestsElementsResponse response = new RequestsElementsResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+                string uName = Utils.UserIDToUsername(con, userID);
+                using (SqlCommand cmd = new SqlCommand("SELECT * FROM ServiceRequests JOIN Services ON ServiceRequests.RequestedServiceID = Services.ServiceID JOIN UserAccount ON ServiceRequests.RequesterID = UserAccount.ID WHERE Services.OwnerID = @OwnerID", con))
+                {
+                    cmd.Parameters.AddWithValue("@OwnerID", userID);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            RequestElementData data = new RequestElementData()
+                            {
+                                ServiceOwnerUsername = uName,
+                                ServiceRequesterUsername = (string)reader["Username"],
+                                ServiceID = (int)reader["ServiceID"],
+                                ServiceTitle = (string)reader["ServiceTitle"],
+                                AdditionalComments = (string)reader["AdditionalComment"]
+                            };
+                            response.elements.Add(data);
+                        }
+                    }
+                }
+            }
+            return response;
+        }
+        [HttpGet]
+        [Route("SentRequests")]
+        public RequestsElementsResponse SentRequests(string UserToken)
+        {
+            RequestsElementsResponse response = new RequestsElementsResponse();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                //Validate the user
+                if (!Utils.IsLegitUserTokenWithID(con, UserToken, out int userID))
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Account_Not_Found;
+                    response.statusMessage = "Error in userToken";
+                    return response;
+                }
+                string uName = Utils.UserIDToUsername(con, userID);
+                using(SqlCommand cmd = new SqlCommand("SELECT * FROM ServiceRequests JOIN Services ON ServiceRequests.RequestedServiceID = Services.ServiceID JOIN UserAccount ON Services.OwnerID = UserAccount.ID WHERE ServiceRequests.RequesterID = @RequesterID", con))
+                {
+                    cmd.Parameters.AddWithValue("@RequesterID", userID);
+                    using(var reader =  cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            RequestElementData data = new RequestElementData()
+                            {
+                                ServiceOwnerUsername = (string)reader["Username"],
+                                ServiceRequesterUsername = uName,
+                                ServiceID = (int)reader["ServiceID"],
+                                ServiceTitle = (string)reader["ServiceTitle"],
+                                AdditionalComments = (string)reader["AdditionalComment"]
+                            };
+                            response.elements.Add(data);
+                        }
                     }
                 }
             }

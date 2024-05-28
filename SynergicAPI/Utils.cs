@@ -20,7 +20,7 @@ namespace SynergicAPI
         public static string ServiceRequestsString => "ServiceRequests(RequesterID, RequestedServiceID, AdditionalComment)";
         public static string ChatRoomsString => "ChatRooms(RoomName)";
         public static string ChatRoomUsersString => "ChatRoomUsers(RoomID, UserID)";
-        public static string ActiveServicesString => "ActiveServices(ServiceID, CustomerID, ActiveStatus, PaymentPrice)";
+        public static string ActiveServicesString => "ActiveServices(ServiceID, CustomerID, ActiveStatus, PaymentPrice, ActiveServiceChatID)";
 
 
         public static byte[] DefaultProfileImage = BitmapToByteArray(new Bitmap(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "DefaultProfileImage.png")), ImageFormat.Png);
