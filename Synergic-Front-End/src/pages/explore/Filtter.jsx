@@ -75,9 +75,9 @@ function Filtter(props) {
             )}
           </span>
         </div>
-        {["web", "dum2", "dum3", "dum4", "dum5", "Other"].map(
+        {["web", "Games", "Mobile", "Windows", "3D", "UI/UX"].map(
           (label, index) => {
-            const value = (index + 1).toString();
+            const value = (index ).toString();
             return (
               <div key={value}>
                 <input

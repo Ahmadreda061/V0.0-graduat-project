@@ -3,6 +3,17 @@ import "../style/home-style/categories.css";
 import { Link } from "react-router-dom";
 import CardCategory from "../components/CardCategory";
 function Categories(props) {
+  const categories = [
+    { categoryName: "Web Development", categoryImg: "webCate.jpg", cateId: 0 },
+    { categoryName: "Games Development", categoryImg:"games.jpg", cateId: 1 },
+    { categoryName: "Mobile Apps", categoryImg: "mobile.jpg", cateId: 2 },
+    { categoryName: "Windows Apps", categoryImg: "desktop.png",cateId: 3 },
+    { categoryName: "3D Modeling", categoryImg: "3d.jpg", cateId: 4},
+    { categoryName: "", categoryImg: "ui.webp", cateId: 5},
+  ];
+  const cardsElements = categories.map((cate, index) => 
+    <CardCategory key={index} {...cate}/>
+)
   return (
     <section className="categories">
       <h2 className="section--header">
@@ -18,13 +29,8 @@ function Categories(props) {
         >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
-        <CardCategory name="ahmad" />
-        <CardCategory name="ahmad" />
-        <CardCategory name="ahmad" />
-        <CardCategory name="ahmad" />
-        <CardCategory name="ahmad" />
-        <CardCategory name="ahmad" />
-        <CardCategory name="ahmad" />
+        
+        {cardsElements}
 
         <button
           aria-label="scroll"

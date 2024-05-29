@@ -1,17 +1,22 @@
+import { Link } from "react-router-dom";
 import "../style/components-style/cardcategory.css";
 import getImageUrl from "../utils/image-util";
 
-function CardCategory({ name }) {
+function CardCategory(props) {
+  console.log(props.cateId)
   return (
-    <div className="card--category">
-      <div className="image">
-        <img src={getImageUrl("img_5terre.jpg")} alt="category image card" />
+    <Link to="/explore" onClick={() => localStorage.setItem("category", props.cateId)}>
+      <div className="card--category">
+        <div className="image">
+          <img  
+            src={getImageUrl(props.categoryImg)}
+            alt="category image card" />
+        </div>
+        <div className="card--text">
+          <h3 className="text--title">{props.categoryName}.</h3>
+        </div>
       </div>
-      <div className="card--text">
-        <p className="text--description">Lorem ipsum dolor sit.</p>
-        <h3 className="text--title">{name}.</h3>
-      </div>
-    </div>
+    </Link>
   );
 }
 

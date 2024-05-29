@@ -1,15 +1,17 @@
-import React, { useRef } from "react";
+import React, {  useRef } from "react";
 import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";
 import "../style/home-style/home.css";
 
 function Home({ handleRegisterOverlay }) {
+ 
   const cardsContainerRef = useRef(null);
+
   const handleScrollLeft = () => {
     const container = cardsContainerRef.current;
     container.scrollBy({
-      left: -320,
+      left: -390,
 
       behavior: "smooth",
     });
@@ -18,10 +20,10 @@ function Home({ handleRegisterOverlay }) {
   const handleScrollRight = () => {
     const container = cardsContainerRef.current;
     container.scrollBy({
-      left: 320,
-      left: container.clientWidth / 3,
+      left: 390,
       behavior: "smooth",
     });
+    
   };
   return (
     <>
@@ -38,7 +40,7 @@ function Home({ handleRegisterOverlay }) {
             scrollRight={handleScrollRight}
           />
           {/* <ChatComponent /> */}
-          <Recomendation />
+          <Recomendation  />
         </div>
       </main>
     </>

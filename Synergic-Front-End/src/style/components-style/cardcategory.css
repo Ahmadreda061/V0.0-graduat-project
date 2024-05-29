@@ -1,6 +1,7 @@
 .card--category {
     height: 100%;
-    max-width: 300px ;
+    max-width: 500px ;
+    /* width: calc(100% / 3); */
     border-radius: 13px;
     position: relative;
     flex: 1 1 auto
@@ -11,28 +12,27 @@
     height: 100%;
     cursor: pointer;
     border-radius: 18px;
+    width: 100%;
 }
 
 .card--category img {
     transition: .6s;
-    width: 300px;
     height: 100%;
     object-fit: cover;
+    width: 370px ;
+
 }
 
 .card--category .image:hover img {
     transform: scale(1.4);
 }
 
-.card--text {
-    position: absolute;
-    top: 10px; left: 15px;
-    color: #fff;
-    font-weight: 900;
-    font-size: .9rem
-}
 
 .text--title {
-    font-size: 2rem
+    font-size: 1.4rem;
+    position: absolute;
+    top: 12px;
+    left: 10px;
+    color: #fff;
 }
 

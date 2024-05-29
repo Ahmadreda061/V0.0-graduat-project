@@ -5,11 +5,12 @@
 
 .categories--cards {
     display: flex;
+    /* flex-wrap: wrap; */
     height: 400px;
     gap: 20px;
     overflow-x: auto;
     scrollbar-width: none;
-    -ms-overflow-style: none;
+    -ms-overflow-style: none; 
 }
 
 .categories--cards::-webkit-scrollbar {

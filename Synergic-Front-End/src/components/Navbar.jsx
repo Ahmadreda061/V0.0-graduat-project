@@ -93,7 +93,12 @@ function Navbar({ handleRegisterOverlay, allNotificationsRead, makeAllRead }) {
               </Link>
             </li>
             <li>
-              <Link to="/explore" className="line nav--paths_link">
+              <Link 
+                  to="/explore" 
+                  className="line nav--paths_link"
+                  onClick={()=>localStorage.removeItem("category")}
+
+              >
                 explore
               </Link>
             </li>

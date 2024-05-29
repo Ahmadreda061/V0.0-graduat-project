@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
-import data from "./dammyRec";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "../style/home-style/recomendation.css";
 import CardRec from "./CardRec";
-function Recomendation() {
+import { userInfoContext } from "../App";
+import getRecommendation from "./utils/getRecommendation";
+function Recomendation(props) {
+  const {userInfo} = useContext(userInfoContext);
+  const [recomendations, setRecomendations] = useState([]);
+  useEffect(() => {
+    getRecommendation(userInfo.userToken, 8).then(recomendations => setRecomendations(recomendations))
+  }, [])
+
   const [curentIndex, setCurentIndex] = useState(0);
-  const recomendations = data;
   const cardRecomendations = recomendations.map((recomendation, index) => (
     <CardRec
       key={recomendation.id}

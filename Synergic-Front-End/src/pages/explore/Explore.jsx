@@ -7,16 +7,16 @@ import PP from "./PP.jsx";
 
 function Explore() {
   const [allServices, setAllServices] = useState([]);
-
   const [count, setCount] = useState(3);
-  const [category, setCategories] = useState([]);
+  const [category, setCategories] = useState(localStorage.getItem("category") ? [localStorage.getItem("category") ] : [] )  
+
   const [rating, setRating] = useState("");
   const [searchBar, setSearchBar] = useState("");
 
   const [offset, setOffset] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [loading, setLoading] = useState(false);
-  console.log(offset + "---" + count);
+
   const fetchServices = (newOffset = 0, reset = false) => {
     setLoading(true);
     axios
@@ -61,7 +61,7 @@ function Explore() {
                 fetchServices(newOffset);
                 return newOffset;
               }),
-            300
+            0
           );
         }
       }
