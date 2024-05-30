@@ -23,7 +23,7 @@
     height: fit-content;
 }
 
-.service-preview--images > img {
+.service-preview--images .mainImage > img {
     max-height:400px ;
 }
 
@@ -40,13 +40,14 @@
     height: 150px;
     gap: 20px;
     overflow: hidden;
-    border: 1px solid;
 }
 
 .preview--images--addtional-images img {
     width: calc((100% - 40px) / 3);
     cursor: pointer;
     transition: .3s;
+    border: 1px solid;
+
 }
 .preview--images--addtional-images img:hover {
     filter: grayscale(50%) ;
@@ -118,9 +119,11 @@
     /* align-self: flex-start; */
     margin-top: 30px;
 }
+
 .preview--info--req.active {
     cursor: default;
 }
+
 @media screen and (width < 1474px) {
     .service-preview {
         grid-template-columns: 50% 50%;
