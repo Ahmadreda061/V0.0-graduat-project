@@ -5,11 +5,14 @@ import CardRec from "./CardRec";
 import { userInfoContext } from "../App";
 import getRecommendation from "./utils/getRecommendation";
 function Recomendation(props) {
-  const {userInfo} = useContext(userInfoContext);
+  const { userInfo } = useContext(userInfoContext);
   const [recomendations, setRecomendations] = useState([]);
   useEffect(() => {
-    getRecommendation(userInfo.userToken, 8).then(recomendations => setRecomendations(recomendations))
-  }, [])
+    if (userInfo)
+      getRecommendation(userInfo.userToken, 8).then((recomendations) =>
+        setRecomendations(recomendations)
+      );
+  }, []);
 
   const [curentIndex, setCurentIndex] = useState(0);
   const cardRecomendations = recomendations.map((recomendation, index) => (
