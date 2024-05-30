@@ -8,6 +8,7 @@ import YesOrNo from "./YesOrNo";
 import getSentRequests from "../utils/getSentRequests";
 import deleteServiceReq from "../utils/deleteServiceReq";
 import markVisit from "../utils/markVisit";
+import OverlayImage from "./OverlayImage";
 function ServicePreview() {
   const { userInfo } = useContext(userInfoContext);
   const [mainImageIndex, setMainImage] = useState(0);
@@ -15,6 +16,7 @@ function ServicePreview() {
   const [comment, setComment] = useState(""); // New state for comment
   const [yesOrNoOverlay, setYesOrNoOverlay] = useState(false);
   const [requested, setReqested] = useState(false);
+  const [previewMainImg, setPreviewMainImg] = useState(false);
 
   function handleYesOrNo() {
     setYesOrNoOverlay((prevState) => !prevState);
@@ -23,8 +25,8 @@ function ServicePreview() {
   useEffect(() => {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
-      const pasredServiceData = JSON.parse(serviceData)
-      setServiceInfo(pasredServiceData );
+      const pasredServiceData = JSON.parse(serviceData);
+      setServiceInfo(pasredServiceData);
       if (pasredServiceData.serviceOwnerUsername != userInfo.username) {
         // if I have this service will not mark as visted
         // console.log(serviceData)
@@ -126,8 +128,13 @@ function ServicePreview() {
               </Link>
             </div>
           )}
-
-          {mainImage}
+          <div
+            className="mainImage"
+            onClick={() => setPreviewMainImg(true)}
+            style={{ cursor: "pointer" }}
+          >
+            {mainImage}
+          </div>
           {subImages.length ? (
             <div
               className="preview--images--addtional-images"
@@ -223,6 +230,9 @@ function ServicePreview() {
           userToken={userInfo.userToken}
           serviceID={serviceInfo.serviceID}
         />
+      )}
+      {previewMainImg && (
+        <OverlayImage img={mainImage} setPreviewMainImg={setPreviewMainImg} />
       )}
     </div>
   );

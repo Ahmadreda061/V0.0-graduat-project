@@ -175,7 +175,7 @@ a:focus{
 
 .overlay {
     width: 100%;
-    height: 100%;
+    height:100%;
     position: absolute;
     backdrop-filter: blur(3px);
     background-color: rgba(0, 0, 0, 0.329);
@@ -362,6 +362,25 @@ textarea:focus-visible {
     top: 34px;
     right: 5px;
 }
+
+.overlay--image {
+    width: 40%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 14px;
+    overflow: hidden; /* Ensures the image does not overflow the container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for visual effect */
+}
+
+.overlay--image img {
+    border-radius: 14px;
+    object-fit: cover;
+    width: 100%;
+    max-height: 90vh;
+}
+
 @media screen and (width < 600px) {
     .container {
         padding: 0 40px
