@@ -300,7 +300,7 @@ namespace SynergicAPI
             }
         }
 
-        public static string ServiceIDToServiceTitle(SqlConnection connection, int ServiceID)
+        public static string? ServiceIDToServiceTitle(SqlConnection connection, int ServiceID)
         {
             string query = "SELECT ServiceTitle FROM Services WHERE ServiceID = @ServiceID";
             using (SqlCommand command = new SqlCommand(query, connection))
@@ -309,7 +309,7 @@ namespace SynergicAPI
                 using (var reader = command.ExecuteReader())
                 {
                     if (reader.Read()) return (string)reader["ServiceTitle"];
-                    else return "";
+                    else return null;
                 }
             }
         }
