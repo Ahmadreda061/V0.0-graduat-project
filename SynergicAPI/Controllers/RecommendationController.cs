@@ -152,12 +152,10 @@ namespace SynergicAPI.Controllers
 
                             using (SqlDataReader imageReader = imagesCommand.ExecuteReader())
                             {
-                                List<byte[]> images = new List<byte[]>();
                                 if (imageReader.Read())
                                 {
-                                    images.Add((byte[])imageReader["ImageData"]);
+                                    tempList[i].Image = (byte[])imageReader["ImageData"];
                                 }
-                                tempList[i].Images = images.ToArray();
                             }
                         }
                         response.elements.Add(tempList[i]);

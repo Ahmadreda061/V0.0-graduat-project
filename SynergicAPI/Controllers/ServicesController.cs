@@ -26,7 +26,7 @@ namespace SynergicAPI.Controllers
             DefaultResponse response = new DefaultResponse();
 
 
-            if (service.Images.Length < 0)
+            if (service.Images.Length <= 0)
             {
                 response.statusCode = (int)Utils.StatusCodings.Illegal_Data;
                 response.statusMessage = "Service Error: You need one or more Images for the Service!";
@@ -197,8 +197,7 @@ namespace SynergicAPI.Controllers
                         //collect the required data from the different tables
                         for (int i = 0; i < responseElements.Count; i++)
                         {
-                            string getUserCommand = $"SELECT Username, ProfilePicture FROM UserAccount WHERE ID = @OwnerID";
-                            using (SqlCommand userCommand = new SqlCommand(getUserCommand, con))
+                            using (SqlCommand userCommand = new SqlCommand($"SELECT Username, ProfilePicture FROM UserAccount WHERE ID = @OwnerID", con))
                             {
                                 userCommand.Parameters.AddWithValue("@OwnerID", OwnersIDs[i]);
 
@@ -212,19 +211,16 @@ namespace SynergicAPI.Controllers
                                 }
                             }
 
-                            string GetImagesCommand = $"SELECT ImageData FROM ServicesImages WHERE ServiceID = @ServiceID";
-                            using (SqlCommand imagesCommand = new SqlCommand(GetImagesCommand, con))
+                            using (SqlCommand imagesCommand = new SqlCommand($"SELECT ImageData FROM ServicesImages WHERE ServiceID = @ServiceID", con))
                             {
                                 imagesCommand.Parameters.AddWithValue("@ServiceID", ServicesIDs[i]);
 
                                 using (SqlDataReader imageReader = imagesCommand.ExecuteReader())
                                 {
-                                    List<byte[]> images = new List<byte[]>();
-                                    while (imageReader.Read())
+                                    if(imageReader.Read())
                                     {
-                                        images.Add((byte[])imageReader["ImageData"]);
+                                        responseElements[i].Image = (byte[])imageReader["ImageData"];
                                     }
-                                    responseElements[i].Images = images.ToArray();
                                 }
                             }
                         }
@@ -243,6 +239,38 @@ namespace SynergicAPI.Controllers
                         else
                         {
                             response.elements = responseElements;
+                        }
+                    }
+                }
+            }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetServiceImages")]
+        public ServiceImagesResponse GetServiceImages(int ServiceID)
+        {
+            ServiceImagesResponse response = new();
+            using (SqlConnection con = new SqlConnection(configuration.GetConnectionString("SynergicCon"))) //Create connection with the database.
+            {
+                con.Open();
+
+                if(Utils.ServiceIDToServiceTitle(con, ServiceID) == null)
+                {
+                    response.statusCode = (int)Utils.StatusCodings.Service_Not_Found;
+                    response.statusMessage = "Service Not Found";
+                    return response;
+                }
+
+                using (SqlCommand imagesCommand = new SqlCommand($"SELECT ImageData FROM ServicesImages WHERE ServiceID = @ServiceID", con))
+                {
+                    imagesCommand.Parameters.AddWithValue("@ServiceID", ServiceID);
+
+                    using (SqlDataReader imageReader = imagesCommand.ExecuteReader())
+                    {
+                        while (imageReader.Read())
+                        {
+                            response.Images.Add((byte[])imageReader["ImageData"]);
                         }
                     }
                 }
@@ -269,8 +297,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Validate the service existance, and checks if the give user is the owner of this service
-                string query = "SELECT UserToken FROM UserAccount WHERE ID = (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID)";
-                using (SqlCommand command = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand("SELECT UserToken FROM UserAccount WHERE ID = (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID)", con))
                 {
                     command.Parameters.AddWithValue("@ServiceID", serviceID);
 
@@ -293,8 +320,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Deletes the service from the DB
-                query = "DELETE FROM ServicesImages WHERE ServiceID = @ServiceID1; DELETE FROM ServiceRequests WHERE RequestedServiceID = @ServiceID2; DELETE FROM Services WHERE ServiceID = @ServiceID3";
-                using (SqlCommand command = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand("DELETE FROM ServicesImages WHERE ServiceID = @ServiceID1; DELETE FROM ServiceRequests WHERE RequestedServiceID = @ServiceID2; DELETE FROM Services WHERE ServiceID = @ServiceID3", con))
                 {
                     command.Parameters.AddWithValue("@ServiceID1", serviceID);
                     command.Parameters.AddWithValue("@ServiceID2", serviceID);
@@ -324,8 +350,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Checks if there is a service with this id
-                string query = $"SELECT ServiceID From Services WHERE ServiceID = @ServiceID";
-                using (SqlCommand command = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand($"SELECT ServiceID From Services WHERE ServiceID = @ServiceID", con))
                 {
                     command.Parameters.AddWithValue("@ServiceID", ServiceID);
 
@@ -341,8 +366,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Checks if the user already has an active request for this service
-                query = $"SELECT RequestedServiceID From ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @RequestedServiceID";
-                using (SqlCommand command = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand($"SELECT RequestedServiceID From ServiceRequests WHERE RequesterID = @RequesterID AND RequestedServiceID = @RequestedServiceID", con))
                 {
                     command.Parameters.AddWithValue("@RequesterID", userID);
                     command.Parameters.AddWithValue("@RequestedServiceID", ServiceID);
@@ -359,8 +383,7 @@ namespace SynergicAPI.Controllers
                 }
 
                 //Adds the service request
-                query = $"INSERT INTO {Utils.ServiceRequestsString} VALUES(@RequesterID, @RequestedServiceID, @AdditionalComment)";
-                using (SqlCommand command = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.ServiceRequestsString} VALUES(@RequesterID, @RequestedServiceID, @AdditionalComment)", con))
                 {
                     command.Parameters.AddWithValue("@RequesterID", userID);
                     command.Parameters.AddWithValue("@RequestedServiceID", ServiceID);
@@ -387,8 +410,7 @@ namespace SynergicAPI.Controllers
                 if (AdditionalComment != null && !string.IsNullOrEmpty(AdditionalComment) && !string.IsNullOrWhiteSpace(AdditionalComment))
                     content.messageContent += $", saying: {AdditionalComment}";
 
-                query = $"INSERT INTO {Utils.NotificationsString} VALUES(@SenderID, (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID), @NotificationCategory, @IsRead, @Content)";
-                using (SqlCommand command = new SqlCommand(query, con))
+                using (SqlCommand command = new SqlCommand($"INSERT INTO {Utils.NotificationsString} VALUES(@SenderID, (SELECT OwnerID FROM Services WHERE ServiceID = @ServiceID), @NotificationCategory, @IsRead, @Content)", con))
                 {
                     command.Parameters.AddWithValue("@SenderID", userID);
                     command.Parameters.AddWithValue("@ServiceID", ServiceID);
