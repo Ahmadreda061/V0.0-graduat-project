@@ -5,6 +5,7 @@
 .creation-form {
     display: flex;
     min-height: calc(100vh - 100px);
+    margin-bottom: 50px;
 }
 
 .creation-form > * {

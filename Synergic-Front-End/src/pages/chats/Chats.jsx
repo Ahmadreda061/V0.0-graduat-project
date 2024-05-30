@@ -83,7 +83,7 @@ function Chats() {
 
   useEffect(() => {
     if (messages.length > prevMessagesCountRef.current) {
-      // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
     prevMessagesCountRef.current = messages.length;
   }, [messages]);
