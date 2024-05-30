@@ -12,13 +12,17 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
     padding: 5px;
 }
-
+.card--image {
+    height: 100%;
+    position: relative;
+}
 .card--image img {
     height: 100%;
+    position: absolute;
     object-fit: cover;
-    border-radius: 15px  ;
-
+    border-radius: 15px ;
     border: 1px solid var(--logo-blue);
+
 }
 
 .service--info {
@@ -67,8 +71,8 @@
     -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     flex: 2;
-  }
-  
+}
+
 @media screen and (width <= 920px) {
     .recomendation--cards .card {
         grid-template-columns: 1fr;
@@ -78,5 +82,6 @@
     .card--image img {
         border-radius: 15px 15px 0 0 ;
         height: 300px;
+        position: static;
 }
 }

@@ -75,7 +75,7 @@ function Chats() {
   useEffect(() => {
     if (activeRoom) {
       const activeRoomData = rooms.find((room) => room.roomID === activeRoom);
-      if (activeRoomData) {
+      if (activeRoomData.messages) {
         setMessages(activeRoomData.messages);
       }
     }
