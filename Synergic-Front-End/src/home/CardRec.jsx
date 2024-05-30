@@ -1,4 +1,3 @@
-
 function CardRec(props) {
   function handleClick() {
     localStorage.setItem("serviceData", JSON.stringify(props));
@@ -8,14 +7,17 @@ function CardRec(props) {
     <div className="card">
       <div className="card--image">
         <img
-            src={`data:image/png;base64,${props.images[0]}`}
-            alt="service image" loading="lazy"
-          />
+          src={`data:image/png;base64,${props.image}`}
+          alt="service image"
+          loading="lazy"
+        />
       </div>
       <div className="service--info">
         <h3 className="title info--title">{props.title}</h3>
-        <p className="info--description description " >{props.description}</p>
-        <button className="btn" onClick={handleClick}>Learn More</button>
+        <p className="info--description description ">{props.description}</p>
+        <button className="btn" onClick={handleClick}>
+          Learn More
+        </button>
       </div>
     </div>
   );

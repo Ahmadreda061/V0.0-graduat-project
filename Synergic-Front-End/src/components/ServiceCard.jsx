@@ -6,10 +6,7 @@ function ServiceCard(props) {
   return (
     <div className="service-card fade-in myprofile-card " onClick={handleClick}>
       <div className="serivce--main-image">
-        <img
-          src={`data:image/png;base64,${props.images[0]}`}
-          alt="Serivce Image"
-        />
+        <img src={`data:image/png;base64,${props.image}`} alt="Serivce Image" />
       </div>
       <div className="serivce--info">
         <h3 className="title">{props.title}</h3>

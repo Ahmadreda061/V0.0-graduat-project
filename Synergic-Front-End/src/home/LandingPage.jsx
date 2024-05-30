@@ -8,11 +8,11 @@ function LandingPage({ handleRegisterOverlay }) {
           <span className="title">SYNERGIC.</span> ALL WE DO
         </h1>
         <p className="description">
-          Welcome to Synergic!Discover a world of possibilities with Synergic,
-          where you can explore and access a diverse range of services offered
-          by our vibrant community. Whether you're looking to learn something
-          new, find professional help, or offer your own expertise, start your
-          journey with Synergic!
+          <span className="qais">Welcome to Synergic!</span> Discover a world of
+          possibilities with Synergic, where you can explore and access a
+          diverse range of services offered by our vibrant community. Whether
+          you're looking to learn something new, find professional help, or
+          offer your own expertise, start your journey with Synergic!
         </p>
 
         {!localStorage.getItem("Key") ? (

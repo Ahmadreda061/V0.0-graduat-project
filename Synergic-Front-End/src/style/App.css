@@ -379,7 +379,11 @@ textarea:focus-visible {
     width: 100%;
     max-height: 90vh;
 }
-
+.qais {
+    font-size: clamp(1rem, 1.4vw, 1.4vw);
+    color: var(--logo-blue);
+    font-weight: 700;
+}
 @media screen and (width < 600px) {
     .container {
         padding: 0 40px

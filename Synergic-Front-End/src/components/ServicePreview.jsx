@@ -9,6 +9,7 @@ import getSentRequests from "../utils/getSentRequests";
 import deleteServiceReq from "../utils/deleteServiceReq";
 import markVisit from "../utils/markVisit";
 import OverlayImage from "./OverlayImage";
+import getServiceImages from "../utils/getServiceImages";
 function ServicePreview() {
   const { userInfo } = useContext(userInfoContext);
   const [mainImageIndex, setMainImage] = useState(0);
@@ -26,7 +27,15 @@ function ServicePreview() {
     const serviceData = localStorage.getItem("serviceData");
     if (serviceData) {
       const pasredServiceData = JSON.parse(serviceData);
-      setServiceInfo(pasredServiceData);
+
+      getServiceImages(pasredServiceData.serviceID).then((images) => {
+        setServiceInfo({
+          ...pasredServiceData,
+          serviceImages: [pasredServiceData.image, ...images],
+        });
+      });
+
+      // setServiceInfo({ ...pasredServiceData, serviceImages });
       if (pasredServiceData.serviceOwnerUsername != userInfo.username) {
         // if I have this service will not mark as visted
         // console.log(serviceData)
@@ -48,7 +57,6 @@ function ServicePreview() {
   if (!serviceInfo) {
     return <Loading />;
   }
-
   function callRequest() {
     sendServiceReq(
       userInfo.userToken,
@@ -87,8 +95,8 @@ function ServicePreview() {
   }
 
   let images = [];
-  if (serviceInfo.images) {
-    images = serviceInfo.images.map((image, index) => (
+  if (serviceInfo.serviceImages) {
+    images = serviceInfo.serviceImages.map((image, index) => (
       <img
         key={index}
         src={`data:image/png;base64,${image}`}
