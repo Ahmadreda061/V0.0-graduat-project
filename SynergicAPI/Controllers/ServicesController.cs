@@ -275,6 +275,7 @@ namespace SynergicAPI.Controllers
                     }
                 }
             }
+            response.Images.RemoveAt(0);
             return response;
         }
 
