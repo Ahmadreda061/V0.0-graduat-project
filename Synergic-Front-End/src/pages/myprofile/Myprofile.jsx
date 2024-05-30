@@ -11,32 +11,34 @@ export const UserTokenContext = createContext(null);
 function Myprofile({ allNotificationsRead }) {
   const [showNoitifctions, setShowNoitifctions] = useState(false);
   const { userInfo, notifications } = useContext(userInfoContext);
-  const [serviceOwnerUserName, setserviceOwnerUserName] = useState(null);
-  const [serviceOwnerInfo, setServiceOwnerInfo] = useState(null);
+  const [otherUserName, setotherUserName] = useState(null);
+  const [otherUserInfo, setotherUserInfo] = useState(null);
   const location = useLocation();
   const path = location.pathname;
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    console.log(searchParams);
-    setserviceOwnerUserName(searchParams.get("UT"));
+    setotherUserName(searchParams.get("UT"));
   }, []);
 
   useEffect(() => {
-    if (serviceOwnerUserName && userInfo.username != serviceOwnerUserName) {
-      getUser(serviceOwnerUserName).then((res) => {
-        setServiceOwnerInfo(res);
+    if (otherUserName && userInfo.username != otherUserName) {
+      getUser(otherUserName).then((res) => {
+        setotherUserInfo(res);
       });
     }
-  }, [serviceOwnerUserName]);
+  }, [otherUserName]);
 
   function handleNoitifctions() {
     setShowNoitifctions((prevState) => !prevState);
   }
 
   return (
-    <UserTokenContext.Provider value={serviceOwnerInfo}>
+    <UserTokenContext.Provider value={otherUserInfo}>
       <div className="myprofile">
-        <SidebarProfile serviceOwnerUserName={serviceOwnerUserName} />
+        <SidebarProfile
+          otherUserInfo={otherUserInfo}
+          otherUserName={otherUserName}
+        />
         <main className="myprofile--pages">
           <nav className="pages--nav">
             <h1 className="section--header">

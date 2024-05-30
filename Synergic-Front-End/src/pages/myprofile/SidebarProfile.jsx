@@ -4,8 +4,10 @@ import { useContext, useState } from "react";
 import getImageUrl from "../../utils/image-util";
 import { userInfoContext } from "../../App";
 import createRoom from "../chats/utils/createRoom";
-
-function SidebarProfile({ serviceOwnerUserName }) {
+// /(otherUserName || userInfo.isVendor) &&
+function SidebarProfile({ otherUserName, otherUserInfo }) {
+  //otherUserName is the other user
+  console.log(otherUserName);
   const { userInfo } = useContext(userInfoContext);
   const [activeLink, setActiveLink] = useState("myProfile");
 
@@ -14,6 +16,26 @@ function SidebarProfile({ serviceOwnerUserName }) {
     const indexOfLastSlash = clickedLink.lastIndexOf("/");
     setActiveLink(clickedLink.slice(indexOfLastSlash + 1));
   }
+
+  const services = (
+    <>
+      <li>
+        <Link
+          style={
+            activeLink === "services"
+              ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+              : { backgroundColor: "#fff" }
+          }
+          className="sidebar--page"
+          onClick={handleClick}
+          to="/myprofile/services"
+        >
+          <i className="fa-solid fa-diagram-project fa-fw"></i>
+          <span>Services</span>
+        </Link>
+      </li>
+    </>
+  );
   return (
     <nav className="sidebar">
       <div className="sidebar--logo">
@@ -43,27 +65,25 @@ function SidebarProfile({ serviceOwnerUserName }) {
             <span>Informations</span>
           </Link>
         </li>
-        {(serviceOwnerUserName || userInfo.isVendor) && (
-          <>
-            <li>
-              <Link
-                style={
-                  activeLink === "services"
-                    ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
-                    : { backgroundColor: "#fff" }
-                }
-                className="sidebar--page"
-                onClick={handleClick}
-                to="/myprofile/services"
-              >
-                <i className="fa-solid fa-diagram-project fa-fw"></i>
-                <span>Services</span>
-              </Link>
-            </li>
-          </>
-        )}
-
-        {serviceOwnerUserName && (
+        {!otherUserInfo
+          ? userInfo.isVendor && services
+          : otherUserInfo.isVendor && services}
+        <li>
+          <Link
+            style={
+              activeLink === "reviews"
+                ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
+                : { backgroundColor: "#fff" }
+            }
+            className="sidebar--page"
+            onClick={handleClick}
+            to="/myprofile/reviews"
+          >
+            <i className="fa-regular fa-comment fa-fw"></i>
+            <span>Reviews</span>
+          </Link>
+        </li>
+        {otherUserName && (
           <li>
             <Link
               style={
@@ -76,8 +96,8 @@ function SidebarProfile({ serviceOwnerUserName }) {
               onClick={() =>
                 createRoom(
                   userInfo.userToken,
-                  serviceOwnerUserName,
-                  userInfo.username + "to" + serviceOwnerUserName
+                  otherUserName,
+                  userInfo.username + "to" + otherUserName
                 )
               }
             >
@@ -87,8 +107,7 @@ function SidebarProfile({ serviceOwnerUserName }) {
         )}
 
         {userInfo.isVendor &&
-          (userInfo.username == serviceOwnerUserName ||
-            !serviceOwnerUserName) && (
+          (userInfo.username == otherUserName || !otherUserName) && (
             <>
               <li>
                 <Link
@@ -105,24 +124,9 @@ function SidebarProfile({ serviceOwnerUserName }) {
                   <span>Requests</span>
                 </Link>
               </li>
-              <li>
-                <Link
-                  style={
-                    activeLink === "reviews"
-                      ? { backgroundColor: "#f6f6f6", color: "#5371ff" }
-                      : { backgroundColor: "#fff" }
-                  }
-                  className="sidebar--page"
-                  onClick={handleClick}
-                  to="/myprofile/reviews"
-                >
-                  <i className="fa-regular fa-comment fa-fw"></i>
-                  <span>Reviews</span>
-                </Link>
-              </li>
             </>
           )}
-        {!serviceOwnerUserName && (
+        {!otherUserName && (
           <li>
             <Link
               style={

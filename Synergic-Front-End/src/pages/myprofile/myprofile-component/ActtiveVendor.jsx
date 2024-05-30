@@ -3,7 +3,7 @@ import React, { useContext, useState } from "react";
 import { userInfoContext } from "../../../App";
 import { Link } from "react-router-dom";
 
-function Acttive(props) {
+function ActtiveVendor(props) {
   // const [state, setState] = useState("active");
   const { userInfo } = useContext(userInfoContext);
   function handleFinsh() {
@@ -74,4 +74,4 @@ function Acttive(props) {
   );
 }
 
-export default Acttive;
+export default ActtiveVendor;
