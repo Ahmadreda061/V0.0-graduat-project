@@ -1,11 +1,11 @@
-import React, {  useRef } from "react";
+import React, { useRef } from "react";
 import LandingPage from "./LandingPage";
 import Categories from "./Categories";
 import Recomendation from "./Recomendation";
 import "../style/home-style/home.css";
+import Footer from "../components/Footer";
 
 function Home({ handleRegisterOverlay }) {
- 
   const cardsContainerRef = useRef(null);
 
   const handleScrollLeft = () => {
@@ -23,7 +23,6 @@ function Home({ handleRegisterOverlay }) {
       left: 390,
       behavior: "smooth",
     });
-    
   };
   return (
     <>
@@ -40,9 +39,10 @@ function Home({ handleRegisterOverlay }) {
             scrollRight={handleScrollRight}
           />
           {/* <ChatComponent /> */}
-          <Recomendation  />
+          <Recomendation />
         </div>
       </main>
+      <Footer />
     </>
   );
 }

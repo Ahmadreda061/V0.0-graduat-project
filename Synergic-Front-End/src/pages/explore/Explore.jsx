@@ -8,7 +8,9 @@ import PP from "./PP.jsx";
 function Explore() {
   const [allServices, setAllServices] = useState([]);
   const [count, setCount] = useState(3);
-  const [category, setCategories] = useState(localStorage.getItem("category") ? [localStorage.getItem("category") ] : [] )  
+  const [category, setCategories] = useState(
+    localStorage.getItem("category") ? [localStorage.getItem("category")] : []
+  );
 
   const [rating, setRating] = useState("");
   const [searchBar, setSearchBar] = useState("");
@@ -86,10 +88,14 @@ function Explore() {
       <div className="explore--header">
         <PP />
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis aut
-          quod sapiente mollitia, debitis quidem odit nostrum alias consectetur
-          hic sunt tempore velit voluptatibus eius quaerat necessitatibus
-          recusandae ipsa. Laborum!
+          Welcome to the Explore page, your gateway to discovering a wide array
+          of services offered by our talented community. Here, you can search
+          for exactly what you need, whether it's a new skill, professional
+          assistance, or unique offerings that cater to your interests.Use the
+          search bar to find services tailored to your needs, browse through
+          categories, and connect with providers who are ready to help you
+          achieve your goals.Start exploring and uncover the endless
+          possibilities that Synergic has to offer!
         </p>
       </div>
       <div className="container">

@@ -7,11 +7,12 @@ import getRecommendation from "./utils/getRecommendation";
 function Recomendation(props) {
   const { userInfo } = useContext(userInfoContext);
   const [recomendations, setRecomendations] = useState([]);
+  console.log(recomendations);
   useEffect(() => {
     if (userInfo)
-      getRecommendation(userInfo.userToken, 8).then((recomendations) =>
-        setRecomendations(recomendations)
-      );
+      getRecommendation(userInfo.userToken, 8).then((recomendations) => {
+        setRecomendations(recomendations);
+      });
   }, []);
 
   const [curentIndex, setCurentIndex] = useState(0);
@@ -47,31 +48,35 @@ function Recomendation(props) {
   ));
 
   return (
-    <section className="recomendations">
-      <h2 className="section--header">
-        <Link to="" className="line">
-          Recomendations
-        </Link>
-      </h2>
-      <div className="recomendation--cards">
-        <button
-          aria-label="scroll"
-          onClick={prevCard}
-          className="scroll-button circle"
-        >
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        {cardRecomendations[curentIndex]}
-        <button
-          aria-label="scroll"
-          onClick={nextCard}
-          className="scroll-button circle right"
-        >
-          <i className="fa-solid fa-arrow-right"></i>
-        </button>
-      </div>
-      <div className="recomendation--selectors">{circleElemnts}</div>
-    </section>
+    <>
+      {recomendations.length != 0 && (
+        <section className="recomendations">
+          <h2 className="section--header">
+            <Link to="" className="line">
+              Recomendations
+            </Link>
+          </h2>
+          <div className="recomendation--cards">
+            <button
+              aria-label="scroll"
+              onClick={prevCard}
+              className="scroll-button circle"
+            >
+              <i className="fa-solid fa-arrow-left"></i>
+            </button>
+            {cardRecomendations[curentIndex]}
+            <button
+              aria-label="scroll"
+              onClick={nextCard}
+              className="scroll-button circle right"
+            >
+              <i className="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div className="recomendation--selectors">{circleElemnts}</div>
+        </section>
+      )}
+    </>
   );
 }
 

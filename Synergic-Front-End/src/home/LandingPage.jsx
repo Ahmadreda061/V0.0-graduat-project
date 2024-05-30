@@ -8,10 +8,13 @@ function LandingPage({ handleRegisterOverlay }) {
           <span className="title">SYNERGIC.</span> ALL WE DO
         </h1>
         <p className="description">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio quaerat
-          dicta nobis facilis, quod impedit, perferendis repudiandae quas, nemo
-          veniam suscipit aut!
+          Welcome to Synergic!Discover a world of possibilities with Synergic,
+          where you can explore and access a diverse range of services offered
+          by our vibrant community. Whether you're looking to learn something
+          new, find professional help, or offer your own expertise, start your
+          journey with Synergic!
         </p>
+
         {!localStorage.getItem("Key") ? (
           <button className="text-btn btn" onClick={handleRegisterOverlay}>
             Sign Up

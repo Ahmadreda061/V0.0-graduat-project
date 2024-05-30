@@ -18,6 +18,9 @@
     font-weight: 900;
     letter-spacing: 10.5px;
 }
+.landing--text p {
+    font-size: clamp(.8rem, 1.1vw, 1.1vw) !important;
+}
 
 .text-btn {
     align-self: self-start;
@@ -44,7 +47,7 @@
     }
 }
 
-@media screen and (width <= 920px) {
+@media screen and (width <= 1000px) {
     .landing {
         grid-template-columns: 1fr;
         padding-top: 30px;

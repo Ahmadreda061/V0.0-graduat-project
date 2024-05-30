@@ -14,7 +14,7 @@
     padding: 10px;
     font-weight: 700;
     color: white;
-    width: 30%;
+    width: 40%;
     line-height: 1.6;
 }
 
@@ -87,12 +87,12 @@
     }
 
     .explore--header p  {
-        width: 40%;
+        width: 50%;
     }
 }
 
 @media  screen and (width <= 500px) {
     .explore--header p  {
-        width: 60%;
+        width: 70%;
     }
 }
