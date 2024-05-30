@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import "../style/components-style/servicePreview.css";
-import { Link, json } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { userInfoContext } from "../App";
 import sendServiceReq from "../utils/sendServiceReq";
 import Loading from "./Loding";
