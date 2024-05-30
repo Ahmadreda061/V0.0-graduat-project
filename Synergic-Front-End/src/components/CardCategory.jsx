@@ -13,7 +13,7 @@ function CardCategory(props) {
           <img src={getImageUrl(props.categoryImg)} alt="category image card" />
         </div>
         <div className="card--text">
-          <h3 className="text--title">{props.categoryName}.</h3>
+          <h3 className="text--title">{props.categoryName}</h3>
         </div>
       </div>
     </Link>
