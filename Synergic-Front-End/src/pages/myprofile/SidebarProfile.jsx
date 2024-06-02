@@ -7,7 +7,7 @@ import createRoom from "../chats/utils/createRoom";
 // /(otherUserName || userInfo.isVendor) &&
 function SidebarProfile({ otherUserName, otherUserInfo }) {
   //otherUserName is the other user
-  console.log(otherUserName);
+  //console.log(otherUserName);
   const { userInfo } = useContext(userInfoContext);
   const [activeLink, setActiveLink] = useState("myProfile");
 

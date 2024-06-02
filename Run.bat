@@ -1,7 +1,7 @@
 @echo off
 
 echo Running Back End:
-cd SynergicAPI\bin\Release\net8.0\
+cd SynergicAPI\bin\Debug\net8.0\
 echo Openning port at [http://localhost:7201/] ^| [https://localhost:7200/]
 start SynergicAPI.exe
 echo Back End Is Now Running!

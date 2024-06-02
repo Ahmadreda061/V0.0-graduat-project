@@ -10,7 +10,7 @@ function Requests() {
 
   useEffect(() => {
     getRecievedRequests(userInfo.userToken).then((requests) => {
-      console.log(requests);
+      //console.log(requests);
       setRequests(requests);
     });
   }, [userInfo.userToken]);

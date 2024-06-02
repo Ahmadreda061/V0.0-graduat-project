@@ -45,7 +45,7 @@ function activesVendor() {
       )}
 
       {activesCustomer.length > 0 && (
-        <h3 style={{ color: "blue", fontSize: "2rem" }}>My Active Requests</h3>
+        <h3 style={{ color: "blue", fontSize: "2rem" }}>My Active Services</h3>
       )}
 
       <div className="myprofile-cards actives-cards">

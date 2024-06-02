@@ -659,8 +659,8 @@ namespace SynergicAPI.Controllers
         }
 
         [HttpPost]
-        [Route("CancleActiveService")]
-        public DefaultResponse CancleActiveService(string UserToken, int ActiveServiceID)
+        [Route("CancelActiveService")]
+        public DefaultResponse CancelActiveService(string UserToken, int ActiveServiceID)
         {
             DefaultResponse response = DisableActiveService(UserToken, ActiveServiceID);
 

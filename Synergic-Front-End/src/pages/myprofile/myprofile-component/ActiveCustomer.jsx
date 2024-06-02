@@ -9,7 +9,7 @@ function ActiveCustomer(props) {
   function handleCancle() {
     axios
       .post(
-        `https://localhost:7200/api/Services/CancleActiveService?UserToken=${userInfo.userToken}&ActiveServiceID=${props.activeServiceID}`
+        `https://localhost:7200/api/Services/CancelActiveService?UserToken=${userInfo.userToken}&ActiveServiceID=${props.activeServiceID}`
       )
       .then((res) => {
         window.location.reload();
@@ -50,7 +50,7 @@ function ActiveCustomer(props) {
           className={`btn ${props.activeStatus ? "red" : "grey"}`}
           onClick={props.activeStatus ? handleCancle : () => null}
         >
-          Cancle
+          Cancel
         </button>
       </div>
     </div>

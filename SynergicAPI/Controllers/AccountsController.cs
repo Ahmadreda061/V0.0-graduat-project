@@ -347,7 +347,7 @@ namespace SynergicAPI.Controllers
                 return response;
 
 
-            float rating = 0;
+            float rating = 0.1f;
             foreach (var item in revResponse.contents)
             {
                 rating += item.Rating;
@@ -355,6 +355,7 @@ namespace SynergicAPI.Controllers
             rating /= (float)revResponse.contents.Length;
             rating = (float)Math.Round(rating * 10) / 10f;
             response.Rating = rating;
+            response.Rating = MathF.Round(rating);
             return response;
         }
     }
